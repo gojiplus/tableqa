@@ -172,3 +172,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+.DS_Store
+anes_timeseries_cdf_csv_20220916/anes_timeseries_cdf_csv_20220916.csv
