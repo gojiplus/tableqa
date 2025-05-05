@@ -1,0 +1,1054 @@
+1. What is the distribution of the full sample weight variables across VCF0009z, VCF0010z, and VCF0011z?
+2. Can we describe any noticeable trends over time in the weights for the 1970 Type 0 FTF sample (VCF0009x)?
+3. Are there any significant correlations between VCF0009x (1970 Type 0 FTF sample) and VCF0009y (1970 Type 0 Web sample)?
+4. What is the ratio of completed post-election interview data (VCF0013) to completed pre-election interview data (VCF0014)?
+5. Are there any observable differences in weights between the 1970 Type 1 FTF sample (VCF0010x) and the 1970 Type 1 Web Sample (VCF0010y)?
+6. What is the trend in weights for the 1970 Type 2 Full sample (VCF0011z) from 1970 to 2016?
+7. How significant are the changes over time in the weights for the 1970 Type 2 FTF sample (VCF0011x) compared to the 1970 Type 2 Web Sample (VCF0011y)?
+8. How has the post-election weight for the full sample (VCF9999) changed over the years?
+9. Are there any observable differences in the post-election weight (VCF9999) between respondents who completed pre-election interviews (VCF0014) and those who did not?
+10. Can we see any correlation between the 1970 Type 1 FTF sample (VCF0010x) and the full sample (VCF0010z)?
+11. How have the summary statistics for the variables VCF0010y (Type 1 - 2012,2016 Web sample) and VCF0011y (Type 2 - 2012,2016 Web Sample) changed over time?
+12. Can we draw any hypothesis about the possible causal relationship between the Type 1 and Type 2 sample weights across FTF, Web, and Full samples?
+13. What is the relationship between the full sample weights of the 1970 Type 1 sample (VCF0010z) and Type 2 samples (VCF0011z)?
+14. Can we observe any temporal trend in the abbreviated interview effect on data completion (VCF0015a)?
+15. Are there any correlations between data availability (VCF0012) and completion of pre and post-election interviews (VCF0013, VCF0014)?
+16. Is there a significant difference in the weight for the 1970 Type 0 - 2012,2016 web sample (VCF0009y) relative to its corresponding face-to-face sample (VCF0009x)?
+17. Can we establish a causal relationship between the availability of interview data and the
+18. What is the distribution and the summary statistics of the variable VCF0015b, indicating whether the post-interview was abbreviated or not?
+19. How do the interviews conducted entirely in English (VCF0018a and VCF0018b) correlate with the respondent's relationship to the head of the household (VCF0019)?
+20. Are there any statistically significant differences in the respondent's level of political information (VCF0050a vs VCF0050b) before and after the interview?
+21. Has the mode of interview (VCF0017) changed over the years?
+22. What is the distribution of the respondents' age (VCF0101)? And how does it differ in different age groups (VCF0102)?
+23. Does the interviewer's gender (VCF0070a / VCF0070b) and race (VCF0071a / VCF0071b / VCF0071c / VCF0071d) affect the respondent's level of political information (VCF0050a and VCF0050b)?
+24. Does the relationship of the respondent to the head of the household (VCF0019) vary depending on the age of the respondent (VCF0101)?
+25. Is there a correlation between the ethnicity of the interviewer (VCF0072a / VCF0072b) and whether the interview was conducted entirely in English (VCF0018a / VCF0018b)?
+26. How does the age distribution of respondents (VCF0101) compare pre-interview and post-interview?
+27. What are some temporal trends in the level of political information of respondents (VCF0050a and VCF0050b)?
+28. Do the interviews conducted entirely in English (VCF0018a and VCF0018b) have a causal relationship with the respondent's level of political information (VCF0050a and VCF0050b)?
+29. What is the distribution of the respondent's relationship to the head of the household (VCF0019)?
+30. Considering the variable VCF0016, what are the temporal trends over the years?
+31. Are there significant differences in the mode of interview (VCF0017) between different races of interviewers (VCF0071a / VCF0071b / VCF0071c / VCF0071d)?
+32. Are there significant differences based on the age of respondents (VCF0101) in the interviews conducted entirely in English (VCF0018a and VCF0018b)?
+33. How is the bottom percentile of ages (VCF0101) distributed across the different age groups (VCF0102)?
+34. Are there any trends in the level of political information (VCF0050a and VCF0050b) based on the ethnicity of the interviewer (VCF0072a and V
+35. What is the gender distribution among respondents?
+36. How is gender distributed across different racial-ethnic groups?
+37. Has there been a significant change in the distribution of the respondent's cohort from 1991 to the present?
+38. Is there a significant difference in education level between male and female respondents?
+39. What is the distribution of education level across different racial-ethnic groups?
+40. How has the proportion of Hispanic respondents changed over time?
+41. How is income level distributed across different racial-ethnic groups?
+42. Is there a significant difference in income level between male and female respondents?
+43. Is there a correlation between education level and income group?
+44. What is the distribution of respondents’ occupation groups across different racial-ethnic categories?
+45. Is there a correlation between education level and occupation group?
+46. Has the proportion of respondents from different census regions (particularly the South vs Non-South) changed over time?
+47. Are there any temporal trends in the work status of the head of households from 1948 to 1986?
+48. Is there a correlation between the occupation group and work status of the respondents?
+49. How has the representation of different race-ethnicity categories changed in the respondent pool from 1991 to the present?
+50. Is there a correlation between urbanism and the respondent's race-ethnicity, education, income group, occupation group, and work status?
+51. Are there any temporal trends in the prestige score S.E.I. rank of respondents from 1976 to 1984?
+52. Is there a correlation between the prestige score and the respondent's education, income group, occupation group, and work status?
+53. How have the respondents' work status categories evolved from 1991 to the present?
+54. Is there a difference in work status between different race-ethnicity categories?
+55. What is the distribution of the Respondent Prestige Score (NORC Rank) from the years 1976-1982?
+56. Compare the summary statistics between the Respondent's and Head of Household’s Prestige Score (NORC Rank) from 1976-1982.
+57. Is there a significant correlation between the Respondent's Prestige Score (NORC Rank) and the Head of Household’s Prestige Score (NORC Rank) for the years from 1976 to 1982?
+58. How have the average Prestige Scores (S.E.S Rank) for Respondents and Heads of Household changed over the period from 1968 to 1974?
+59. What is the relationship between the occupational status (VCF0126 - Professional and managerial vs non-professional/non-managerial) and the Prestige Score (S.E.S. Rank 1968-1974)?
+60. Are these occupation categories (VCF0126a, b and c) significantly associated with Household Union Membership (VCF0127)?
+61. Do the majority of respondents who grew up in a particular state (VCF0132 and VCF0133) belong to the same religion major group (VCF0128)?
+62. What is the distribution of church attendance (VCF0130, VCF0130a, VCF0131) across different religion major groups (VCF0128)?
+63. Is there a significant difference in the Prestige Score (S.E.S. Rank) between union households (VCF0127) and non-union households?
+64. How has the distribution of the Respondent's and Head of Household’s Prestige Score (NORC Rank for 1976-1982 and S.E.S. Rank for 1968-1974) changed over time?
+65. Investigate the association between the Chosen Religion Full Code (VCF0129) and the frequency of Church attendance (VCF0130, VCF0130a, VCF0131).
+66. Is there a correlation between where the respondent grew up (VCF0132, VCF0133) and their Prestige Score (NORC Rank and S.E.S. Rank)?
+67. How does the frequency of church attendance (VCF0130, VCF0130a, VCF0131) correlate with the respondent's Prestige Score (NORC Rank and S.E.S. Rank)?
+68. What is the distribution of respondents’ church attendance in relation to their occupation (VCF0126, VCF0126a, VCF0126b, VCF0126c)?
+69. How does religious group identification (VCF0128, VCF0128a, VCF0128b) change in accordance with occupation types (VCF0126, VCF0126a, VCF0126b, VCF0126c)?
+70. What is the distribution of responses for where respondents grew up (VCF0134, VCF0135, VCF0136, VCF0137)?
+71. What is the average number of children in the respondent's family (VCF0138)?
+72. Is there a correlation between where the respondent grew up and the number of children in their family (VCF0134, VCF0135, VCF0136, VCF0137, VCF0138)?
+73. How does the number of children in the respondent's family (VCF0138) correlate with the respondent's education level (VCF0140)?
+74. Are respondents who grew up in a large city more likely to have fewer children (VCF0135, VCF0138)?
+75. Has the number of children under age 6 (VCF0138a) in the respondent's household changed over time?
+76. Is there a correlation between the respondent's education level (VCF0140) and home ownership (VCF0146)?
+77. How does the place of birth of the respondent's parents (VCF0144, VCF0145) relate to the respondent's education level (VCF0140)?
+78. Is there a trend over time in the data for where respondents grew up (VCF0134, VCF0135, VCF0136, VCF0137)?
+79. What is the mean age of the youngest child in the respondent's household (VCF0138e)?
+80. Do respondents who grew up on a farm have a different number of children than those who grew up in a large city (VCF0134, VCF0135, VCF0138)?
+81. Are respondents who are homeowners more likely to have more children (VCF0146, VCF0138)?
+82. What is the correlation between the respondent's education and the education of the household head (VCF0140, VCF0141)?
+83. How does the distribution of where respondents grew up (VCF0134, VCF0135, VCF0136, VCF0137) change over time?
+84. Are respondents who grew up in a rural area more likely to own their home (VCF0136, VCF0146)?
+85. Is being born in the US associated with a higher level of education (VCF0142, VCF0140)?
+86. How does the number of children in the household vary between families that own their home and those that don't (VCF0146, VCF0138)?
+87. Is there a significant difference in the number of children in families where the respondent and the head of household have different education levels (VCF0140, VCF0141, VCF0138)?
+88. Are respondents who are not native born more likely to own their home (VCF0143, VCF0146)?
+89. Does
+90. What is the distribution of the respondents based on the marital status (VCF0147)?
+91. What is the average social class (VCF0148) of the respondents in the dataset?
+92. How does social class, as self-reported (VCF0149), correlate with marital status (VCF0147)?
+93. What percentage of respondents classify themselves as middle class (VCF0149)?
+94. Is there a correlation between self-perceived social class (VCF0148a) and work status (VCF0150)?
+95. Among those who are currently working (VCF0150), how many identify themselves as professional or managerial (VCF0151)?
+96. Can you find any relationship between religious preferences (VCF0152) and social class (VCF0148)?
+97. How has the occupation group (VCF0151) changed over time? Is there a trend towards more managerial roles (VCF0153c)?
+98. What is the distribution of worry about job stability (VCF0155) across different social classes?
+99. Are people in lower social classes (VCF0148) more worried about losing their job (VCF0155)?
+100. How many respondents have been laid off in the last 6 months (VCF0156) across different marital statuses (VCF0147)?
+101. Is there a correlation in the dataset between marital status (VCF0147) and job losses in the last 6 months (VCF0156)?
+102. How does occupation group (VCF0151) vary across different counties from 1964-1976 (VCF0170b)?
+103. Are people from different counties in 1968-1982 (VCF0170c) more likely to be working now (VCF0150)?
+104. In which years (VCF0170a, VCF0170b, VCF0170c) are people more likely to regard themselves as a member of the middle class (VCF0149)?
+105. Comparing data between 1956-1960 (VCF0170a) and 1964-1976 (VCF0170b), has there been a noticeable change in social class distribution (VCF0148)?
+106. Is there a correlation between religious preference (VCF0152) and occupation group (VCF0151)?
+107. What are the summary stats for worry about job loss (VCF0155)?
+108. What is the correlation between work status (VCF0150) and worry about job loss (VCF0155)?
+109. Are respondents who classify themselves as average working class (VCF0148a) more likely to have been laid off in the last 6 months (VCF0156)?
+110. What is the distribution of thermometer ratings for Democrats (VCF0201) across all years?
+111. What are the summary statistics (Mean, Median, Mode) for thermometer ratings of Republicans (VCF0202) from 1970 to 1998?
+112. How do the thermometer ratings for Protestants (VCF0203) correlate with thermometer ratings for Catholics (VCF0204)?
+113. Is there a significant difference in the thermometer ratings between Jews (VCF0205) and Blacks (VCF0206)?
+114. What is the temporal trend of the thermometer ratings for Whites (VCF0207) from 1970 to 1998?
+115. Do counties with higher thermometer ratings for Southerners (VCF0208) also have higher ratings for Big Businesses (VCF0209)?
+116. Do conservatives (VCF0212) rate the Military (VCF0213) higher than the Policemen (VCF0214)?
+117. Investigate any causality between higher thermometer ratings for Labour Unions (VCF0210) and Liberals (VCF0211).
+118. How have ratings for Military (VCF0213) changed over time, specifically between 1970, 1978 and 1998?
+119. What are the highest and lowest thermometer ratings for Black Militants (VCF0215) in different counties (VCF0170d)?
+120. Analyze the relationship between the ratings of Civil Rights Leaders (VCF0216) and those of Chicanos/Hispanics (VCF0217).
+121. Does high rating for Democratic Party (VCF0218) imply high rating for Middle-Class People (VCF0219)?
+122. What does the distribution of ratings for Blacks (VCF0206) look like? Are these ratings skewed or normally distributed?
+123. Examine the correlation between thermometer ratings for Catholics (VCF0204) and Jews (VCF0205).
+124. Have the ratings for Big Businesses (VCF0209) fluctuated more over time compared to Labor Unions (VCF0210)?
+125. Did the ratings for Policemen(Police) (VCF0214) decrease in correlation to the ratings for Black Militants (VCF0215) between 1970, 1978 and 1998?
+126. How does the thermometer ratings for Democrats (VCF0201) differ across various counties (VCF0170d)?
+127. Have the ratings for Middle-Class People (VCF0219) increased or decreased over time?
+128. Test the hypothesis that higher ratings for Conservatives (VCF0212) leads to lower ratings for Civil Rights Leaders (VCF0216).
+129. Is there a positive association between the ratings for Democratic Party (VCF0218) and Labour Unions (VCF0210)?
+130. What is the mean, median, and mode of VCF0220 (THERMOMETER - PEOPLE ON WELFARE)?
+131. How does the distribution of scores for VCF0221 (THERMOMETER - POLITICAL INDEPENDENTS) look like? Is it skewed in any direction?
+132. What is the standard deviation of VCF0222 (THERMOMETER - POLITICAL PARTIES)?
+133. Is there a statistical correlation between VCF0223 (THERMOMETER - POOR PEOPLE) and VCF0220 (THERMOMETER - PEOPLE ON WELFARE)?
+134. Do the responses for VCF0224 (THERMOMETER - REPUBLICAN PARTY) vary based on the respondents' rating of VCF0225 (THERMOMETER - WOMENS LIBBERS)?
+135. What is the relationship between VCF0226 (THERMOMETER - YOUNG PEOPLE) and VCF0227 (THERMOMETER - ASIAN-AMERICANS)? Are they positively or negatively correlated?
+136. Over the years, has there been a significant change in the responses to VCF0228 (THERMOMETER - CONGRESS)?
+137. Do the responses to VCF0229 (THERMOMETER - ENVIRONMENTALISTS) differ significantly between respondents who rated VCF0231 (THERMOMETER - FEDERAL GOVERNMENT) high and those who rated it low?
+138. What is the correlation between VCF0230 (THERMOMETER - ANTI-ABORTIONISTS) and VCF0234 (THERMOMETER - CHRISTIAN FUNDAMENTALISTS)?
+139. Given the responses for VCF0232 (THERMOMETER - GAYS AND LESBIANS), can we infer there's a causal relationship with the responses to VCF0235 (THERMOMETER - RADICAL STUDENTS)?
+140. How does the mean score of VCF0233 (THERMOMETER - ILLEGAL ALIENS) compare to the mean score of VCF0236 (THERMOMETER - FARMERS)?
+141. Has there been a temporal trend in the responses to VCF0232 (THERMOMETER - GAYS AND LESBIANS)?
+142. As years go by, what is the change in the score distribution for VCF0233 (THERMOMETER - ILLEGAL ALIENS)?
+143. What is the correlation between VCF0234 (THERMOMETER - CHRISTIAN FUNDAMENTALISTS) and VCF0253 (THERMOMETER - FEMINISTS)?
+144. Do responses for VCF0235 (THERMOMETER - RADICAL STUDENTS) vary significantly with the respondents' rating of VCF0236 (THERM
+145. What is the distribution of responses for VCF0301 (Strong Democrat vs. NA/RF initial party identification)?
+146. What is the mean for VCF0303 (Democrats including leaners)?
+147. How does VCF0306 compare to VCF0307 in terms of respondents' parents' political affiliations?
+148. What is the correlation between VCF0301 (Strong Democrat) and VCF0302 (Republican)?
+149. Is there a significant difference in VCF0305 (Independent) responses between those who identified as Democrat (VCF0301) or Republican (VCF0302)?
+150. How has the distribution of VCF0301 (Strong Democrat) changed over time?
+151. What is the relationship between VCF0310 (Interest in Elections) and VCF0313 (Interest in Public Affairs)?
+152. Do respondents' VCF0306 and VCF0307 variables (parents' affiliations) predict their own party identification (VCF0301 or VCF0302)?
+153. How does VCF0308 and VCF0309 (respondents' parents' political interest) correlate with respondents' political interest (VCF0310)?
+154. What percentage of respondents reportedly 'Don't care very much or DK, pro-con, depends, and other' (VCF0311)?
+155. Are there any significant differences in VCF0312 responses (Not very much, not at all, etc.) between Democrat and Republican identified respondents?
+156. How have respondents' interest in public affairs (VCF0313) changed over time?
+157. Is there a correlation between 'Zero positive mentions (likes)' (VCF0314) and party identification (VCF0301 or VCF0302)?
+158. Do those who have 'Zero negative mentions (dislikes)' (VCF0315) show higher levels of political interest (VCF0310)?
+159. Is there a causal relationship between respondents' feelings towards the Democratic Party (VCF0316) and their party affiliation (VCF0301)?
+160. Does salience of the Democratic Party (VCF0317) predict responses for 'Interest in the Elections' (VCF0310)?
+161. How does VCF0319 (zero negative mentions dislikes) correlate with VCF0320 (Republican Party: Affect)?
+162. Do respondents who record a lower salience for the Republican Party (VCF0321) show a higher likelihood of being more interested in the elections (VCF0310)?
+163. Is the measure of respondents' feelings towards the Republican Party (VCF0320) significantly different when compared between self-identified Democrats and Republicans?
+164. How has the trend of 'Affect and Salience' for the Democratic and Republican parties changed over time?
+165. What is the overall distribution of responses for the variable VCF0322?
+166. What are the summary statistics (mean, median, mode) for the variable VCF0323?
+167. Is there a significant correlation between variables VCF0322 and VCF0323?
+168. Is the variable VCF0324 related to VCF0322 and VCF0323?
+169. What is the distribution of responses for the variable VCF0338?
+170. Is there any correlation between the variables VCF0338 (PRESIDENT- INTELLIGENT) and VCF0344 (PRESIDENT- LEADERSHIP)?
+171. Are respondents who deemed the President as compassionate (VCF0339) also find the President decent (VCF0340)?
+172. Do respondents who rate the President as knowledgeable (VCF0342) also believe the President is inspiring (VCF0341)?
+173. Has there been a change over time (if time variable available) in the characteristics attributed to the President (using variables VCF0338 to VCF0345)?
+174. Is there a causal relationship between the President being perceived as moral (VCF0343) and being intended to vote for him?
+175. Are respondents who felt angry with the President (VCF0346) less likely to find the President intelligent (VCF0338)?
+176. Is fear of the President (VCF0347) related to the perception of the President as being knowledgeable (VCF0342)?
+177. Are respondents who report feeling hopeful about the President (VCF0348) more likely to also report feeling proud (VCF0349)?
+178. Is there a significant difference between the perceptions of the President (VCF0338 to VCF0345) and the Democratic Presidential Candidate (VCF0350 to VCF0354) in terms of intelligence, compassion, decency, inspiration and knowledgeability?
+179. Are respondents who perceive the President as caring (VCF0345) more likely to have a higher salience (VCF0323) towards the major parties?
+180. Do those who rate the Democratic Presidential Candidate as compassionate (VCF0351) also rate them as decent (VCF0352)?
+181. Does a perception of the Democratic Presidential Candidate being inspiring (VCF0353) impact voters' affect towards the major parties (VCF0322)?
+182. If the Democratic Presidential Candidate is perceived as knowledgeable (VCF0354), does this increase the likelihood of the respondent having felt hope (VCF0348) about the President?
+183. Is there a correlation between the feelings of respondents towards the President (VCF0346 to VCF0349) and their affect towards the major parties (VCF0322)?
+184. Does the relative salience (VCF0324) of likes-dislikes towards the major parties impact the perception of the President and the Democratic Presidential Candidate's
+185. What is the distribution of responses for the variable "Democratic Presidential Candidate - Moral" (VCF0355)?
+186. Is there a significant difference in how respondents perceive the morality (VCF0355) and leadership (VCF0356) of Democratic Presidential Candidate?
+187. How does the perception of the Democratic Presidential Candidate's care for the welfare (VCF0357) vary through the years?
+188. Is there a correlation between the Democratic Presidential Candidate's perceived leadership capabilities (VCF0356) and respondents' feelings of hopefulness (VCF0360) during the campaign period?
+189. What is the summary of statistics for the perception of the Republican Presidential Candidate's intelligence (VCF0362)?
+190. Is there a significant trend in how the Republican Presidential Candidate's compassion (VCF0363) is perceived over time?
+191. To what extent are respondents' feeling of anger (VCF0370) connected to their perception of the Republican Presidential Candidate's decency (VCF0364)?
+192. How do respondents' feelings of fear (VCF0359, VCF0371) affect their likability towards the Democratic and Republican parties (VCF0374)?
+193. Is there a correlation between respondents' perceived knowledge of the Republican Presidential Candidate (VCF0366) and their feeling of pride (VCF0373)?
+194. Does the perception of leadership capabilities vary between Republican (VCF0368) and Democratic (VCF0356) Presidential Candidates?
+195. What percentage of respondents felt hopeful (VCF0360, VCF0372) about the future when Democratic or Republican Candidates were considered inspiring (VCF0365)?
+196. Is the perception of the Democratic Presidential Candidate being "angry" (VCF0358) influencing the likability towards the Democratic party (VCF0374)?
+197. Do sentiments like hopefulness (VCF0360), fear (VCF0359), pride (VCF0361), and anger (VCF0358) towards the Democratic Presidential Candidate change significantly over time?
+198. How do perceptions of the Democratic Presidential Candidate's care (VCF0357) and the Republican Presidential Candidate's compassion (VCF0363) correlate?
+199. Could the perceived intelligence of candidates (VCF0362 for Republicans and VCF0356 for Democrats) lead to feelings of fondness of the respective parties (VCF0374)?
+200. How do the moral perceptions (VCF0355 and VCF0367) of Democratic and Republican candidates correspond to feelings of fear (VCF0359 and VCF0371)?
+201. Over time, have feelings of pride (VCF0361 and VCF0373) increased or decreased for both Democratic and Republican Presidential Candidates?
+202. What is the relationship between respondents' beliefs about the Republican Presidential Candidate's decency (VCF0364) and their fear (VCF0371)?
+203. Are the feelings of pride
+204. What is the distribution of VCF0375a data points?
+205. Can we summarize the statistical trends and patterns found in VCF0375b?
+206. Is there a correlation between VCF0375a and VCF0375b?
+207. Does the variable VCF0375c affect the value of VCF0375a?
+208. Are there significant group differences when comparing VCF0376a and VCF0376b?
+209. Have the values of VCF0376a been changing over the years?
+210. Are the variables VCF0376d and VCF0375d correlated in any way?
+211. Can we hypothesize that higher values of VCF0375b might cause an increase in VCF0375a?
+212. What is the distribution and frequency of VCF0376c within the dataset?
+213. Is there any temporal trend visible in the VCF0376b data points?
+214. Are there significant differences in the results between VCF0377b and VCF0378b?
+215. Would higher values of VCF0377c result in a dramatic change in VCF0377a's attributes?
+216. Is there a distinct linear relationship between VCF0378c and VCF0378a?
+217. Has the pattern of distribution for VCF0378b values changed over time?
+218. Can we expect outcome of VCF0376b trends if there is a certain change in VCF0376a data points?
+219. Is it possible that the values of VCF0379b have a strong effect on the distribution of values in VCF0379a?
+220. Can we observe any significant correlation between VCF0379c and other variables?
+221. What is the frequency of each value in the VCF0379d dataset?
+222. Is there a significant temporal trend or pattern in the VCF0377d data?
+223. Can we infer that a high VCF0378c value might cause a corresponding increase in the VCF0378b value?
+224. What is the frequency distribution of individuals who dislike anything about the Democratic Party (VCF0380)?
+225. What is the average value of responses for variable VCF0381a?
+226. What is the median value of variable VCF0381d?
+227. Is there a significant correlation between liking something about the Democratic Party (reverse code of VCF0380) and affiliation to the party based on people within the party (VCF0381b, VCF0382b)?
+228. What is the difference in variable VCF0381a between those who dislike and do not dislike anything about the Democratic Party?
+229. Do individuals with higher values for VCF0384a and VCF0384c show more dislike for the Democratic Party (VCF0380)?
+230. How does the dislike for the Democratic Party (VCF0380) change over time?
+231. Is there a trend in values of VCF0381b over the years?
+232. Does a higher value in VCF0381a increase the likelihood of disliking something about the Democratic Party (VCF0380)?
+233. Does knowledge about the Democratic Party (inferred from VCF0381d) affect the level of dislike people have about the party (VCF0380)?
+234. What is the distribution of the variable VCF0385d?
+235. What is the summary statistics (mean, median, mode, etc.) for the variable VCF0386?
+236. How does the variable VCF0387a distribute across the dataset?
+237. Are there any significant correlations between the variables VCF0387b and VCF0387c?
+238. How does the variable VCF0387d change over time (if year variable is present)?
+239. Does the variable VCF0388a have any causal relationships with VCF0388b?
+240. How does the variable VCF0388c compare with other variables in terms of group comparisons?
+241. What are the temporal trends in the variable VCF0388d (if year variable is present)?
+242. What is the bivariate relationship between variables VCF0389a and VCF0389b?
+243. How do variables VCF0389c and VCF0389d distribute across the complete dataset?
+244. Are there any causal hypotheses that can be drawn between variables VCF0390a and VCF0390b?
+245. Can we compare variable VCF0390c with other variables to observe any group differences?
+246. Are there any noticeable temporal trends in variable VCF0390d (if year variable is present)?
+247. Can we identify any correlations between variables VCF0391a and VCF0391b?
+248. How do the variables VCF0387a and VCF0389a distribute in terms of people within the party?
+249. Are there any noticeable trends in variable VCF0386 over time regarding whether respondents like anything about the Republican party (if year variable is present)?
+250. What is the summary statistics for VCF0390b representing people within the party?
+251. Can we identify any correlations between VCF0387c and VCF0390c?
+252. What are the temporal trends for all variables representing 'people within the party' over time?
+253. How does the distribution of variable VCF0386 (LIKES ANYTHING ABOUT REPUBLICAN PARTY) affect the variable VCF0385d (People within party)?
+254. What is the distribution and summary statistics of dislikes about the Republican Party (VCF0392)?
+255. What is the correlation between the different valid variables and their coding (VCF0391c, VCF0391d, VCF0393a, etc.)?
+256. What are the comparative percentages of dislikes about the Republican Party for different domains (VCF0392 vs VCF0396a)?
+257. Are there temporal trends noticed in the variable VCF0393a over the years?
+258. Do people within the party influence others' opinion on it (VCF0391d)?
+259. How do valid codes for individuals in VCF0393a and VCF0391c correlate?
+260. Are there any noticeable trends in people within the party according to the variable VCF0391d?
+261. How does the variable VCF0393c relate to VALID codes and its effect on people's perceptions of the parties?
+262. Is there any apparent trend in variable VCF0394c as compared to the variable VCF0396c over time?
+263. Is the variable VCF0395a consistently distributed across all observations and over time?
+264. How does the response vary among people within the party in variables VCF0393d, VCF0394d, and VCF0396d?
+265. Are there any changes over time for individuals with respect to variable VCF0396a?
+266. Does the presence or absence of people within the party (VCF0391d, VCF0394d, etc.) make a significant difference in people's perceptions of disliking anything about the Republican Party (VCF0392)?
+267. Is there a change in the distribution of variable VCF0395c across different temporal spans?
+268. Does the variable VCF0395b significantly influence the dislikes for the Republican party (VCF0392 - 1. Yes)?
+269. Are there any causal relationships between variables VCF0393b, VCF0394b and VCF0395b?
+270. How does the perception of disliking anything about the Republican Party (VCF0392 - 1. Yes) change among different individuals?
+271. Does the variable VCF0396b have an impact on dislikes of anything about the Republican Party (VCF0392)?
+272. Across different time frames, how have variables VCF0391c, VCF0391d, and VCF0392 shifted?
+273. Do the valid codes of variables VCF0395c and VCF0396a result in significant changes within the same party?
+274. What is the average score for 'VCF0412 - THERMOMETER AVERAGE - PRESIDENTIAL CANDIDATES' across the dataset?
+275. How does the distribution look like for 'VCF0415 - THERMOMETER INDEX - PRESIDENTIAL CANDIDATES'?
+276. Is there a significant correlation between 'VCF0412 - THERMOMETER AVERAGE - PRESIDENTIAL CANDIDATES' and 'VCF0413 - THERMOMETER INDEX - PRESIDENTIAL CANDIDATES'?
+277. Are 'VCF0401 - Zero positive mentions (likes)' and 'VCF0402 - Zero negative mentions (dislikes)' statistically independent?
+278. Is there a significant difference between the mean scores of 'VCF0414' and 'VCF0415'?
+279. How does the count of 'VCF0397b - People within party' change over the years?
+280. What is the correlation between 'VCF0397b - People within party' and 'VCF0401 - Zero positive mentions (likes)'?
+281. Can 'VCF0410 - Zero mentions(likes)' predict 'VCF0425 - Degrees as coded'?
+282. Are there significant differences in 'VCF0412 - THERMOMETER AVERAGE - PRESIDENTIAL CANDIDATES' across different parties('VCF0397b')?
+283. What are the descriptive statistics (mean, standard deviation, etc.) for 'VCF0406 - Zero negative mentions (dislikes)'?
+284. Do instances of 'VCF0407 - No Pre IW' increase or decrease over time?
+285. How is 'VCF0405 - Zero positive mentions (likes)' distributed across the dataset?
+286. What is the relationship between 'VCF0402 - Zero negative mentions (dislikes)' and 'VCF0404 - Zero mentions'?
+287. What percentage of the dataset has a value for 'VCF0408 - Zero mentions'?
+288. Do instances of 'people within party' ('VCF0397d') influence the 'thermometer average for presidential candidates' ('VCF0412')?
+289. What is the correlation between 'VCF0397c' and 'VCF0413 - THERMOMETER INDEX - PRESIDENTIAL CANDIDATES'?
+290. Does 'VCF0401 - Zero positive mentions (likes)' statistically significantly differ by 'VCF0402 - Zero negative mentions (dislikes)'?
+291. Can 'VCF0413 - THERMOMETER INDEX - PRESIDENTIAL CANDIDATES' accurately predict 'VCF0415'?
+292. Are 'VCF0397c' and 'VCF0410 - Zero mentions' significantly correlated?
+293. Can we predict 'VCF0414' using 'VCF0403',
+294. What is the frequency distribution of ratings for each US president reflected in variables VCF0428, VCF0432 through VCF0439, and VCF0441 through VCF0447?
+295. Calculate the mean, median, mode, and standard deviation for VCF0426 and VCF0427.
+296. Which president or vice-president (VCF0428 through VCF0447) has the highest average rating?
+297. Is there a significant correlation between the ratings of the President (VCF0428) and Vice-President (VCF0429)?
+298. Is there a relationship between the ratings of Richard Nixon (VCF0442) and his Vice President, Spiro Agnew (VCF0440)?
+299. Are the ratings for Democrats (VCF0432, VCF0433, VCF0435, VCF0436, and VCF0446) significantly different from Republicans (VCF0438, VCF0439, VCF0441, VCF0442, VCF0443, VCF0445)?
+300. Over time, are there any noticeable trends in the ratings of Jimmy Carter (VCF0446)?
+301. How does the distribution of ratings for George Bush Sr. (VCF0438) compare with those for his son (variable not listed)?
+302. Were there any significant changes in the average ratings of Ronald Reagan (VCF0443) over time?
+303. Does a higher rating for a President (VCF0428) result in a higher rating for his Vice-President (VCF0429)?
+304. Do respondents rate Presidents (VCF0428) and Vice-Presidents (VCF0429) with similar or dissimilar scores?
+305. How does the variance in ratings for Ted Kennedy (VCF0433) compare to that of George McGovern (VCF0435)?
+306. Does a higher rating for Gerald Ford (VCF0441) correlate with a lower rating for his predecessor, Richard Nixon (VCF0442)?
+307. Is there significant difference in ratings between more recent Presidents (VCF0446, VCF0447) and earlier Presidents (VCF0428 through VCF0432)?
+308. Is there any pattern or trend in the missing values in each variable? Do respondents consistently not recognize certain figures?
+309. Using time series analysis, can we identify trends, cycles or seasonal variation in the rating of US Presidents from 1968 to 1996?
+310. Do ratings of Presidents from the same party (e.g., VCF0436 and VCF0446; VCF0438 and VCF0443) correlate significantly?
+311. Are the ratings for Bill Clinton (VCF0447) positively or negatively associated with ratings for George Wallace (VCF0439)?
+312. Assess the degree of skewness and kurtosis in the ratings of Walter Mondale (VCF0436).
+313. What is the overall distribution of approval ratings for Al Gore (VCF0448)?
+314. Are there any noticeable trends in the approval ratings for Ross Perot (VCF0449) over time?
+315. How does the level of approval for the President (VCF0450) compare with the approval ratings for Al Gore (VCF0448)?
+316. Is there a significant difference in the approval ratings for Hillary Clinton (VCF0471) versus Pat Buchanan (VCF0472)?
+317. How do approval ratings for Dan Quayle (VCF0473) correlate with approval ratings for the President (VCF0450)?
+318. What percentage of the sample strongly approves of the President's performance (VCF0451)?
+319. Are there any significant temporal trends in the approval ratings for Hillary Clinton (VCF0471)?
+320. What proportion of the sample is missing or doesn't recognize Al Gore (VCF0448)?
+321. Using VCF0476a and VCF0476b, how does the reason 'People within party' impact approval ratings for the President (VCF0450)?
+322. What is the mean approval rating for Ross Perot (VCF0449)?
+323. What proportion of respondents are missing or don't know much about the candidate (VCF0476c)?
+324. How does 'Experience and abilities' (VCF0476d) correlate with approval ratings for Dan Quayle (VCF0473)?
+325. Based on VCF0477b, how does 'People within party' impact approval rating for Al Gore (VCF0448)?
+326. Does approval of the President's performance (VCF0450) vary depending on 'Experience and abilities' (VCF0477d)?
+327. Is there a relationship between approval ratings for Ross Perot (VCF0449) and Dan Quayle (VCF0473)?
+328. What is the relationship between approval ratings for Al Gore (VCF0448) and Hillary Clinton (VCF0471) over time?
+329. Using VCF0478a and VCF0478b, how does the reason 'People within party' impact approval ratings for Hillary Clinton (VCF0471)?
+330. Is there a change over time in the approval ratings for the President's performance (VCF0450)?
+331. Given the variable 'Experience and abilities' (VCF0477d), does it affect the approval rates for Pat Buchanan (VCF0472)?
+332. What is the variability in approval ratings for Al Gore (VCF0448), Ross Perot (VCF0449), Hillary Clinton (VCF0471), and Dan Quayle (VCF0473)?
+333. What is the overall distribution of the variable VCF0478c in our sample?
+334. What do the summary statistics (mean, median, standard deviation) for VCF0480a in our dataset reveal about this attribute in our population?
+335. Is there a significant correlation between VCF0478d and VCF0480b in our sample participants?
+336. How does the mean value of VCF0479a differ between  groups represented by VCF0480d (Experience and abilities)?
+337. Which group under VCF0482b (People within party) has the higher average for the variable VCF0479b?
+338. Is there a temporal trend in the variable VCF0480a over time (assuming the 0001-8877 codes represent a time series)?
+339. What is the relationship between VCF0481 (Yes/No Question) and VCF0480b (People within party)?
+340. Is the variable VCF0482a associated with the variable VCF0478c? If so, in what way?
+341. Are differences in VCF0482d (Experience and abilities) related to VCF0479d (Experience and abilities)?
+342. Do the levels of VCF0483b (People within party) differ depending on the response to VCF0481 (Yes/No Question)?
+343. Is there a significant difference in the distribution of VCF0478d across different categories within the variable VCF0480d?
+344. Are participants with higher VCF0483a values more likely to fall into certain categories in VCF0482b (People within party)?
+345. What is the frequency of missing values for the variables VCF0478d and VCF0482d?
+346. What percentage of participants have missing information (INAP/Don’t know) for the variable VCF0482a?
+347. Based on variable VCF0480a, what's the time trend for VCF0482b in relation to VCF0481's "Yes" responses?
+348. Considering variable VCF0483a, what change in distribution do we see for VCF0481 "Yes" responses over time?
+349. What is the correlation between VCF0480d and the time variable represented in VCF0483a?
+350. Do changes in VCF0482b responses correlate with changes in VCF0480a and VCF0482d measures over time?
+351. What's the average VCF0480a score for people that answer "Yes" in VCF0481 compared to those who do not provide an answer?
+352. What hypothesis can we form about the potential causal relationship between VCF0478c and VCF0479a based on the correlation and distribution information we have?
+353. What is the frequency distribution of variable VCF0483d?
+354. What are the summary statistics (mean, median, mode, range) of variable VCF0484a?
+355. What is the percentage of missing values in variable VCF0484c?
+356. What is the distribution of values in variable VCF0485b in the context of peoples within party?
+357. What is the correlation between variable VCF0484d (experience and abilities) and VCF0485d (experience and abilities)?
+358. Does higher value of VCF0484a correspond to more people within party as suggested in VCF0484b?
+359. Can we see any temporal trends across years in variable VCF0486a?
+360. Can we observe any statistically significant difference in distribution between variables VCF0485a and VCF0486a?
+361. Is there a correlation between variables VCF0485b (people within party) and VCF0486b (people within party)?
+362. What is the rate of missing values in variable VCF0486c over years?
+363. Does having more experience and abilities (VCF0486d) impact the tendency to have an opinion about the party (VCF0487)?
+364. Is there a correlation between VCF0488a and VCF0488b?
+365. What is the distribution profile of the 'people within party' variable as suggested in VCF0488b?
+366. Can we observe any obvious change/trend on account over the years when considering the missing data for VCF0488c?
+367. To what extent does experience and abilities (VCF0488d) affect the lack of knowledge about party/candidate?
+368. Does the variable VCF0484a's content relate to the amount of people within party as suggested by VCF0484b?
+369. Can we infer any temporal trends by looking at the data where the question wasn't used as seen in VCF0015a?
+370. Provided VCF0484d and VCF0485d both represent experience and abilities, can we find a causal relationship between these two variables?
+371. Among the responses recorded as "INAP. Inap. no further mention", are there specific variables that are particularly prone to non-responses?
+372. Can we identify clusters or groupings within the data based on responses to certain variables, for example, variables related to 'experience and abilities' and 'people within party'?
+373. What is the distribution of the variable VCF0489a?
+374. What are the summary statistics for VCF0489b?
+375. Is there a significant correlation between VCF0489d and VCF0490b?
+376. How does VCF0491a vary across different years in the dataset?
+377. What are the group comparisons between VCF0492b and VCF0491b?
+378. What is the temporal trend for VCF0490a?
+379. What are the summary statistics of variable VCF0490d?
+380. Does VCF0491b affect VCF0491a?
+381. What is the correlation between VCF0492a and VCF0489b?
+382. For VCF0493, how does the number of valid responses (Yes) compare to the number missing (DK)?
+383. What patterns can be observed in VCF0494b based on people within party groups?
+384. How does VCF0490a compare across different years?
+385. Is there a statistical difference between the valid entries of VCF0490b and VCF0494b?
+386. Does a significant relationship exist between VCF0490b and VCF0494b values?
+387. How does VCF0492b vary within party groups (0001-0097)?
+388. What is the distribution of the VCF0491d variable related to 'Experience and Abilities'?
+389. Does VCF0489b significantly influence VCF0489d in terms of experience and abilities?
+390. What is the correlation between VCF0492d and VCF0494a?
+391. How has VCF0490a changed over different form II (1972) iterations?
+392. Is there a causal relationship between VCF0491b (People within party) and VCF0491a?
+393. What is the distribution of values for the variable VCF0495a?
+394. Are there any significant correlations between variables VCF0495a and VCF0496a?
+395. Over time, has there been a significant change in the values of variable VCF0498a?
+396. What is the average value of variable VCF0497b?
+397. What is the relationship between VCF0497d and VCF0498d?
+398. How has the frequency of missing value 'INAP.' changed over time for VCF0495b?
+399. What is the correlation between VCF0495d and VCF0498d?
+400. How different is the variance of VCF0495a and VCF0496a?
+401. What is the mean deviation of variable VCF0496b?
+402. Is there a causal relationship between VCF0495a and VCF0496a?
+403. Have there been any notable temporal trends in responses to VCF0497b?
+404. How does the distribution of VCF0498a values compare to that of VCF0498b?
+405. What are the most common values for VCF0497a, and how often do they occur?
+406. What is the median of VCF0496b?
+407. Is there a significant difference in the responses to VCF0498d between those who see a difference between major parties and those who do not (VCF0501)?
+408. Has the perception of the difference between major parties (VCF0501) significantly changed over time?
+409. How many missing values do we have for VCF0498c?
+410. What is the possibility that VCF0501 has a causal effect on the responses of VCF0498d?
+411. What is the relationship between VCF0498d and VCF0495d in terms of experience and abilities?
+412. Are survey participants who responded to VCF0495a more or less likely to identify 'people within party' in VCF0495b?
+413. What is the distribution of viewpoints on the Democratic Party being more conservative (VCF0502)?
+414. How does the perception of the Democratic Party's conservatism (VCF0502) correlate with the belief in their stronger support for government insurance plans (VCF0507)?
+415. Are there differences in the perceived liberalism-conservatism scale of the Democratic Party (VCF0503) and the Republican Party (VCF0504)?
+416. How has the perception of the Democratic Party's liberalism (VCF0503) changed over the years?
+417. What is the correlation between the perceived liberalism-conservatism scale of the Democratic Party (VCF0503) and their stance on aid to black people (VCF0517)?
+418. What are the trends in perception of which party is more supportive of a government insurance plan (VCF0507 vs. VCF0509)?
+419. Is there a difference in the perceived stance on guaranteed jobs and living standards between Democrats (VCF0513) and Republicans (VCF0514)?
+420. What is the relationship between perceived support for aid to black people and favoring stronger government controls within the Democratic Party (VCF0517 & VCF0521)?
+421. How has the perception of the Republican Party's stance on aiding black people (VCF0518) changed over time?
+422. Do perceptions of which party will best avoid war (VCF0522) correlate with perceptions of which party favors military spending cuts (VCF0523)?
+423. What are the summary statistics for the Democratic Party's stance on the rights of the accused (VCF0524)?
+424. Is the Democratic Party's stance on urban unrest (VCF0528) related to perceptions of them being more liberal (VCF0503)?
+425. What is the relationship between views of the Republican Party's conservatism (VCF0504) and their stance on rights of the accused (VCF0525)?
+426. How has the perception of the Republican Party's stance on urban unrest (VCF0529) changed across years?
+427. Does the perception of which party favors a stronger government (VCF0521) correlate with the view of which party favors military spending cuts (VCF0523)?
+428. How does concern for conservative values impact the assumption of the Democratic Party favoring aid to black people (VCF0502a & VCF0517)?
+429. Do people believing Democrats to be more conservative think that the Republican party is less likely to solve problems of poverty and unemployment (VCF0502 & VCF0529)?
+430. Does perceiving Democrats as more conservative associate with the belief that they favor stronger government (VCF0502 & VCF0521)?
+431. How does the perception of the Democratic Party standing for guaranteed jobs and living standards relate to the notion of them favoring more military spending cuts (VCF0513 & VCF0523)?
+432. What is
+433. What is the distribution of respondents' views on school busing to achieve integration within Democratic Party supporters (VCF0533)?
+434. How does the distribution of views regarding school busing to achieve integration compare between Democratic (VCF0533) and Republican Party (VCF0534) supporters?
+435. What percentage of respondents supports an equal role for women in the Republican Party (VCF0538)?
+436. Is there a correlation between views on women's equal role in the Democratic Party (VCF0537) and approval of participation in protests (VCF0601)?
+437. How does the view on government reducing a lot of services and spending differ between members of the Democratic (VCF0541) and Republican Parties (VCF0542)?
+438. Are respondents who agree that the government should provide fewer services and reduce spending (VCF0541 or VCF0542) more likely to disapprove of civil disobedience (VCF0602)?
+439. What is the distribution of views on international cooperation, specifically on getting along with Russia, within the Democratic (VCF0545) and Republican Parties (VCF0546)?
+440. Is there a significant difference in views regarding defense spending reduction between the Democratic (VCF0549) and Republican Parties (VCF0550)?
+441. Are supporters of decreased defense spending (VCF0549 or VCF0550) more likely to disapprove demonstrations (VCF0603)?
+442. What are the summary statistics for agreement with the statement that many government officials don't know what they're doing (VCF0607)?
+443. Is there a correlation between views on the extent to which government officials are considered crooked (VCF0608), and the belief that government officials don't know what they're doing (VCF0607)?
+444. Are people who think that congressmen lose touch with constituents (VCF0610) more likely to believe that government officials are crooked (VCF0608)?
+445. How have views on civil disobedience (VCF0602) and participation in protests (VCF0601) changed over the years assuming there is a year variable?
+446. Is there a relationship between approval of demonstrations (VCF0603) and views on cooperation with Russia (VCF0545 or VCF0546)?
+447. What is the correlation between belief in few big interests (VCF0605) and belief that many government officials are smart (VCF0607)?
+448. Has the desire for reduced government services and spending (VCF0541 or VCF0542) increased, decreased, or remained stable over the years, assuming a year variable?
+449. What is the statistical relationship between views that congressmen lose touch with constituents (VCF0610) and the disapproval of demonstrations (VCF0603)?
+450. Do individuals who disapprove of civil disobedience (VCF0602) tend to agree that government should
+451. What is the distribution of participants who agree with the statement "Parties are only interested in votes" (VCF0611)?
+452. What is the summary statistics on the variable "Politics and government seem too complicated" (VCF0614)?
+453. Is there a correlation between the people who find politics too complicated (VCF0614) and those who believe their votes matter (VCF0615)?
+454. Does the belief that "parties are only interested in votes" (VCF0611) influence if one should vote even if their party can't win (VCF0617)?
+455. Is there any significant difference in the response towards "a good many local elections unimportant" (VCF0618) over the years (if yearly data is available)?
+456. Would those who strongly believe that life is too unpredictable (VCF0627, VCF0628) be more likely to feel politics is too complicated (VCF0614)?
+457. Is there a correlation between the belief that many local elections are unimportant (VCF0618) and the perspective of respondents towards governmental level faith (VCF0630)?
+458. Do respondents who believe in having to frequently change plans (VCF0626) also find it unnecessary to vote if their party can't win (VCF0617)?
+459. What is the distribution of respondents' perspectives on the variable "people just look out for themselves" (VCF0620)?
+460. Does the belief "people would take advantage" (VCF0621) relate to the level of complexity respondents find in politics and government (VCF0614)?
+461. Based on the ANES dataset, how does the percentage of those who believe that they can't run their life as they wanted (VCF0629) change over years?
+462. What percentage of respondents hold the viewpoint that "parties are only interested in votes" (VCF0611)?
+463. Is there agreement between "not being sure life would work out as expected" (VCF0628) and "parties only interested in votes" (VCF0611)?
+464. Does the variable "Problems of life too big" (VCF0629) indicate higher rates of agreement with the belief "politics and government is too complicated" (VCF0614)?
+465. What is the correlation between the belief "parties are only interested in votes" (VCF0611) and "matter whether respondent votes or not" (VCF0615)?
+466. Does any temporal trend exist in the dataset indicating shifting views about whether "a good many local elections are unimportant" (VCF0618)?
+467. Is there a pattern between those who feel "there is too much luck involved in planning life" (VCF0627) and their level of faith in different governmental bodies (VCF0630)?
+468. Does the variable "having to change plans" (V
+469. What is the distribution of trust for different branches of government (VCF0632, VCF0633, VCF0634)?
+470. What proportion of respondents have the least faith in the national government (VCF0631)?
+471. Is there a significant correlation between the respondent's trust in Congress (VCF0632) and their perceived federal government performance (VCF0650)?
+472. Does the perceived responsiveness of the government (VCF0649) influence the trust respondents have in governmental branches (VCF0632, VCF0633, VCF0634)?
+473. What is the summary statistics concerning the external efficacy index (VCF0648)?
+474. How do respondents rate the performance of the presidency (VCF0653) compared to Congress (VCF0654)?
+475. Is there a correlation between the performance rating of state (VCF0651) and local governments (VCF0652)?
+476. Do individuals who vote (VCF0702) have a higher government responsiveness index (VCF0649) than those who do not?
+477. Does trust in government (VCF0656) predict who respondents think will win the presidential election (VCF0700)?
+478. Do respondents with a high external efficacy index (VCF0648) have a high performance rating for Congress (VCF0654) and the President (VCF0653)?
+479. Is there a relationship between the individual's registration to vote pre-election (VCF0701) and their trust in the government index (VCF0656)?
+480. Do individuals who believe the government does a good job (VCF0640) also have high trust in the government (VCF0656)?
+481. Is the performance rating for the Supreme Court (VCF0655) correlated with the trust in government index (VCF0656)?
+482. Does an individual's perception of the federal government's performance (VCF0650) influence their trust in the government (VCF0656)?
+483. Are respondents more likely to vote (VCF0702) if they have a higher trust in the government index (VCF0656)?
+484. Does trust in government (VCF0656) correlate with the performance rating of the local government (VCF0652)?
+485. Are individuals who always vote (VCF0675) more likely to have faith in the national government (VCF0631)?
+486. Do individuals who think the Democratic candidate will win the presidential election (VCF0700) rate the federal government's performance (VCF0650) more highly?
+487. What is the distribution of respondents' belief about who will win the presidential election (VCF0700)?
+488. Are people who are not registered to vote pre-election (VCF0701) more likely to distrust the government (VCF0656)?
+489. What is the distribution of registered voters who did not vote (VCF0703)?
+490. What is the proportion of voters who voted for the Democrat candidate for President (VCF0704 and VCF0704a)?
+491. How often does ticket splitting occur in Presidential/House votes (VCF0709)?
+492. How often does ticket splitting occur in Presidential/Senate votes (VCF0710)?
+493. What is the relationship between who a respondent votes for in the Presidential race and their vote for Congress (VCF0707) and Senate (VCF0708)?
+494. Do respondents generally always vote for the same party (VCF0711)?
+495. What is the average number of voters who knew their vote in advance (VCF0712)?
+496. How often do respondents think that the Presidential election will not be close (VCF0714)?
+497. What is the percentage of respondents who vote a straight Democratic ticket (VCF0715)?
+498. How common is split-ticket voting (VCF0716)?
+499. How many respondents who did not vote thought that the Presidential election would be close (VCF0714 and VCF0703)?
+500. Are voters who have always voted for the same party more likely to vote a straight ticket (VCF0711 and VCF0715)?
+501. Are voters who are registered but did not vote more likely to abstain from voting in all elections (VCF0737)?
+502. What percentage of respondents believe they often vote for a different party (VCF0711)?
+503. How has the proportion of respondents who vote for the same party changed over time (VCF0711)?
+504. Are respondents who vote for the Democratic presidential candidate more likely to also vote for a Democratic senator (VCF0704 and VCF0708)?
+505. Has the proportion of split-ticket voting changed over time (VCF0710 and VCF0709)?
+506. What is the relationship between the respondents' belief about the closeness of the Presidential election and their actual vote choice (VCF0714 and VCF0704)?
+507. Do voters who vote for Democratic presidential candidates always vote for the same party (VCF0704 and VCF0711)?
+508. Has there been a temporal trend in respondents who believed the presidential election will be won by quite a bit (VCF0714)?
+509. What is the average voter participation level based on the variable VCF0723?
+510. How are the variables VCF0724 and VCF0725 related, do participants who watch TV programs also listen to radio programs about the campaign?
+511. What is the frequency of voters who responded ‘yes’ to the filter in VCF0721 across different years?
+512. Compare the level of campaign engagement over time by using variables VCF0724, VCF0725, VCF0726 and VCF0727.
+513. What is the distribution of the VCF0728 variable indicating media exposure types?
+514. How has the majority party before the elections (VCF0729) changed over different election years?
+515. How has the majority party after the elections (VCF0730) changed over different election years?
+516. Does a high media exposure (VCF0728) correlate with correct knowledge of the majority party before (VCF0729) and after the elections (VCF0730)?
+517. Does a participant's level of participation (VCF0723 or VCF0723a) have a correlation with their campaign engagement, such as watching TV programs (VCF0724), listening to radio programs (VCF0725), and reading about the campaign in magazines (VCF0726) or newspapers (VCF0727)?
+518. What is the distribution of participants who did not respond to the VCF0717 and VCF0721 questions across different years?
+519. Compare the mean, median, and mode of VCF0734 and VCF0735 to determine voter intent and actual voting pattern.
+520. Does a high score in VCF0721 correlate with a higher frequency of discussing politics (VCF0732)?
+521. What is the distribution of responses for VCF0731?
+522. Is there a correlation between VCF0733, the frequency of discussing politics, and VCF0724, the frequency of watching TV programs about the campaign?
+523. Does a high count of media exposure types (VCF0728) increase the chances of the participant discussing politics frequently (VCF0732)?
+524. Does a participant's response to VCF0720 affect their level of participation, as recorded in VCF0723?
+525. Are respondents more likely to participate at the lowest level (VCF0721 and VCF0723a) if they did not respond to VCF0720?
+526. Does a positive response to VCF0720 indicate a higher likelihood of the participant voting for the Democratic party (VCF0734)?
+527. How has the frequency of daily political discussions (VCF0732) changed over different election years?
+528. Is there a correlation between VCF0728, the count of media exposure types, and VCF0735, vote for U.S. House- candidate code?
+529. What is the distribution of the VCF0736 variable – party for U.S. House votes?
+530. What is the distribution of voters who are registered post-election (VCF0737)?
+531. How does party of registration pre-election (VCF0738a) compare with party of registration post-election (VCF0738)?
+532. What is the distribution of respondents who contributed to a PAC during the campaigns (VCF0741)?
+533. Are there significant correlations between those who belong to a political organization or club (VCF0743) and voting for the U.S House party (VCF0736)?
+534. What is the distribution of respondents who have access to the internet (VCF744)?
+535. Does having access to the internet (VCF0744) correlate with information about candidates, parties, or issues (VCF0747)?
+536. What are the summary statistics for VCF0749 – how long before the election did respondent vote?
+537. How does the method of voting (in person or absentee ballot: VCF0750) correlate with when they voted (on election day or before: VCF0748)?
+538. What is the distribution of the liberal-conservative scale (VCF0803)?
+539. Are there significant group comparisons between the most liberal (VCF0801) and the extreme points on the liberal-conservative scale (VCF0803)?
+540. Does party of registration pre-election (VCF0738a) affect how liberal or conservative voters identify VCF0803?
+541. Has there been a change over time in the party for U.S House votes (VCF0736)?
+542. Are voters who contributed to a PAC during the campaigns (VCF0741) more likely to be registered post-election (VCF0737)?
+543. What is the correlation between how long before the election respondents voted (VCF0749) and the party of registration (VCF0738 and VCF0738a)?
+544. Does belonging to a political organization or club (VCF0743) influence the liberal-conservative scale (VCF0803 or VCF0804)?
+545. Is there a temporal trend observed in the liberal-conservative scale over the years (VCF0803)?
+546. Do voters who partake in early voting (VCF0748) score differently on the liberal-conservative scale (VCF0803) compared to those who vote on election day?
+547. Is there a simple causal relationship between having access to the internet (VCF0744) and contributing to a PAC during the campaigns (VCF0741)?
+548. How does party of registration pre- and post-election (VCF0738a and VCF0738) correlate with groups (VCF0746)?
+549. What are the descriptive statistics for people's opinions on government assistance with medical care (VCF0805)?
+550. What is the distribution of values for the variable "government health insurance scale" (VCF0806)?
+551. What is the percentage of respondents who believe the government should see to it that every person has a job and a good standard of living (VCF0808 and VCF0809)?
+552. Is there a significant correlation between a positive stance on government health insurance (VCF0806) and belief in guaranteed jobs and income (VCF0808 and VCF0809)?
+553. Have there been significant temporal changes in attitudes towards guaranteed jobs and income (VCF0808 and VCF0809) over the years?
+554. Does the opinion on government assistance with medical care (VCF0805) significantly differ between those who believe in solving problems of poverty and unemployment (VCF0811 = 1) and those who don't (VCF0811 ≠ 1)?
+555. What is the correlation between opinions on how much the position of blacks has changed (VCF0813) and civil rights pace (VCF0814)?
+556. Has there been a significant change in the response towards segregation or desegregation (VCF0815) over the years?
+557. What is the bivariate relationship between support for school integration (VCF0816) and school busing (VCF0817)?
+558. Do people who disagree strongly (VCF0818 = 1) towards open housing (VCF0819) also favor segregation (VCF0820 = 1)?
+559. Is there a correlation between perception of whites favoring segregation (VCF0820) and perception of blacks favoring desegregation (VCF0821)?
+560. How does the rating of government economic policy (VCF0822) compare across different groups - those favoring segregation versus those favoring desegregation (VCF0815), those for or against school integration (VCF0816)?
+561. Is there a significant relationship between the variable VCF0823 and VCF0822?
+562. Are liberals (VCF0824) more likely to support government assistance with medical care (VCF0805) than conservatives?
+563. Do individuals who predict US to be less likely in a war (VCF0825 = 1) rate the government's economic policy (VCF0822) higher?
+564. Have opinions on how likely the U.S. is to be at war/bigger war (VCF0825) changed over time?
+565. Is there a correlation between the variable VCF0824 (liberal-conservative) and VCF0822 (rating of government economic policy)?
+566. Does belief in government assistance with medical care (VCF0805) influence attitudes towards civil rights speed (VCF0814)?
+567. What are the descriptive statistics for the variable
+568. What is the distribution of opinions on whether the U.S. did the right thing getting involved in the war based on variable VCF0826?
+569. How has the opinion on the U.S. involvement in the war (variable VCF0826) changed over the years (if year of the survey is available)?
+570. What is the correlation between respondents who believe that the U.S. should pull out entirely from the current war (VCF0827) and those who believe the government should cut military spending (VCF0828)?
+571. Do respondents who believe that the U.S. should pull out of the war (VCF0827) also tend to believe that the government in Washington is too strong (VCF0829)?
+572. Is there a significant difference in the support of aid to black and minority groups (VCF0830) based on the respondents' views on military involvement (VCF0826)?
+573. Using the raw data from variables VCF0826 and VCF0830, can we form a simple causal hypothesis about the effect of war opinions on support for aid to minority groups?
+574. What is the mean value for the rights of the accused scale variable (VCF0832)?
+575. Is there a correlation between those who favor equal rights amendment (VCF0833) and believe women and men should have an equal role (VCF0834)?
+576. How do views on about women staying out of politics (VCF0836) correlate with views about women having an equal role (VCF0834)?
+577. What percentage of respondents believe abortion should never be permitted (VCF0837)?
+578. How has the belief that abortion should never be allowed legally (VCF0838) trended over the years (if year of the survey is available)?
+579. Are there significant group differences in respondents' views on government service spending (VCF0839) based on their views on military spending (VCF0828)?
+580. Is there a correlation between those who favor term limits (VCF0840) and those who think the government in Washington is too strong (VCF0829)?
+581. How do attitudes towards defense spending (VCF0843) correlate with attitudes towards environmental regulation (VCF0842)?
+582. Is there a significant difference in views on U.S. cooperation with USSR (VCF0841) based on views on military spending (VCF0843)?
+583. What is the distribution of the authority of the Bible, as expressed by the respondents (VCF0845)?
+584. How does willingness to use military force (VCF0844) correlate with the belief in the authority of the Bible (VCF0845)?
+585. Do people who approve the equal rights amendment (VCF0833) also prefer increased environmental regulations (VCF0842)?
+586. How do opinions about defense spending (VCF0843) change over the years (
+587. What is the distribution of respondents who find religion important (VCF0846)?
+588. What are the summary statistics for how much guidance respondents derive from their religion (VCF0847)?
+589. Is there a relationship between the importance of religion to the respondent and the degree to which they derive guidance from their religion (VCF0846 & VCF0847)?
+590. What proportion of respondents are not worried about conventional war (VCF0848)?
+591. Is there a correlation between respondents who are not worried about nuclear war and those not worried about conventional war (VCF0848 & VCF0848a)?
+592. What is the trend over years in the level of concern about conventional war (VCF0848)?
+593. Are self-identified liberals less or more likely to be worried about nuclear war than others (VCF0848a & VCF0849)?
+594. Is there a relationship between respondents' view on the authority of the Bible (VCF0850) and whether they believe there should be more emphasis on traditional values (VCF0853)?
+595. Among those who identify as liberal (VCF0849), how many agree strongly on the tolerance of different moral standards (VCF0854)?
+596. What is the racial composition of respondents’ group of friends (VCF0866)?
+597. Is there a difference in the views on affirmative action in hiring/promotion between respondents of different racial backgrounds (VCF0867 & VCF0867a)?
+598. Is there an association between respondents’ view on the authority of the Bible and their concern about nuclear war (VCF0850 & VCF0848a)?
+599. How many respondents think that the economy has gotten better in the past year (VCF0870)?
+600. Does the perception of economy improvement in the past year vary among different racial groups (VCF0860 & VCF0870)?
+601. Is there a difference in the perceived importance of religion between respondents who attended an all-white junior high school and those who did not (VCF0846 & VCF0862)?
+602. Is there a relationship between respondents' racial composition of friends and whether they believe there should be more emphasis on traditional values (VCF0853 & VCF0866)?
+603. Does the level of concern about conventional war vary across different racial backgrounds (VCF0848 & VCF0860)?
+604. Do those who support affirmative action (VCF0867 & VCF0867a) also tend to believe there should be more emphasis on traditional values (VCF0853)?
+605. Is supporting affirmative action in hiring/promotion associated with being worried about nuclear war (VCF0867a & VCF0848a)?
+606. Are people who think the economy has gotten better also more likely to not be worried about conventional war (VCF0870 & VCF0848)?
+607. What is the distribution of perceptions on the economy in the past year (VCF0871)?
+608. How many people believe the economy will get better in the next year (VCF0872)?
+609. Can we discern any significant correlations between people's views of the economy in the past year (VCF0871) and their predictions for the next year (VCF0872)?
+610. Is there any change over time in people's opinions about the state of the economy in the past year (VCF0871)?
+611. What percentage of respondents believe that the economy will improve in the next year (VCF0872)?
+612. Do people employed in agriculture (VCF0875) have a different perception about the state of the economy over the past year (VCF0871) than those employed in other sectors?
+613. What is the relationship between respondents' occupation (VCF0875) and their perception about economy improvement in next year (VCF0872)?
+614. Do respondents who favor gays in the military (VCF0877) also support their ability to adopt children (VCF0878)?
+615. How strongly do respondents feel about their stance on gays in the military (VCF0877a)?
+616. What is the correlation between respondents' opinion on gays in the military (VCF0877) and their perception of the past year's economy (VCF0871)?
+617. Is there a significant difference in opinions between those who feel they are better off in the past year (VCF0880) and those who do not?
+618. How many respondents felt their situation significantly improved over the past year (VCF0880 vs VCF0880a)?
+619. What is the average perception on the economy of those who favor increased federal spending for poor people (VCF0886)?
+620. What is the correlation between views on Federal Spending for child care (VCF0887) and views about gays/lesbians ability to adopt children (VCF0878)?
+621. Is there a significant relationship between respondents' views on increased Federal spending for child care (VCF0887) and feelings of being better off in the next year (VCF0881)?
+622. Is there a temporal trend in support for gays and lesbians in the military (VCF0877)?
+623. How often is there an agreement between respondents who think the economy is better now (VCF0880) compared to those who think it will be better next year (VCF0881)?
+624. Is there a relationship between perceived change in economy (VCF0871) and attitudes towards federal spending on poor people (VCF0886)?
+625. Are feelings on the current economic situation (VCF0871) in any way related to feelings towards increased federal child care spending (VCF0887)?
+626. Do people who hold a strong position on gays in the military (VCF0877a
+627. What is the frequency distribution for the variable VCF0888 (Federal Spending- Dealing with Crime)?
+628. What are the summary statistics for the variable VCF0889 (Federal Spending- AIDS Research/Fight Aids)?
+629. What are the differences in attitude towards increased federal spending on dealing with crime (VCF0888) and on AIDS research/fight aids (VCF0889)?
+630. Is there a correlation between respondents' attitudes towards increasing federal spending on public schools (VCF0890) and financial aid for college students (VCF0891)?
+631. What is the relationship between respondents' attitudes towards increasing federal spending on dealing with crime (VCF0888) and on the homeless (VCF0893)?
+632. How does the distribution of support for increased federal spending on welfare programs (VCF0894) vary by congressional district of residence (VCF0900)?
+633. Is there a temporal trend in support for increased federal spending on AIDS research (VCF0889)?
+634. Compare the support for increased federal spending on dealing with crime (VCF0888) between respondents in democratic incumbent running districts (VCF0902) versus other districts.
+635. Does the level of support for increased federal spending on public schools (VCF0890) differ between states?
+636. How do attitudes towards increased spending on welfare programs (VCF0894) correlate with attitudes towards increased spending on aid for the homeless (VCF0893)?
+637. How much missing data (coded as 9 or NA) is there for the variable VCF0892 (Federal Spending- Foreign Aid)?
+638. Is there an association between the support for increased federal spending on financial aid for college students (VCF0891) and the state of residence (VCF0901a)?
+639. How does the distribution of attitudes towards increased federal spending on dealing with crime (VCF0888) vary across State Postal Abbreviations (VCF0901b)?
+640. Are attitudes towards increased federal spending on the homeless (VCF0893) related to the type of U.S. House race (VCF0902)?
+641. Is there a disparity in attitudes towards increased federal spending on financial aid for college students (VCF0891) between different congressional districts?
+642. How do attitudes towards increased spending on welfare programs (VCF0894) change over time?
+643. Is there an correlation between attitudes towards federal spending on AIDS research/fight AIDS (VCF0889) and public schools (VCF0890)?
+644. Does the support for increased spending on dealing with crime (VCF0888) vary by State Code (VCF0901a)?
+645. Hypothesize that those living in democratic incumbent running districts (VCF0902) are more likely to support increased spending on the homeless (VCF0893).
+646. What is the level of NA responses for the variable Federal Spending- Fin Aid
+647. What is the distribution of the variable VCF0902 for the years 1970, 1974, and 1976?
+648. What are the summary statistics for VCF1004-1014, candidate-level data?
+649. Is there a correlation between the variable VCF0903 and VCF0904?
+650. What is the trend in VCF0903 over the years the dataset covers?
+651. What is the mean value of VCF0904 for districts where the running incumbent is unopposed?
+652. What is the relationship between VCF0902 and VCF0905?
+653. Is there a causal relationship between VCF0903 and VCF0906, indicating if the running US House Representative is more likely to be opposed when they are running for re-election?
+654. Does the number of candidates in a U.S House Race (VCF0905) influence the thermometer ratings for Democratic house candidates (VCF0906)?
+655. What is the correlation between VCF0907 and VCF0908? Does favorability towards Republican House candidates influence favorability towards incumbent house candidates?
+656. Are unopposed incumbent House candidates (VCF0904) rated higher on the thermometer scale (VCF0908) than those who are opposed?
+657. Does contact with running U.S. House incumbent (VCF0910) influence the thermometer readings of the Democratic House Candidate (VCF0906)?
+658. Is there a significant difference in the distribution of VCF0905 (Number of Candidates in U.S House Race) between the years 1970, 1974, and 1976?
+659. What is the correlation between attending a meeting with running U.S. House incumbent (VCF0912) and thermometer readings of the incumbent House Candidate (VCF0908)?
+660. Do the respondents who have received mail from the running U.S. House incumbent (VCF0914) have higher thermometer ratings for the incumbent House Candidate (VCF0908)?
+661. Does reading about the running U.S. House incumbent (VCF0915) result in higher thermometer ratings for the Democratic House Candidate (VCF0906)?
+662. Is there a difference in the thermometer - challenger house candidate (VCF0909) between respondents who have and haven't had contact with running U.S. House Incumbent (VCF0910)?
+663. What is the overall trend in degrees given for the Republican House Candidate (VCF0907) over the years the dataset covers?
+664. Is there a significant relationship between seeing the running U.S. House incumbent on TV (VCF0917) and scores for the Thermometer - challenger house candidate (VCF0909)?
+665. Among respondents who have talked to the running U.S. House incumbent's staff (VCF0913), what is the distribution in the Thermometer - Democratic House Candidate (VCF0906) scores?
+666. What is the distribution of the variable VCF0918?
+667. How many confirmed contacts were made with the U.S House Incumbent according to VCF0919?
+668. Is there a significant correlation between VCF0919 (CHALLENGER TO RUNNING U.S. HOUSE INCUMBENT) and VCF0922?
+669. Is there a significant difference in VCF0920 values between individuals who were contacted and those who were not?
+670. What is the trend of VCF0923 (challenger to U.S house running incumbent) values over time?
+671. Using VCF0928, how many people made contact with the U.S House Democratic Candidate?
+672. What are the summary statistics on VCF0929 and VCF0930 indicating types of engagement with the U.S. House Democratic Candidate?
+673. How is VCF0931 (talked to staff) correlated with VCF0934 (heard on radio)?
+674. What is the ratio of people who received mail (VCF0932) to the number of people who attended the meeting (VCF0930)?
+675. Does the number of individuals who heard about the U.S. House Democratic Candidate on the radio (VCF0934) differ significantly between those who had contact and those who had not?
+676. What are the summary statistics for VCF0921, VCF0924, and VCF0927?
+677. How often did people who met the U.S House Democratic Candidate (VCF0929) also talk to their staff (VCF0931)?
+678. Do people who receive mailed ads from the U.S House Democratic Candidate (VCF0932) tend to also attend their meetings (VCF0930)?
+679. What is the correlation between hearing about the U.S. House Democratic Candidate on the radio (VCF0934) and seeing the candidate on TV (VCF0935)?
+680. What are the trends in individuals reading about the U.S. House Democratic Candidate (VCF0933) over time?
+681. Is the likelihood of having contact made (as coded in VCF0919) associated with increased attendance at the U.S. House Democratic Candidate's meetings (VCF0930)?
+682. How does knowing about a challenger to the U.S. House incumbent (VCF0923) correlate with the decision of whether or not to attend a meeting held by the U.S. House Democratic candidate (VCF0930)?
+683. Is there a trend in the number of U.S. House Democratic Candidate's meetings attended over the years (VCF0930)?
+684. What is the association between having valid contact (VCF0918) and receiving mail from the U.S. House Democratic Candidate (VCF0932)?
+685. Are people more likely to have a valid contact (VCF0918) if they have met the U.S. House Democratic Candidate (VCF0929)?
+686. What is the distribution of respondents who had contact with U.S. House Republican candidates across the dataset (VCF0937)?
+687. How many respondents reported meeting a U.S. House Republican Candidate (VCF0938)?
+688. Are the respondents who had contact with U.S. House Republican candidates also attending meetings (VCF0939)?
+689. What is the relationship between having a contact with U.S. House Republican candidates and talking to staff (VCF0940)?
+690. What proportion of respondents who made contact with U.S. House Republican candidates, also received mail (VCF0941)?
+691. Among respondents who made contact with U.S. House Republican candidates, how many read about the candidate (VCF0942)?
+692. Is there a correlation between respondents who contacted the U.S. House Republican candidate and those who heard about the candidate on the radio (VCF0943)?
+693. What is the likelihood of someone seeing the U.S. House Republican candidate on TV (VCF0944) after having contact?
+694. How many respondents reported having no contacts with any United States House representatives (VCF0946, VCF0947, VCF0948, VCF0949)?
+695. Are respondents who were contacted by a running U.S. House incumbent (VCF0950) more likely to have contact with U.S. House Republican candidates (VCF0937)?
+696. How does the contact rate with U.S. House candidates vary between the Republican and Democrat parties (VCF0948a, VCF0949a)?
+697. Is there a notable difference between contact rates with incumbent versus opposing candidates (VCF0947, VCF0951)?
+698. Are respondents who made contact with the Republican candidates more likely to have made political contacts in general (VCF0945)?
+699. What percentage of respondents who had contact with a U.S. House Republican candidates later attended a meeting with the candidate (VCF0939)?
+700. Do those who make contact with a U.S. House Republican candidate also have contact with the incumbent (VCF0950)?
+701. Is there a correlation between receiving mail from a U.S. House Republican candidate (VCF0941) and the likelihood of contacting them (VCF0937)?
+702. What percentage of those who contacted a U.S. house Republican candidate also heard about them on the radio (VCF0943)?
+703. Does contact with a U.S. House Republican candidate (VCF0937) increase the likelihood of a respondent seeing the candidate on TV (VCF0944)?
+704. How many respondents who had contact with a running U.S. House incumbent also had contact with a U.S. House Republican candidate (VCF0937, VCF0950)?
+705. What is the prevalence of respondents not running or running unopposed in contact with the U.S. House candidates (VCF0947)?
+706. What are the distributions of VCF0952, VCF0953, VCF0954, VCF0955, VCF0956, VCF0957, VCF0958, VCF0959, VCF0960, VCF0961, VCF0962, VCF0963, VCF0964, VCF0965, VCF0966, VCF0967, VCF0968, VCF0969, VCF0970 and VCF0971 respectively?
+707. What are the average trends of VCF0952, VCF0953, VCF0954, VCF0955, VCF0956, VCF0957, VCF0958, VCF0959, VCF0960, VCF0961, VCF0962, VCF0963, VCF0964, VCF0965, VCF0966, VCF0967, VCF0968, VCF0969, VCF0970 and VCF0971 over time?
+708. Is there a correlation between VCF0953 and VCF0963?
+709. How does VCF0956 compare to VCF0966 in terms of group comparisons?
+710. Is there a simple causal effect between VCF0954 and VCF0955?
+711. Does VCF0957 have a consistent temporal trend over the years analyzed?
+712. What is the probability of higher values of VCF0959 given higher values of VCF0958?
+713. How does VCF0952 correlate with VCF0962?
+714. How does the distribution of VCF0961 differ from that of VCF0963?
+715. What is the impact of higher values in VCF0964 on VCF0974?
+716. Is there a temporal trend present in VCF0965 over the years analyzed?
+717. How do the summary statistics of VCF0966 compare to those of VCF0976?
+718. Is there a correlation between VCF0967 and VCF0977?
+719. Can higher values of VCF0970 be predicted by lower values of VCF0971?
+720. How does the distribution of valid responses in VCF0969 compare to those in VCF0979?
+721. Is there a temporal trend present in the valid responses of VCF0968?
+722. How does the distribution of VCF0970 compare with that of VCF0971?
+723. Is there a simple causal relationship between the satisfaction level (VCF0966, VCF0969) and the perceived helpfulness of the program/service (VCF0959, VCF0970)?
+724. How does the response distribution of valid answers (1. Yes) for VCF0952-VCF0971 change over time?
+725. Is there a significant difference in
+726. What is the distribution of responses for VCF0972 (RECALL NAMES OF U.S. HOUSE CANDIDATES)?
+727. What are the summary statistics for VCF0973 (RECALL CORRECT NAME OF U.S. HOUSE CANDIDATE)?
+728. Are there any patterns or correlations between VCF0972 and VCF0974 - the variables for recalling names of U.S. House candidates and correctly identifying their party?
+729. What proportion of respondents were unable to recall any names (as indicated by VCF0900)?
+730. How do the findings from VCF0975 (RECALL CORRECT NAME OF U.S. HOUSE CANDIDATE) compare to VCF0972 (RECALL NAMES OF U.S. HOUSE CANDIDATES)?
+731. What is the average number of 'dislikes' mentioned by the respondents regarding their US House candidates (average on variables VCF0980 and VCF0981)?
+732. Does the ability to recall correct names of U.S. House Candidates (VCF0973, VCF0974, VCF0975) correlate with the number of negative mentions (VCF0980, VCF0981)?
+733. What is the distribution of responses for VCF0977, where the respondent knew at least one candidate?
+734. How often were respondents correct about the incumbency status of the candidate (VCF0978)?
+735. Does recalling a candidate's name (VCF0973, VCF0974, VCF0975) increase the likelihood of knowing their incumbency status (VCF0978)?
+736. Is there a correlation between negative mentions about candidates (VCF0980, VCF0981) and the ability to recall candidates' names (VCF0972)?
+737. How are positive mentions about candidates (VCF0984) distributed among respondents?
+738. Is there a correlation between the ability to recall candidate names and the salience of the candidate (VCF0989)?
+739. Are there any bivariate relationships between VCF0982 and VCF0986 variables?
+740. What is the temporal trend in the ability to recall candidate names (variable VCF0972) for the available years?
+741. Does the affect (likes-dislikes) (VCF0986) for Republican U.S. House candidates have an impact on recall correct name of the candidate (VCF0973, VCF0974, VCF0975)?
+742. How is the salience of U.S. House candidates (VCF0989) distributed among respondents and does this correlate with the level of affect (VCF0986)?
+743. Do respondents who volunteer that they ‘don’t know anything about this candidate’ (missing in VCF0980 to VCF0985) less likely to recall correct names of U.S. House Candidates (VCF0974 and VCF0975)?
+744. How are the variables VCF
+745. What is the distribution of VCF0990 values in the dataset?
+746. What is the summary statistics (mean, mode, median, range) of VCF0983?
+747. How does the approval (VCF0991) vary across different years in the dataset?
+748. Does VCF0992 correlate with VCF0994 (number of negative mentions)?
+749. Is there a significant difference in the number of negative mentions (VCF0994) between those who approve and disapprove U.S Congress (VCF0992)?
+750. Have the number of positive mentions (VCF0993) increased or decreased over the specified years?
+751. How does the salience measure (VCF1002) relate to the number of positive or negative 'likes' (VCF0993, VCF0994, VCF0997, VCF0998)?
+752. Does the US house candidate affect (VCF1001) influence the approval of U.S Congress (VCF0992)?
+753. Is there a significant difference in salience (VCF1002) between those who know and don't know anything about the candidate (Variables: VCF0993, VCF0994)?
+754. What is the relationship between incumbent US house candidate affect (VCF0995) and U.S house candidate affect (VCF1001)?
+755. Has the number of positive or negative mentions (VCF0997 and VCF0998) changed substantially over the years?
+756. Do those who approve of the US Congress (VCF0992) have more mentions regarding the incumbent U.S house candidate (VCF0996)?
+757. Do the participants who have major party partisanship (VCF1005) mention more about the candidate (VCF1000)?
+758. Is the incumbent's party (VCF1004) a predictor of the approval rating of U.S. Congress (VCF0992)?
+759. Over the years, has there been a change in the proportion of respondents who are partisan of the same party as incumbent (VCF1005)?
+760. In races without a running incumbent (VCF1006), is there a different distribution of approval for US Congress (VCF0992) compared to races with incumbents?
+761. Is VCF0995, related to U.S House Candidate affect (VCF1001)?
+762. Do respondents who don't have major party partisanship (VCF1005) give more "I don't know anything about this candidate" responses (VCF0993, VCF0994, VCF0997, VCF0998)?
+763. Do participants with reported likes or dislikes towards the intake have different salience measures (VCF1002)?
+764. Over time, has there been an increase or decrease in the respondents that are partisan of the same party as incumbent (VCF1005)?
+765. What is the distribution of responses for VCF1006, considering valid responses only?
+766. Which was the most frequently correctly recalled candidate name in the original 1970 recall (VCF1008)?
+767. How does the number of correctly recalled democratic candidates (VCF1009) differ across years?
+768. Are respondents who recall their own party's candidate (VCF1010) more likely to vote for a major party candidate from that party (VCF1011)?
+769. How does the standard deviation of responses for VCF1011 change over time?
+770. Are respondents who vote for an incumbent candidate (VCF1012) more likely to vote for the winner (VCF1013)?
+771. Is there a correlation between respondents' votes for incumbent candidates (VCF1012) and the winner in their district (VCF1014)?
+772. What is the frequency of times respondents did not vote or were unaware if they voted (VCF1013)?
+773. What is the average number of days post-election the IW was conducted (VCF1016)?
+774. What is the distribution of responses for thermometer average for U.S. House Candidates (VCF1017)?
+775. Is there a significant relationship between the thermometer index (VCF1018) and liking anything about Democratic U.S. House candidates (VCF1020)?
+776. How does the mean thermometer average (VCF1017) compare between those who recall their own party's candidate (VCF1010) and those who do not?
+777. What is the median number of days between the election and the IW interview (VCF1016)?
+778. What are the top 5 most frequently mentioned names for Democratic candidates in races without a running incumbent (VCF1008)?
+779. What is the variance in VCF1016 responses over time?
+780. How does the percentage of respondents who correctly recalled a Democratic candidate (VCF1009) change over time?
+781. Are respondents more likely to recall a candidate name if they voted for a major party candidate from the same party as theirs (VCF1011)?
+782. What is the distribution of the thermometer index (VCF1018) for respondents who recalled their own party's candidate name (VCF1010)?
+783. Has the percentage of respondents who cannot recall any candidate names (NA in VCF1008) increased or decreased over the years?
+784. How does the variance in thermometer average (VCF1017) compare between those who like anything about Democratic U.S. House candidates (VCF1020) and those who do not?
+785. What is the distribution of the variable VCF1021a?
+786. How does the summary statistics of VCF1021b (Peoples within party) look like?
+787. Does the VCF1022a variable hold strong correlation with the VCF1023a variable?
+788. Is there a temporal trend present in VCF1022b data?
+789. Could VCF1022a wield a causal influence over VCF1027a based on their values?
+790. How does VCF1023b differ between the different Peoples within party in VCF1022b?
+791. Could VCF1024b serve as a predictor for "People within party" values in VCF1025b?
+792. Does the level of variable VCF1025a change over time assuming year variable is present?
+793. Do changes in VCF1025b correlate to changes in VCF1026?
+794. Do "People within party" (VCF1027b) values influence the results of VCF1021a?
+795. What is the frequency distribution of the variable VCF1027a?
+796. What temporal trend, if any, exists in VCF1028a data over the years?
+797. Is there a causal relationship between VCF1028b and its consecutive variable VCF1029a?
+798. Does VCF1029b show a notable difference between the different "Peoples within party" in VCF1028b?
+799. Do changes in VCF1030a correlate to changes in VCF1031a?
+800. Does VCF1031a show any temporal trends if year variable is present?
+801. Compare the summary statistics of VCF1026 (Yes) vs missing values (DK).
+802. Can we assume a causal relation between VCF1029b and VCF1030a, if yes, how strong it is?
+803. What's the relationship between VCF1021a and the group of people within the party in VCF1021b?
+804. How does the distribution of the VCF1030b variable change for different groups of "People within party"?
+805. What is the distribution of people within party in VCF1031b?
+806. How many respondents reported liking something about the Republican U.S. House candidate (VCF1032)?
+807. What is the average and range of valid responses for VCF1033a?
+808. Are there any correlations between variables VCF1031b and VCF1033a?
+809. What is the distribution of people within party in VCF1033b?
+810. How many respondents reported missing or being unfamiliar with the variable VCF1034a?
+811. What is the average and range of valid responses for VCF1034b?
+812. How does the response to VCF1035a compare with VCF1035b in terms of people within the party?
+813. Are there any significant group differences in responses to variable VCF1036a?
+814. How many respondents had a valid response for VCF1037a compared to those who didn't respond or had an inappropriate response?
+815. How do responses for VCF1037b distribute across the range of valid responses?
+816. What is the trend in the number of yes responses for VCF1038 over the years?
+817. Do the responses on VCF1039a and VCF1039b show any correlation?
+818. How does the number of valid and missing responses for VCF1040a compare with that of VCF1040b?
+819. What is the relationship between responses to VCF1041a and likes anything about Republican U.S. House candidate?
+820. Are the responses to variable VCF1042a significantly influenced by the responses to VCF1041b within people associated with a political party?
+821. What is the distribution of people within party in VCF1041b?
+822. Is there a correlation between VCF1031b and VCF1040b within people associated with a same political party?
+823. Does the variable VCF1041a display any significant temporal trends or patterns?
+824. What's the causal relationship between VCF1033a and the designer metric that involves responses to VCF1041a and VCF1040a?
+825. What is the average, median, and distribution of VCF9001 (length of residence in the community)?
+826. What is the distribution of VCF9002 (length of residence in-home)?
+827. What is the correlation between VCF9001 (length of residence in the community) and VCF9002 (length of residence in home)?
+828. Does a longer residence in the community (VCF9001) correlate with a higher value on the thermometer measure for elderly (VCF9004)?
+829. Has there been a change in the average thermometer rating for evangelical groups (VCF9003) over time?
+830. Are there any temporal trends in approval of the president's performance on the economy (VCF9009)?
+831. Is there a correlation between thermometer rating for women (VCF9006) and agreeing that society should ensure an equal opportunity to succeed (VCF9013)?
+832. Does a higher thermometer rating for Jesse Jackson (VCF9007) correlate with the belief that we have gone too far in pushing equal rights (VCF9014)?
+833. What is the distribution of responses for the variable ‘which would best handle unemployment’ (VCF9011)?
+834. Does the perception of who would best handle inflation (VCF9010) change based on the length of residence in the community (VCF9001)?
+835. Are there any correlations between VCF1042b and perceptions of supreme court approval (VCF9005)?
+836. Are individuals who strongly approve of the president's performance on the economy (VCF9009) more likely to believe that it's not a problem if some have more chance in life (VCF9016)?
+837. What is the relationship between perception of party handling inflation (VCF9010) and perception of party handling unemployment (VCF9011)?
+838. Has there been a temporal change in agreement that we have gone too far in pushing equal rights (VCF9014)?
+839. Do individuals residing longer in a community (VCF9001) more likely to agree with the statement, "It's not a big problem if some have more chance in life" (VCF9016)?
+840. Is there a relationship between the ‘thermometer’ rating for Evangelical groups (VCF9003) and agreeing that not everyone has an equal chance (VCF9015)?
+841. Is there a correlation between VCF9017 (should worry less about how equal people are) and VCF9014 (we have gone too far pushing equal rights)?
+842. Do nominal measurements of VCF1043a correspond to any temporal trends in VCF1043b?
+843. Have perceptions regarding who would "better handle unemployment" (VCF9011) changed over time?
+844. Are there any distinct distribution patterns within valid entries of variables VCF1042b, VCF1043a, and VCF1043b?
+845. What is the distribution of responses for VCF9018 (U.S. FEWER PROBLEMS IF EVERYONE TREATED EQUALLY)?
+846. How strongly do respondents agree or disagree with the statement "U.S. will have fewer problems if everyone is treated equally"?
+847. What is the correlation between VCF9022 (VOTER STRENGTH OF PREFERENCE- PRESIDENTIAL CAND) and VCF9024 (VOTER STRENGTH OF PREFERENCE- U.S. HOUSE CAND)?
+848. Is there a difference in the goal for the nation (#1 and #2) between those who were and were not contacted about voting (VCF9021)?
+849. Has the number of people who think "U.S. will have fewer problems if everyone is treated equally" (VCF9018) increased over the years?
+850. Is there a relationship between a person's top goals for the nation and their voting preferences (VCF9025 - VOTE FOR GOVERNOR- PARTY)?
+851. Are people who have a strong preference for a U.S. House candidate (VCF9024) more likely to have a preferred presidential candidate (VCF9022)?
+852. What is the distribution of responses for VCF9033 (NUMBER OF DAYS READ NEWSPAPER IN LAST WEEK)?
+853. Does the number of days someone reads the newspaper (VCF9033) affect their decision to vote in the presidential year primary (VCF9026)?
+854. For voters in the previous presidential election (VCF9027), what are their most desirable goals for the nation (VCF9019, VCF9020)?
+855. What is the association between contact by the Democratic party (VCF9030b) and voting for a Democratic presidential candidate (VCF9026)?
+856. How many respondents who were contacted by a major party (VCF9030a) believe that treating everyone equally will lead to fewer problems (VCF9018)?
+857. Is there a causal relationship between being contacted by the Republican party (VCF9030c) and voting for a Republican governor (VCF9025)?
+858. How does the belief that the presidential race in a respondent's state will be close (VCF9029) affect their strength of preference for a presidential candidate (VCF9022)?
+859. What is the trend over the years in the belief that the U.S. will have fewer problems if everyone is treated equally (VCF9018)?
+860. What is the correlation between contact by the Democratic party (VCF9030b) and belief that the presidential candidate will win in their state (VCF9028)?
+861. What is the correlation between voter strength of preference for the presidential candidate (VCF9022) and whether or not the respondent was contacted by any major party (VCF9030a)?
+862. What is the general distribution of individuals who read the daily newspaper (VCF9034)?
+863. What is the percentage of individuals who believes that the government should ensure fair jobs for Blacks (VCF9037)?
+864. How much emphasis is placed on school prayer according to the 4-category evaluation (VCF9043)?
+865. What are the opinions on the necessity for Blacks to try harder to succeed (VCF9041)?
+866. Are there significant correlations between the belief that Blacks must try harder to succeed (VCF9041) and the perspective that the government should ensure fair jobs for Blacks (VCF9037)?
+867. What is the correlation between those who read the newspaper daily (VCF9034) and those who agree that school prayer should be allowed (VCF9051)?
+868. How does reading the daily newspaper (VCF9034) affect the opinion on the party with senate majority before the election (VCF9036)?
+869. How is the distribution of individuals that believe federal spending for food stamps (VCF9046) should be increased?
+870. How does the perspective on federal spending for science and technology correlate with the belief about the effect of federal economic policies(VCF9044)?
+871. Does believing that Blacks must try harder to succeed (VCF9041) influence the opinion on federal assistance to Blacks (VCF9050)?
+872. Is there a group difference between those who believe in the benefits of federal economic policies (VCF9044a) and those who think the effects are weaker (VCF9045)?
+873. What are the summary statistics for the perceptions of the effect of federal economic policies (VCF9044 & VCF9044a)?
+874. What are temporal trends in the belief that the government should ensure fair jobs for Blacks (VCF9037)?
+875. How have views about increasing spending on space, science, and technology (VCF9048) changed over time?
+876. What is the relationship over time between those who read the newspaper daily (VCF9034) and their opinions on the effectiveness of federal economic policies (VCF9044)?
+877. Is there a significant change over time in the stance on whether school prayer should be allowed by law (VCF9043)?
+878. Is there a causal relationship between the daily readership of newspapers (VCF9034) and the support of the party with senate majority before the election (VCF9036)?
+879. Is there any evidence to suggest that the support for federal spending on social security (VCF9049) causes changes in the support for federal spending on food stamps (VCF9046)?
+880. Does strongly agreeing with the party with senate majority before the election (VCF9036) cause a change in belief about the effectiveness of federal economic policies(VCF9044)?
+881. Does belief in the necessity of school prayer (VCF9051) influence the perspectives on federal spending
+882. What is the distribution of responses for the VCF9052 variable (Are things going well in the U.S. or not)?
+883. What is the mean response for the VCF9053 variable (Has income kept up with costs in the last year)?
+884. Is there a correlation between a person's opinion on how well things are going in the U.S. (VCF9052) and whether their income kept up with costs in the last year (VCF9053)?
+885. Are there differences in responses to 'Are things going well in the U.S. or not' (VCF9052) between states with and without a Senate race (VCF9054)?
+886. What proportion of the data sample can recall the names of U.S Senate candidates (VCF9063)?
+887. How is the perception of Senate Democratic candidates (VCF9056) distributed?
+888. Is there a correlation between the perception of Senate Democratic candidates (VCF9056) and Senate Republican Candidates (VCF9057)?
+889. Does the temperature of the incumbent Senate candidate (VCF9058) correlate with the perceived status of things in the U.S. (VCF9052)?
+890. What is the general perception of the incumbent Senate candidate (VCF9058) in comparison to the Senate challenger (VCF9059)?
+891. Is there a significant difference between perceptions of Senate Democratic and Republican candidates in states with Democratic incumbent - Republican challenger races (VCF9055)?
+892. Has there been a change in the public perception of Senators in states with Senate races over years (VCF9060), if year data is available?
+893. How strongly do participants approve of elements captured in VCF9069, and what is the distribution of responses?
+894. Is there a relationship between individuals' relative income changes (VCF9053) and the perceptions of their Senator in states with Senate races (VCF9060)?
+895. What is the correlation between recalling the correct name of U.S. Senate candidates (VCF9064, VCF9065, VCF9066) and the perception of the incumbent Senate candidate (VCF9058)?
+896. How many people agree with the unspecified topic in VCF9070 and how is their agreement distributed?
+897. Are there differences in the perception of incumbent Senate candidates (VCF9058) based on participants' ability to recall the names of U.S. Senate candidates (VCF9063)?
+898. Is there a causal relationship between a person's perceived status of things in the U.S. (VCF9052) and their ability to recall the correct senate candidate's name (VCF9064)?
+899. Which type of U.S. Senate race (VCF9055) gets higher temperature ratings for their candidates on average?
+900. How does the perception of Senate Republican candidates (
+901. What is the distribution of responses for VCF9071, and what percentage of respondents said "Yes"?
+902. What is the frequency of respondents who agreed (VCF9072)?
+903. How is the President's stance on defense spending (VCF9073) distributed among respondents?
+904. What is the correlation between the President's stance on cooperation with USSR (VCF9074) and the President's stance on defense spending (VCF9073)?
+905. How does the President's stance on women’s equal role (VCF9075) compare between those who agreed (VCF9072) and those who didn't?
+906. What is the trend in responses regarding the President's stance on aid to black minorities (VCF9076) over the years?
+907. How is the variable "Government insurance plan" (VCF9077) distributed among the respondents and what is the ratio of missing data?
+908. Is there a correlation between VCF9078 (government reducing services and spending) and VCF9071?
+909. Is there a significant difference in the President's stance on guaranteed jobs and living scale (VCF9079) between those who agreed (VCF9072) and those who did not?
+910. Does agreeing with a government insurance plan (VCF9077) predict an individual's position on the President on the liberal-conservative scale (VCF9080)?
+911. How does the President's stance on defense spending (VCF9081) compare between extremely liberal (VCF9080) and non-extremely liberal individuals?
+912. What is the trend of responses for VCF9082 (cooperation with Russia) over the years?
+913. Is there a significant difference in attitudes towards gender roles (VCF9083) based on political leanings (VCF9080)?
+914. Is there a correlation between the government's role in providing aid to minorities (VCF9084) and support for a government insurance plan (VCF9085)?
+915. What is the distribution and summary statistics of VCF9086 (government providing fewer services, reducing spending)?
+916. Is there a difference in attitudes concerning guaranteed jobs and good living standards (VCF9087) between those who agree with greatly decreasing defense spending (VCF9089) and those who do not agree?
+917. How are respondents' attitudes towards defense spending (VCF9089) related to their responses on the government providing fewer services and reducing spending a lot (VCF9086)?
+918. Over the years, has there been an increase in respondents who are extremely liberal (VCF9088)?
+919. What are the summary statistics and distribution for VCF9087, specifically for those who've agreed (VCF9072)?
+920. How is the distribution and correlation between respondents' views on cooperation with Russia (VCF9082) and government aid to minorities (VCF9084)?
+921. What is the distribution of respondents who believe we should try to cooperate more with Russia (VCF9090)?
+922. How have attitudes towards cooperation with Russia (VCF9090) changed over time?
+923. What is the correlation between individuals who believe men and women should have equal roles (VCF9091), and those who believe the government should help Blacks/minorities (VCF9092)?
+924. Is there any trend association over time between respondents who believe in government insurance plans (VCF9093) and those who think government should provide fewer services and reduce spending (VCF9094)?
+925. Does the belief in government responsibility for jobs and good standard of living (VCF9095) differ statistically between extremely liberal individuals (VCF9096) and others?
+926. How does the distribution of respondents who believe men and women should have an equal role (VCF9097, VCF9102, VCF9107) vary demographically?
+927. What is the correlation between respondents' views on aid to Blacks/minorities and their political affiliation (VCF9092, VCF9098, VCF9103, VCF9108)?
+928. What factors are associated with a belief in reduced government spending and fewer services (VCF9094, VCF9099, VCF9104)?
+929. What percentage of respondents holds extremely liberal views (VCF9096, VCF9101, VCF9106), and how does this vary across demographic subgroups?
+930. How does the belief in government's role in ensuring job and a good standard of living (VCF9095, VCF9100, VCF9105) vary across political ideologies?
+931. How do attitudes towards equality of women changes over time? (VCF9091, VCF9097, VCF9102, VCF9107)
+932. How does the belief in aid to blacks/minorities vary among Democratic and Republican U.S House candidates (VCF9098, VCF9103)?
+933. Do respondents who are extremely liberal have a higher tendency of believing in the Government's responsibility towards ensuring jobs and good standards of living (VCF9101, VCF9100)?
+934. Are men more likely to think that men and women should have equal roles compared to women? (VCF9091, VCF9097, VCF9102, VCF9107)
+935. What is the summary statistics of individuals who believe in reduced government services and spending? What are their political affiliation, demographic factors, etc? (VCF9094, VCF9099, VCF9104)
+936. Has the perception towards government insurance plans significantly changed over time? (VCF9093)
+937. What is the bivariate relationship between support for women and men playing equal roles and government providing insurance plans? (VCF9091, VCF9097, VCF9102, V
+938. What is the distribution of viewpoints on whether the Government should provide many fewer services and reduce spending a lot (VCF9109)?
+939. How does support for the Government seeing to jobs and maintaining good standard of living (VCF9110) compare to opposing views?
+940. What percentage of respondents identifies as extremely liberal (VCF9111), and what is their stance on the various issues covered by the dataset?
+941. What is the correlation between believing that men and women should have an equal role in society (VCF9112) and the belief that the Government should help Blacks/minorities (VCF9113)?
+942. Are those who support more government help for minorities likely to also support the provision of more government services (VCF9114)?
+943. Is there a correlation between being extremely liberal (VCF9116) and believing that the Government should provide many fewer services (VCF9120)?
+944. Has the level of support for cooperation with Russia (VCF9117) changed over the years (1984, 1988)?
+945. What is the distribution of opinions on the amount of defense spending (VCF9118)?
+946. Do people who believe in gender equality (VCF9112) also believe the government should increase aid to blacks and minorities (VCF9119)?
+947. How many respondents live in households with only one politically eligible adult (VCF9122)?
+948. How many pre-election and post-election interviewer calls (VCF9123 & VCF9124) were conducted and how does this correlate with respondents’ political beliefs?
+949. What impact, if any, does the receipt of a post-election persuasion letter (VCF9125) have on an individual’s political stance?
+950. Does belief in a strong government (VCF9132) predict support for increased defense spending (VCF9118)?
+951. What is the correlation between believing in gender equality (VCF9112) and belief in a strong government (VCF9132)?
+952. Does the view that the Government should see to jobs and good standard of living (VCF9115) correlate with the belief that the government should help Blacks/minorities (VCF9113)?
+953. Have attitudes towards the Government providing fewer services and reducing spending a lot (VCF9120) changed over the years?
+954. Are people who express extremely liberal views more likely to believe in gender equality (VCF9112)?
+955. Is there a correlation between the number of politically eligible adults in the household (VCF9122) and support for the Government's involvement in maintaining a good standard of living (VCF9121)?
+956. Do those who believe in less government intervention (VCF9131) also support a decrease in defense spending (VCF9118)?
+957. How do extremely liberal individuals view the issue of the federal government's role in aid to Blacks (VCF9119)?
+958. What is the distribution of citizens that believe the government has gotten too involved in things under the variable VCF9133?
+959. Under the variable VCF9134, how many responses were valid verses missing?
+960. What are the mean, median, and mode of the ELECTION OFFICE NUMBER (VCF9149)?
+961. What proportion of the respondents report being registered voters (VCF9150)?
+962. Among those who reported being registered, how many reported to have voted (VCF9151)?
+963. Under VCF9152, what is the proportion of the people who attempted to validate their registration?
+964. Is there a correlation between voter registration status (VCF9150) and voter turnout (VCF9151)?
+965. Is there a significant difference in voter registration (VCF9150) across different election offices (VCF9149)?
+966. Did the registration validation attempt (VCF9152) have any effect on voter turnout (VCF9151)?
+967. Were respondents more likely to self-report turnout (VCF9151) where office voting records (VCF9153) were adequate?
+968. Did the status of office voting records (VCF9153) have an impact on the validation of registration (VCF9154)?
+969. How many respondents had their vote validated (VCF9155), and how does this relate to self-reported turnout (VCF9151)?
+970. What is the relationship between registration validation outcome (VCF9154) and vote validation outcome (VCF9155)?
+971. How do the respondents' attitudes towards presidency, as stated in VCF9206, correlate with their supposed political affiliations (VCF9204, VCF9205)?
+972. What is the distribution of respondents who strongly dislike some aspects of politics (VCF9201, VCF9202, VCF9207)?
+973. Over the years, has there been a change in the proportion of respondents who feel the government has become too involved in things (VCF9133)?
+974. For respondents who haven’t heard of political figures or issues (indicated by -7 in VCF9201, VCF9202, VCF9207), do they show a lower rate of voting (VCF9151)?
+975. From the data, can we infer that respondents who feel the government is too involved in things (VCF9133) are more likely to be registered but not vote (VCF9151, VCF9150)?
+976. Could party control (VCF9206) impact people’s perception of the government's involvement in issues (VCF9133)?
+977. Over the years, has there been an observable change in attitudes towards political parties (VCF9204, VCF9205)?
+978. What is the distribution of responses for VCF9208 (attitude towards a political figure)?
+979. How well can respondents describe the Democratic Presidential Candidate according to VCF9209 and VCF9210, across years 2008 and 2012?
+980. What are the summary statistics for the opinions on the current U.S. president's handling of foreign affairs (VCF9217)?
+981. How well are respondents able to describe the Republican Presidential Candidate according to VCF9213 and VCF9214?
+982. What is the correlation between participants' feelings towards the Democratic Presidential Candidate (VCF9209 and VCF9210) and the Republican Presidential Candidate (VCF9213 and VCF9214)?
+983. How has the general opinion on the economy (VCF9220) changed over time, according to survey responses?
+984. Is there a correlation between the approval of how the current U.S. president is handling foreign affairs (VCF9217) and the perception of the U.S. economy's direction (VCF9220)?
+985. How has the perception of the difference between the rich and poor in the U.S. (VCF9227) changed over time?
+986. What is the relationship between respondents' investment in the stock market (VCF9224) and their perception of the economy's direction (VCF9220)?
+987. How is the perception of the government's job over the last term (VCF9221) correlated with feelings towards the current U.S. President's handling of foreign affairs (VCF9217)?
+988. How well can the respondents describe the Democratic and Republican Presidential Candidate (VCF9209, VCF9210, VCF9213, VCF9214), depending on whether they have a more secure perception of national affairs (VCF9219)?
+989. Are individuals who believe the economy has gotten better or worse (VCF9220) more likely to invest in the stock market (VCF9224)?
+990. Is there a trend over time in attitudes towards the direction the country is headed (VCF9222)?
+991. How do responses vary by year for people's perceptions of how well the government has done in general over the last term (VCF9221)?
+992. Does the perceived handling of foreign affairs (VCF9217) impact how respondents describe the Democratic or Republican Presidential Candidate (VCF9209, VCF9210, VCF9213, VCF9214)?
+993. Are people who rate the government's performance over the last term as very good (VCF9221) more likely to feel secure (VCF9219)?
+994. Does the belief that the gap between the rich and poor in the U.S. is larger (VCF9227) correlate with attitudes towards the government's effectiveness (VCF9221)?
+995. Are people more likely to approve of the President's handling of foreign
+996. What is the overall distribution of responses regarding income differences between rich and poor in the US (VCF9228)?
+997. What is the distribution of responses regarding employment situation (VCF9229)?
+998. How does the proportion of responses to discourage American companies to replace U.S (VCF9230) compare over different demographic groups (income, age, race)?
+999. What are the summary statistics for the responses to protect American jobs (VCF9231)?
+1000. How do those who favor new limits to protect American jobs (VCF9231) feel about making the rules more difficult for gun control (VCF9238)? Is there a correlation?
+1001. Is there a temporal trend in the views towards torturing suspects of terrorism (VCF9232)?
+1002. Is there a significant difference in the trust level (VCF9244) among those who believe that the income difference between the rich and the poor is much larger (VCF9228)?
+1003. What is the correlation between views on how often one can trust people total (VCF9244) and opinions on gun control (VCF9239)?
+1004. How is satisfaction with life (VCF9245) related to the views on income disparities between rich and poor (VCF9228)?
+1005. What is the mean position on the left-right scale placement(VCF9240) among those who favor making it more difficult to buy a gun (VCF9238)?
+1006. What is the distribution of attitudes towards the importance of gun control issue (VCF9239)?
+1007. Does the political origins (left or right; VCF9240) affect the views around torturing suspects of terrorism?
+1008. How does the proportion of responses favoring new limits to protect American jobs (VCF9231) change over time?
+1009. What is the correlation between favoring abortion (VCF9235, VCF9234) and viewing the income gap between rich and poor as much larger (VCF9228)?
+1010. Is there a statistically significant relationship between the participant's trust in people (VCF9244) and their stance on torturing terror suspects (VCF9232)?
+1011. How does the political position (left or right; VCF9240) correlate with attitudes towards abortion laws (VCF9234, VCF9235)?
+1012. How does satisfaction with life (VCF9245) vary with trust in people (VCF9244)?
+1013. How does the favorability of making it more difficult to buy a gun (VCF9238) change over different demographic groups (age, race, income)?
+1014. What is the relationship between the importance of gun control to the participant (VCF9239) and their political leanings (left or right; VCF9240)?
+1015. Is there a casual relationship between discouraging American companies to replace U.S (VCF9230) and more unemployment (VCF
+1016. What percentage of respondents report "Being considerate" (VCF9248)?
+1017. Are respondents who value “Independence” (VCF9249) more likely to believe that “It doesn't make a difference who is in power” (VCF9253)?
+1018. What is the distribution of responses for 'Won’t make a difference' (VCF9250)?
+1019. Is there a correlation between feeling that the US system "Works extremely well" (VCF9251) and frequently finding politics "complicated" (VCF9252)?
+1020. Do respondents who feel the system "works extremely well" (VCF9251) tend to be "Satisfied" or "Very Satisfied" with how it works in the U.S. (VCF9254, VCF9255)?
+1021. Has the percentage of respondents who are "Satisfied" with how the U.S. system works (VCF9254) changed over time?
+1022. Do respondents who believe that "It doesn’t make a difference who is in power" (VCF9253) also tend to say that political outcomes “Won’t make a difference” to them personally (VCF9250)?
+1023. What is the correlation between valuing independence (VCF9249) and political engagement (VCF9265)?
+1024. Are respondents who consider themselves "Considerate" (VCF9248) more likely to be involved in community or school activities (VCF9258)?
+1025. How many respondents could "correctly identify" the political information tested in VCF9260, VCF9261, and VCF9262?
+1026. Do respondents who reported using "English more" (VCF9266) also tend to correctly identify political information (VCF9260, VCF9261, VCF9262)?
+1027. Has the percentage of respondents identifying with the "Democratic Party" (VCF9263, VCF9264) changed over time?
+1028. What is the average "feelings thermometer" rating for Muslims (VCF9267)?
+1029. Do respondents who are "Very Satisfied" with how the U.S. system works (VCF9255) tend to have higher feelings thermometer ratings for Muslims (VCF9267)?
+1030. Is there a difference in the religious thermometer for Muslims (VCF9267) between respondents who correctly and incorrectly identify political information?
+1031. Is there a correlation between being considerate (VCF9248) and the feelings thermometer for Muslims (VCF9267)?
+1032. Have general opinion trends towards the feeling thermometer for Muslims (VCF9267) changed over time?
+1033. Does the beliefs that it doesn’t make a difference who is in power (VCF9253) decrease engagement within the community or schools (VCF9258)?
+1034. Are respondents who value independence (VCF9249) more likely to correctly identify political information
+1035. What is the average (mean) score of VCF9268 (THERMOMETER FOR: RICH PEOPLE)?
+1036. What is the frequency distribution of VCF9269 (THERMOMETER FOR: CHRISTIANS)?
+1037. What is the median and range of VCF9270?
+1038. Is there a significant correlation between VCF9268 (THERMOMETER FOR: RICH PEOPLE) and VCF9269 (THERMOMETER FOR: CHRISTIANS)?
+1039. Is there a significant difference between VCF9271 and VCF9272 when compared to VCF9273 and VCF9274?
+1040. What is the temporal trend (over the years, if year variable is present) of VCF9268 (THERMOMETER FOR: RICH PEOPLE)?
+1041. Based on VCF9269 (THERMOMETER FOR: CHRISTIANS) and VCF9268 (THERMOMETER FOR: RICH PEOPLE), can we infer if religion influences opinions towards rich people?
+1042. Does the perception of people being hard-working (VCF9270 - VCF9273) have any correlation with the influence they are perceived to have (VCF9274, VCF9275)?
+1043. Is there a relationship between VCF9279 (STRAIGHT, HOMOSEXUAL OR [GAY/LESBIAN], OR) and VCF9269 (THERMOMETER FOR: CHRISTIANS)?
+1044. Among those living with family members (VCF9282), is there a difference in scores for VCF9268 (THERMOMETER FOR: RICH PEOPLE)?
+1045. What is the distribution of VCF9281?
+1046. Can VCF9274 and VCF9275 predict VCF9268 (THERMOMETER FOR: RICH PEOPLE)?
+1047. What is the correlation between VCF9277 and VCF9278?
+1048. Does VCF9278 affect VCF9280?
+1049. Can too much influence (VCF9274, VCF9275) be associated with someone else (VCF9277)?
+1050. Does the answers to VCF9278 and VCF9281 change over a temporal trend (if year variable is present)?
+1051. Among the participants who identified as Heterosexual (VCF9279), what's their perception towards Christians (VCF9269) and rich people (VCF9268)?
+1052. Is the average response to VCF9271 different from VCF9272?
+1053. Can we use VCF9274 to predict the outcome of VCF9272?
+1054. Do people living with family members (VCF9282) tend to view others as "hard-working" (VCF9270 - VCF9273) more often than those who do not?
