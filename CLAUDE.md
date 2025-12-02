@@ -28,7 +28,7 @@ ruff check statqa tests
 mypy statqa --ignore-missing-imports
 
 # Format code
-black statqa tests
+ruff format statqa tests
 
 # Run tests with coverage
 pytest --cov=statqa --cov-report=html --cov-report=term-missing

@@ -147,10 +147,10 @@ Variable Information:
 - Name: {variable.name}
 - Label: {variable.label}
 - Current Type: {variable.var_type.value}
-- Description: {variable.description or 'Not provided'}
-- Valid Values: {variable.valid_values or 'Not provided'}
-- Missing Values: {variable.missing_values or 'Not provided'}
-- Units: {variable.units or 'Not provided'}{context}
+- Description: {variable.description or "Not provided"}
+- Valid Values: {variable.valid_values or "Not provided"}
+- Missing Values: {variable.missing_values or "Not provided"}
+- Units: {variable.units or "Not provided"}{context}
 
 Please provide a JSON response with the following enrichments:
 

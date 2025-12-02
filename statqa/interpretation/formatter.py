@@ -30,7 +30,11 @@ class InsightFormatter:
 
         if result["type"] in ["numeric_continuous", "numeric_discrete"]:
             return self._format_numeric_univariate(result, var_label)
-        elif result["type"] in ["categorical_nominal", "categorical_ordinal", "boolean"]:
+        elif result["type"] in [
+            "categorical_nominal",
+            "categorical_ordinal",
+            "boolean",
+        ]:
             return self._format_categorical_univariate(result, var_label)
         else:
             return f"{var_label}: Analysis not available for this variable type."
@@ -98,7 +102,7 @@ class InsightFormatter:
         # Main description
         if mode is not None:
             mode_label = next(iter(freq_dict.keys())) if freq_dict else str(mode)
-            text = f"**{label}**: most common category is '{mode_label}' " f"({mode_freq:.1f}%)"
+            text = f"**{label}**: most common category is '{mode_label}' ({mode_freq:.1f}%)"
         else:
             text = f"**{label}**: {n_unique} categories"
 
@@ -303,7 +307,7 @@ class InsightFormatter:
         # Model fit
         if "model_fit" in result:
             r2 = result["model_fit"]["adj_r_squared"]
-            text += f". Model explains {r2*100:.1f}% of variance"
+            text += f". Model explains {r2 * 100:.1f}% of variance"
 
         # Sensitivity
         if "sensitivity" in result and result["sensitivity"].get("confounding", {}).get(
@@ -343,7 +347,11 @@ class InsightFormatter:
             return self.format_temporal(result)
         elif analysis_type == "treatment_effect":
             return self.format_causal(result)
-        elif analysis_type in ["numeric_numeric", "categorical_categorical", "categorical_numeric"]:
+        elif analysis_type in [
+            "numeric_numeric",
+            "categorical_categorical",
+            "categorical_numeric",
+        ]:
             return self.format_bivariate(result)
         else:
             return self.format_univariate(result)

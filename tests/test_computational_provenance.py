@@ -17,7 +17,9 @@ class TestComputationalProvenance:
         data = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0], name="test_var")
 
         variable = Variable(
-            name="test_var", label="Test Variable", var_type=VariableType.NUMERIC_CONTINUOUS
+            name="test_var",
+            label="Test Variable",
+            var_type=VariableType.NUMERIC_CONTINUOUS,
         )
 
         # Run analysis
@@ -71,7 +73,9 @@ class TestComputationalProvenance:
         data = pd.Series([4.3, 5.8, 6.1, 5.2, 7.9], name="sepal_length")
 
         variable = Variable(
-            name="sepal_length", label="Sepal Length", var_type=VariableType.NUMERIC_CONTINUOUS
+            name="sepal_length",
+            label="Sepal Length",
+            var_type=VariableType.NUMERIC_CONTINUOUS,
         )
 
         # Run full pipeline

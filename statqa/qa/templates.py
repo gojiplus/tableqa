@@ -54,8 +54,9 @@ class QuestionTemplate:
             return self._generate_correlational(insight, answer)
         elif self.question_type == QuestionType.DISTRIBUTIONAL:
             return self._generate_distributional(insight, answer)
-        else:
-            return []
+
+        # This should never be reached due to enum constraint
+        raise ValueError(f"Unknown question type: {self.question_type}")
 
     def _generate_descriptive(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
         """Generate descriptive questions (univariate statistics)."""

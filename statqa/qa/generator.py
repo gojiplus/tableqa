@@ -72,7 +72,10 @@ class QAGenerator:
                 )
 
     def _create_provenance(
-        self, insight: dict[str, Any], method: str = "template", variables: list[str] | None = None
+        self,
+        insight: dict[str, Any],
+        method: str = "template",
+        variables: list[str] | None = None,
     ) -> dict[str, Any]:
         """
         Create provenance metadata for a Q/A pair.
@@ -211,7 +214,7 @@ class QAGenerator:
         prompt = f"""Given these questions about a statistical finding, generate {self.paraphrase_count} natural paraphrases for each.
 
 Original Questions:
-{chr(10).join(f'{i+1}. {q}' for i, q in enumerate(original_questions))}
+{chr(10).join(f"{i + 1}. {q}" for i, q in enumerate(original_questions))}
 
 Answer (for context):
 {answer}

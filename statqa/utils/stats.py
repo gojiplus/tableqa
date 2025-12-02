@@ -7,7 +7,7 @@ from statsmodels.stats import multitest
 
 
 def calculate_effect_size(
-    data1: pd.Series | np.ndarray,
+    data1: pd.Series | np.ndarray | float,
     data2: pd.Series | np.ndarray | None = None,
     effect_type: str = "cohen_d",
 ) -> float:
@@ -32,10 +32,9 @@ def calculate_effect_size(
 
     elif effect_type == "r_to_d":
         # Convert correlation to Cohen's d
-        if isinstance(data1, int | float):
-            r = data1
-        else:
-            raise ValueError("r_to_d expects a correlation coefficient")
+        if not isinstance(data1, int | float):
+            raise ValueError("r_to_d expects a correlation coefficient (float)")
+        r = float(data1)
         return 2 * r / np.sqrt(1 - r**2)
 
     elif effect_type == "eta_squared":
