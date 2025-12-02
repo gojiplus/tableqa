@@ -25,6 +25,8 @@
 - **🔬 Statistical Rigor**: Multiple testing correction, effect sizes, normality tests
 - **⚡ Modern Python**: Type-safe (Pydantic), async-ready, fully typed
 
+> **📖 For detailed documentation, tutorials, and API reference, visit [StatQA Documentation](https://gojiplus.github.io/statqa)**
+
 ## 📦 Installation
 
 ### Basic Installation
@@ -429,14 +431,12 @@ pytest --cov=statqa --cov-report=html
 ### Code Quality
 
 ```bash
-# Linting
+# Linting and formatting
 ruff check statqa tests
+ruff format statqa tests
 
 # Type checking
-mypy statqa
-
-# Formatting
-black statqa tests
+mypy statqa --ignore-missing-imports
 ```
 
 ### Building Documentation

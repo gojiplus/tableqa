@@ -71,9 +71,10 @@ dev = [
 ]
 docs = [
     "sphinx>=7.0.0",
-    "sphinx-rtd-theme>=2.0.0",
+    "furo>=2024.7.18",
     "myst-parser>=2.0.0",
     "sphinx-autodoc-typehints>=1.24.0",
+    "linkify-it-py>=2.0.0",
 ]
 all = [
     "statqa[llm,pdf,statistical-formats,dev,docs]",

@@ -32,15 +32,36 @@ extensions = [
 myst_enable_extensions = [
     "colon_fence",
     "deflist",
+    "fieldlist",
+    "html_admonition",
+    "html_image",
+    "linkify",
+    "replacements",
+    "smartquotes",
+    "strikethrough",
+    "substitution",
+    "tasklist",
 ]
+
+# Configure file inclusion
+myst_fence_as_directive = ["mermaid"]
 
 # Templates
 templates_path = ["_templates"]
 exclude_patterns = []
 
 # HTML output
-html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 html_static_path = ["_static"]
+
+# Furo theme options
+html_theme_options = {
+    "sidebar_hide_name": False,
+    "navigation_with_keys": True,
+    "source_repository": "https://github.com/gojiplus/statqa",
+    "source_branch": "main",
+    "source_directory": "docs/source/",
+}
 
 # Intersphinx
 intersphinx_mapping = {
