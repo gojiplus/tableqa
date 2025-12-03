@@ -1,4 +1,4 @@
-# StatQA
+# StatQA: Extract Multimodal Stats Q/A from Tables With Provenance
 
 [![PyPI version](https://img.shields.io/pypi/v/statqa.svg)](https://pypi.org/project/statqa/)
 [![CI](https://github.com/gojiplus/statqa/actions/workflows/ci.yml/badge.svg)](https://github.com/gojiplus/statqa/actions/workflows/ci.yml)
