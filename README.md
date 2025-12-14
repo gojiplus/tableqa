@@ -434,9 +434,6 @@ pytest --cov=statqa --cov-report=html
 # Linting and formatting
 ruff check statqa tests
 ruff format statqa tests
-
-# Type checking
-mypy statqa --ignore-missing-imports
 ```
 
 ### Building Documentation

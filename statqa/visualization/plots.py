@@ -4,12 +4,16 @@ Plotting utilities for statistical visualizations.
 Creates publication-quality plots for insights.
 """
 
+from __future__ import annotations
+
 from pathlib import Path
+from typing import Any, Literal
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from matplotlib.figure import Figure
 
 from statqa.metadata.schema import Variable
 
@@ -19,8 +23,8 @@ class PlotFactory:
 
     def __init__(
         self,
-        style: str = "whitegrid",
-        context: str = "notebook",
+        style: Literal["whitegrid", "darkgrid", "white", "dark", "ticks"] = "whitegrid",
+        context: Literal["paper", "notebook", "talk", "poster"] = "notebook",
         figsize: tuple[int, int] = (8, 6),
         dpi: int = 100,
     ) -> None:
@@ -40,11 +44,11 @@ class PlotFactory:
 
     def plot_univariate(
         self,
-        data: pd.Series,
+        data: pd.Series[Any],
         variable: Variable,
         output_path: str | Path | None = None,
         return_metadata: bool = False,
-    ) -> plt.Figure | tuple[plt.Figure, dict]:
+    ) -> Figure | tuple[Figure, dict[str, Any]]:
         """
         Create univariate plot (histogram or bar chart).
 
@@ -91,7 +95,7 @@ class PlotFactory:
         var2: Variable,
         output_path: str | Path | None = None,
         return_metadata: bool = False,
-    ) -> plt.Figure | tuple[plt.Figure, dict]:
+    ) -> Figure | tuple[Figure, dict[str, Any]]:
         """
         Create bivariate plot (scatter, box, or heatmap).
 
@@ -306,7 +310,7 @@ class PlotFactory:
 
     def _generate_univariate_metadata(
         self,
-        data: pd.Series,
+        data: pd.Series[Any],
         variable: Variable,
         plot_type: str,
         output_path: str | Path | None,

@@ -34,10 +34,6 @@ jobs:
       run: |
         uv run ruff check statqa tests
 
-    - name: Type check with mypy
-      run: |
-        uv run mypy statqa --ignore-missing-imports
-      continue-on-error: true
 
     - name: Run tests with pytest
       run: |

@@ -1,10 +1,12 @@
 """Consistent theming for visualizations."""
 
+from typing import Literal
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def setup_theme(style: str = "publication") -> None:
+def setup_theme(style: Literal["publication", "presentation", "notebook"] = "publication") -> None:
     """
     Set up matplotlib/seaborn theme.
 

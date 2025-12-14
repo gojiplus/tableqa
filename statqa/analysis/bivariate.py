@@ -14,6 +14,7 @@ import pandas as pd
 from scipy import stats
 
 from statqa.metadata.schema import Variable
+from statqa.types import BivariateResult
 from statqa.utils.stats import calculate_effect_size, cramers_v
 
 
@@ -43,7 +44,7 @@ class BivariateAnalyzer:
         data: pd.DataFrame,
         var1: Variable,
         var2: Variable,
-    ) -> dict[str, Any] | None:
+    ) -> BivariateResult | None:
         """
         Analyze relationship between two variables.
 

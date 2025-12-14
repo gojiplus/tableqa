@@ -9,6 +9,7 @@ Provides commands for:
 """
 
 from pathlib import Path
+from typing import Literal
 
 import typer
 from rich.console import Console
@@ -19,6 +20,7 @@ from statqa.analysis.bivariate import BivariateAnalyzer
 from statqa.analysis.univariate import UnivariateAnalyzer
 from statqa.interpretation.formatter import InsightFormatter
 from statqa.metadata.enricher import MetadataEnricher
+from statqa.metadata.parsers.base import BaseParser
 from statqa.metadata.parsers.csv import CSVParser
 from statqa.metadata.parsers.text import TextParser
 
@@ -49,11 +51,13 @@ def version() -> None:
 def parse_codebook(
     codebook_path: Path = typer.Argument(..., help="Path to codebook file"),
     output: Path = typer.Option("codebook.json", "--output", "-o", help="Output JSON file"),
-    format: str = typer.Option(
+    format: Literal["auto", "text", "csv", "statistical"] = typer.Option(
         "auto", "--format", "-f", help="Codebook format (auto, text, csv, statistical)"
     ),
     enrich: bool = typer.Option(False, "--enrich", help="Enrich metadata with LLM"),
-    llm_provider: str = typer.Option("openai", "--llm-provider", help="LLM provider"),
+    llm_provider: Literal["openai", "anthropic"] = typer.Option(
+        "openai", "--llm-provider", help="LLM provider"
+    ),
     api_key: str | None = typer.Option(None, "--api-key", help="LLM API key"),
 ) -> None:
     """Parse a codebook and extract metadata."""
@@ -62,12 +66,12 @@ def parse_codebook(
     # Select parser
     if format == "auto":
         # Try parsers in order - statistical first since it's more specific
-        parsers = []
+        parsers: list[BaseParser] = []
         if HAS_STATISTICAL_PARSER:
             parsers.append(StatisticalFormatParser())
         parsers.extend([CSVParser(), TextParser()])
 
-        parser = None
+        parser: BaseParser | None = None
         for p in parsers:
             if p.validate(codebook_path):
                 parser = p
@@ -75,20 +79,22 @@ def parse_codebook(
         if not parser:
             console.print("[red]Error:[/red] Could not determine codebook format")
             raise typer.Exit(1)
-    elif format == "csv":
-        parser = CSVParser()
-    elif format == "text":
-        parser = TextParser()
-    elif format == "statistical":
-        if not HAS_STATISTICAL_PARSER:
-            console.print(
-                "[red]Error:[/red] Statistical format support not available. Install with: pip install statqa[statistical-formats]"
-            )
-            raise typer.Exit(1)
-        parser = StatisticalFormatParser()
     else:
-        console.print(f"[red]Error:[/red] Unknown format: {format}")
-        raise typer.Exit(1)
+        match format:
+            case "csv":
+                parser = CSVParser()
+            case "text":
+                parser = TextParser()
+            case "statistical":
+                if not HAS_STATISTICAL_PARSER:
+                    console.print(
+                        "[red]Error:[/red] Statistical format support not available. Install with: pip install statqa[statistical-formats]"
+                    )
+                    raise typer.Exit(1)
+                parser = StatisticalFormatParser()
+            case _:
+                console.print(f"[red]Error:[/red] Unknown format: {format}")
+                raise typer.Exit(1)
 
     # Parse
     codebook = parser.parse(codebook_path)
@@ -201,9 +207,11 @@ def generate_qa(
     insights_path: Path = typer.Argument(..., help="Path to insights JSON"),
     output: Path = typer.Option("qa_pairs.jsonl", "--output", "-o", help="Output JSONL file"),
     use_llm: bool = typer.Option(False, "--llm", help="Use LLM for paraphrasing"),
-    llm_provider: str = typer.Option("openai", "--llm-provider", help="LLM provider"),
+    llm_provider: Literal["openai", "anthropic"] = typer.Option(
+        "openai", "--llm-provider", help="LLM provider"
+    ),
     api_key: str | None = typer.Option(None, "--api-key", help="LLM API key"),
-    export_format: str = typer.Option(
+    export_format: Literal["jsonl", "openai", "anthropic"] = typer.Option(
         "jsonl", "--format", "-f", help="Export format (jsonl, openai, anthropic)"
     ),
 ) -> None:

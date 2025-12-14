@@ -10,7 +10,7 @@ import json
 import logging
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 
 try:
@@ -42,7 +42,7 @@ class QAGenerator:
     def __init__(
         self,
         use_llm: bool = False,
-        llm_provider: str = "openai",
+        llm_provider: Literal["openai", "anthropic"] = "openai",
         llm_model: str | None = None,
         api_key: str | None = None,
         paraphrase_count: int = 2,

@@ -7,6 +7,8 @@ Performs descriptive statistics for single variables including:
 - Missing: missingness analysis
 """
 
+from __future__ import annotations
+
 from typing import Any
 
 import numpy as np
@@ -14,6 +16,7 @@ import pandas as pd
 from scipy import stats
 
 from statqa.metadata.schema import Variable
+from statqa.types import UnivariateResult
 from statqa.utils.stats import detect_outliers, robust_stats
 
 
@@ -31,7 +34,7 @@ class UnivariateAnalyzer:
         self.handle_outliers = handle_outliers
         self.robust = robust
 
-    def analyze(self, data: pd.Series, variable: Variable) -> dict[str, Any]:
+    def analyze(self, data: pd.Series[Any], variable: Variable) -> UnivariateResult:
         """
         Analyze a single variable.
 

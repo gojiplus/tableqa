@@ -6,7 +6,7 @@ providing type-safe, validated models with rich metadata support.
 """
 
 from enum import Enum
-from typing import Any
+from typing import Any, Final
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -14,35 +14,35 @@ from pydantic import BaseModel, Field, field_validator
 class VariableType(str, Enum):
     """Statistical type of a variable."""
 
-    NUMERIC_CONTINUOUS = "numeric_continuous"
-    NUMERIC_DISCRETE = "numeric_discrete"
-    CATEGORICAL_NOMINAL = "categorical_nominal"
-    CATEGORICAL_ORDINAL = "categorical_ordinal"
-    DATETIME = "datetime"
-    TEXT = "text"
-    BOOLEAN = "boolean"
-    UNKNOWN = "unknown"
+    NUMERIC_CONTINUOUS: Final = "numeric_continuous"
+    NUMERIC_DISCRETE: Final = "numeric_discrete"
+    CATEGORICAL_NOMINAL: Final = "categorical_nominal"
+    CATEGORICAL_ORDINAL: Final = "categorical_ordinal"
+    DATETIME: Final = "datetime"
+    TEXT: Final = "text"
+    BOOLEAN: Final = "boolean"
+    UNKNOWN: Final = "unknown"
 
 
 class DataGeneratingProcess(str, Enum):
     """How the data was generated."""
 
-    OBSERVATIONAL = "observational"
-    EXPERIMENTAL = "experimental"
-    QUASI_EXPERIMENTAL = "quasi_experimental"
-    SURVEY = "survey"
-    ADMINISTRATIVE = "administrative"
-    SIMULATION = "simulation"
-    UNKNOWN = "unknown"
+    OBSERVATIONAL: Final = "observational"
+    EXPERIMENTAL: Final = "experimental"
+    QUASI_EXPERIMENTAL: Final = "quasi_experimental"
+    SURVEY: Final = "survey"
+    ADMINISTRATIVE: Final = "administrative"
+    SIMULATION: Final = "simulation"
+    UNKNOWN: Final = "unknown"
 
 
 class MissingPattern(str, Enum):
     """Pattern of missing data."""
 
-    MCAR = "mcar"  # Missing Completely At Random
-    MAR = "mar"  # Missing At Random
-    MNAR = "mnar"  # Missing Not At Random
-    UNKNOWN = "unknown"
+    MCAR: Final = "mcar"  # Missing Completely At Random
+    MAR: Final = "mar"  # Missing At Random
+    MNAR: Final = "mnar"  # Missing Not At Random
+    UNKNOWN: Final = "unknown"
 
 
 class Variable(BaseModel):

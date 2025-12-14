@@ -1,15 +1,24 @@
 """Statistical utilities and helper functions."""
 
+from __future__ import annotations
+
+from typing import Any, Literal
+
 import numpy as np
 import pandas as pd
 from scipy import stats
 from statsmodels.stats import multitest
 
 
+# Type aliases for better readability
+FloatArray = np.ndarray[Any, np.dtype[np.floating[Any]]]
+IntArray = np.ndarray[Any, np.dtype[np.integer[Any]]]
+
+
 def calculate_effect_size(
-    data1: pd.Series | np.ndarray | float,
-    data2: pd.Series | np.ndarray | None = None,
-    effect_type: str = "cohen_d",
+    data1: pd.Series[Any] | FloatArray | float,
+    data2: pd.Series[Any] | FloatArray | None = None,
+    effect_type: Literal["cohen_d", "r_to_d", "cramers_v", "eta_squared"] = "cohen_d",
 ) -> float:
     """
     Calculate effect size for statistical tests.
@@ -28,6 +37,8 @@ def calculate_effect_size(
     if effect_type == "cohen_d":
         if data2 is None:
             raise ValueError("cohen_d requires two samples")
+        if isinstance(data1, float):
+            raise ValueError("cohen_d requires array-like data, not scalar")
         return cohens_d(data1, data2)
 
     elif effect_type == "r_to_d":
@@ -35,7 +46,7 @@ def calculate_effect_size(
         if not isinstance(data1, int | float):
             raise ValueError("r_to_d expects a correlation coefficient (float)")
         r = float(data1)
-        return 2 * r / np.sqrt(1 - r**2)
+        return float(2 * r / np.sqrt(1 - r**2))
 
     elif effect_type == "eta_squared":
         # For ANOVA - expects F-statistic and degrees of freedom
@@ -45,7 +56,7 @@ def calculate_effect_size(
         raise ValueError(f"Unknown effect_type: {effect_type}")
 
 
-def cohens_d(group1: pd.Series | np.ndarray, group2: pd.Series | np.ndarray) -> float:
+def cohens_d(group1: pd.Series[Any] | FloatArray, group2: pd.Series[Any] | FloatArray) -> float:
     """
     Calculate Cohen's d effect size for two groups.
 
@@ -70,10 +81,10 @@ def cohens_d(group1: pd.Series | np.ndarray, group2: pd.Series | np.ndarray) -> 
     pooled_std = np.sqrt(((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2))
 
     # Cohen's d
-    return (np.mean(group1) - np.mean(group2)) / pooled_std
+    return float((np.mean(group1) - np.mean(group2)) / pooled_std)
 
 
-def cramers_v(contingency_table: pd.DataFrame | np.ndarray) -> float:
+def cramers_v(contingency_table: pd.DataFrame | IntArray) -> float:
     """
     Calculate Cramér's V effect size for categorical associations.
 
@@ -90,14 +101,14 @@ def cramers_v(contingency_table: pd.DataFrame | np.ndarray) -> float:
         else contingency_table.sum()
     )
     min_dim = min(contingency_table.shape) - 1
-    return np.sqrt(chi2 / (n * min_dim))
+    return float(np.sqrt(chi2 / (n * min_dim)))
 
 
 def correct_multiple_testing(
-    p_values: list[float] | np.ndarray,
-    method: str = "fdr_bh",
+    p_values: list[float] | FloatArray,
+    method: Literal["bonferroni", "fdr_bh", "fdr_by"] = "fdr_bh",
     alpha: float = 0.05,
-) -> tuple[np.ndarray, np.ndarray]:
+) -> tuple[FloatArray, FloatArray]:
     """
     Apply multiple testing correction to p-values.
 
@@ -130,7 +141,7 @@ def correct_multiple_testing(
     return reject, corrected
 
 
-def robust_stats(data: pd.Series | np.ndarray) -> dict[str, float]:
+def robust_stats(data: pd.Series[Any] | FloatArray) -> dict[str, float]:
     """
     Calculate robust statistics for potentially outlier-heavy data.
 
@@ -171,8 +182,10 @@ def robust_stats(data: pd.Series | np.ndarray) -> dict[str, float]:
 
 
 def detect_outliers(
-    data: pd.Series | np.ndarray, method: str = "iqr", threshold: float = 1.5
-) -> np.ndarray:
+    data: pd.Series[Any] | FloatArray,
+    method: Literal["iqr", "mad", "zscore"] = "iqr",
+    threshold: float = 1.5,
+) -> FloatArray:
     """
     Detect outliers in data.
 
@@ -212,10 +225,10 @@ def detect_outliers(
     else:
         raise ValueError(f"Unknown outlier detection method: {method}")
 
-    return outliers
+    return outliers.astype(float)
 
 
-def mann_kendall_trend(series: pd.Series | np.ndarray) -> dict[str, float]:
+def mann_kendall_trend(series: pd.Series[Any] | FloatArray) -> dict[str, float | str]:
     """
     Perform Mann-Kendall trend test for temporal data.
 

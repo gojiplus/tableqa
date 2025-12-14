@@ -24,9 +24,6 @@ uv sync --all-extras
 # Run all linting checks
 ruff check statqa tests
 
-# Type checking
-mypy statqa --ignore-missing-imports
-
 # Format code
 ruff format statqa tests
 

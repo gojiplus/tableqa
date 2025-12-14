@@ -11,7 +11,9 @@ Uses language models to verify, infer, and enrich variable metadata including:
 
 import json
 import logging
-from typing import Any
+from typing import Any, Literal
+
+from statqa.exceptions import EnrichmentError, LLMConnectionError, LLMResponseError
 
 
 try:
@@ -43,7 +45,7 @@ class MetadataEnricher:
 
     def __init__(
         self,
-        provider: str = "openai",
+        provider: Literal["openai", "anthropic"] = "openai",
         model: str | None = None,
         api_key: str | None = None,
         **kwargs: Any,
@@ -60,18 +62,23 @@ class MetadataEnricher:
         self.provider = provider.lower()
         self.kwargs = kwargs
 
-        if self.provider == "openai":
-            if not HAS_OPENAI:
-                raise ImportError("openai package required. Install with: pip install openai")
-            self.client = openai.OpenAI(api_key=api_key) if api_key else openai.OpenAI()
-            self.model = model or "gpt-4"
-        elif self.provider == "anthropic":
-            if not HAS_ANTHROPIC:
-                raise ImportError("anthropic package required. Install with: pip install anthropic")
-            self.client = anthropic.Anthropic(api_key=api_key) if api_key else anthropic.Anthropic()
-            self.model = model or "claude-3-sonnet-20240229"
-        else:
-            raise ValueError(f"Unknown provider: {provider}")
+        match self.provider:
+            case "openai":
+                if not HAS_OPENAI:
+                    raise ImportError("openai package required. Install with: pip install openai")
+                self.client = openai.OpenAI(api_key=api_key) if api_key else openai.OpenAI()
+                self.model = model or "gpt-4"
+            case "anthropic":
+                if not HAS_ANTHROPIC:
+                    raise ImportError(
+                        "anthropic package required. Install with: pip install anthropic"
+                    )
+                self.client = (
+                    anthropic.Anthropic(api_key=api_key) if api_key else anthropic.Anthropic()
+                )
+                self.model = model or "claude-3-sonnet-20240229"
+            case _:
+                raise ValueError(f"Unknown provider: {provider}")
 
     def enrich_variable(self, variable: Variable, dataset_context: str | None = None) -> Variable:
         """
@@ -107,8 +114,15 @@ class MetadataEnricher:
                 if "is_confounder" in enrichment:
                     variable.is_confounder = enrichment["is_confounder"]
 
+        except (ConnectionError, TimeoutError) as e:
+            logger.error(f"LLM connection failed for variable {variable.name}: {e}")
+            raise LLMConnectionError(f"Failed to connect to LLM service: {e}") from e
+        except (KeyError, json.JSONDecodeError, ValueError) as e:
+            logger.warning(f"Failed to parse LLM response for variable {variable.name}: {e}")
+            raise LLMResponseError(f"Invalid LLM response format: {e}") from e
         except Exception as e:
-            logger.warning(f"Failed to enrich variable {variable.name}: {e}")
+            logger.warning(f"Unexpected error enriching variable {variable.name}: {e}")
+            raise EnrichmentError(f"Unexpected enrichment error: {e}") from e
 
         return variable
 
@@ -220,34 +234,35 @@ Return ONLY valid JSON.
 
     def _call_llm(self, prompt: str, max_tokens: int = 600) -> str:
         """Call the configured LLM."""
-        if self.provider == "openai":
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a statistical data analyst helping to understand and classify dataset variables.",
-                    },
-                    {"role": "user", "content": prompt},
-                ],
-                max_tokens=max_tokens,
-                temperature=0.3,  # Lower temperature for more deterministic output
-                **self.kwargs,
-            )
-            return response.choices[0].message.content or ""
+        match self.provider:
+            case "openai":
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a statistical data analyst helping to understand and classify dataset variables.",
+                        },
+                        {"role": "user", "content": prompt},
+                    ],
+                    max_tokens=max_tokens,
+                    temperature=0.3,  # Lower temperature for more deterministic output
+                    **self.kwargs,
+                )
+                return response.choices[0].message.content or ""
 
-        elif self.provider == "anthropic":
-            response = self.client.messages.create(
-                model=self.model,
-                max_tokens=max_tokens,
-                temperature=0.3,
-                system="You are a statistical data analyst helping to understand and classify dataset variables.",
-                messages=[{"role": "user", "content": prompt}],
-                **self.kwargs,
-            )
-            return response.content[0].text
-
-        raise ValueError(f"Unknown provider: {self.provider}")
+            case "anthropic":
+                response = self.client.messages.create(
+                    model=self.model,
+                    max_tokens=max_tokens,
+                    temperature=0.3,
+                    system="You are a statistical data analyst helping to understand and classify dataset variables.",
+                    messages=[{"role": "user", "content": prompt}],
+                    **self.kwargs,
+                )
+                return response.content[0].text
+            case _:
+                raise ValueError(f"Unknown provider: {self.provider}")
 
     def _parse_enrichment_response(self, response: str) -> dict[str, Any]:
         """Parse LLM response into enrichment data."""

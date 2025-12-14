@@ -145,42 +145,43 @@ class TextParser(BaseParser):
                 key = key.strip().lower()
                 value = value.strip()
 
-                if key == "label":
-                    data["label"] = value
-                elif key == "type":
-                    data["var_type"] = self._parse_type(value)
-                elif key == "units":
-                    data["units"] = value
-                elif key == "range":
-                    min_val, max_val = self._parse_range(value)
-                    data["range_min"] = min_val
-                    data["range_max"] = max_val
-                elif key == "missing":
-                    data["missing_values"] = self._parse_missing(value)
-                elif key == "description":
-                    # Description might be multi-line
-                    desc_lines = [value]
-                    while i < len(lines) and not re.match(r"^[A-Z][a-z]+:", lines[i]):
-                        desc_lines.append(lines[i].strip())
-                        i += 1
-                    data["description"] = " ".join(desc_lines)
-                elif key == "values":
-                    # Parse value mappings (next lines indented)
-                    values = {}
-                    while i < len(lines) and lines[i].startswith(" "):
-                        val_line = lines[i].strip()
-                        if ":" in val_line:
-                            code, label = val_line.split(":", 1)
-                            try:
-                                values[int(code.strip())] = label.strip()
-                            except ValueError:
-                                values[code.strip()] = label.strip()
-                        i += 1
-                    data["valid_values"] = values
-                elif key == "dgp":
-                    data["dgp"] = self._parse_dgp(value)
-                elif key == "notes":
-                    data["notes"] = value
+                match key:
+                    case "label":
+                        data["label"] = value
+                    case "type":
+                        data["var_type"] = self._parse_type(value)
+                    case "units":
+                        data["units"] = value
+                    case "range":
+                        min_val, max_val = self._parse_range(value)
+                        data["range_min"] = min_val
+                        data["range_max"] = max_val
+                    case "missing":
+                        data["missing_values"] = self._parse_missing(value)
+                    case "description":
+                        # Description might be multi-line
+                        desc_lines = [value]
+                        while i < len(lines) and not re.match(r"^[A-Z][a-z]+:", lines[i]):
+                            desc_lines.append(lines[i].strip())
+                            i += 1
+                        data["description"] = " ".join(desc_lines)
+                    case "values":
+                        # Parse value mappings (next lines indented)
+                        values = {}
+                        while i < len(lines) and lines[i].startswith(" "):
+                            val_line = lines[i].strip()
+                            if ":" in val_line:
+                                code, label = val_line.split(":", 1)
+                                try:
+                                    values[int(code.strip())] = label.strip()
+                                except ValueError:
+                                    values[code.strip()] = label.strip()
+                            i += 1
+                        data["valid_values"] = values
+                    case "dgp":
+                        data["dgp"] = self._parse_dgp(value)
+                    case "notes":
+                        data["notes"] = value
 
         # Set default label if not provided
         if "label" not in data:
