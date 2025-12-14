@@ -44,6 +44,15 @@ pytest -m "not llm"         # Exclude LLM API tests
 cd docs && make html
 ```
 
+### Debugging
+```bash
+# Enable debug logging to troubleshoot issues
+STATQA_DEBUG=1 python your_script.py
+
+# Or when using the CLI
+STATQA_DEBUG=1 statqa analyze data.csv codebook.json
+```
+
 ### CLI Usage
 ```bash
 # Parse codebook

@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "statqa"
-version = "0.2.0"
+version = "0.3.0"
 description = "Automatically extract structured facts, insights, and Q/A pairs from tabular datasets"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -22,7 +22,7 @@ keywords = [
     "data-science"
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
@@ -45,7 +45,6 @@ dependencies = [
     "pydantic>=2.0.0",
     "typer>=0.9.0",
     "rich>=13.0.0",
-    "tqdm>=4.65.0",
 ]
 
 [project.optional-dependencies]
@@ -58,6 +57,9 @@ pdf = [
 ]
 statistical-formats = [
     "pyreadstat>=1.3.0",
+]
+examples = [
+    "tqdm>=4.65.0",
 ]
 dev = [
     "pytest>=7.4.0",
@@ -76,7 +78,7 @@ docs = [
     "linkify-it-py>=2.0.0",
 ]
 all = [
-    "statqa[llm,pdf,statistical-formats,dev,docs]",
+    "statqa[llm,pdf,statistical-formats,examples,dev,docs]",
 ]
 
 [project.urls]
@@ -176,6 +178,8 @@ lines-after-imports = 2
 
 # Deptry configuration
 [tool.deptry]
-pep621_dev_dependency_groups = ["dev", "docs"]
+pep621_dev_dependency_groups = ["dev", "docs", "examples", "pdf", "llm", "statistical-formats"]
+known_first_party = ["statqa"]
+ignore = ["DEP004"]  # Allow optional dependencies
 
 # Ruff handles formatting - no need for black/isort

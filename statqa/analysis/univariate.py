@@ -17,7 +17,11 @@ from scipy import stats
 
 from statqa.metadata.schema import Variable
 from statqa.types import UnivariateResult
+from statqa.utils.logging import get_logger
 from statqa.utils.stats import detect_outliers, robust_stats
+
+
+logger = get_logger(__name__)
 
 
 class UnivariateAnalyzer:
@@ -45,8 +49,11 @@ class UnivariateAnalyzer:
         Returns:
             Dictionary with analysis results
         """
+        logger.debug(f"Analyzing variable '{variable.name}' (type: {variable.var_type})")
+
         # Clean missing values based on metadata
         clean_data = self._clean_missing(data, variable)
+        logger.debug(f"Data cleaning: {len(data)} total → {len(clean_data.dropna())} valid values")
 
         result: dict[str, Any] = {
             "variable": variable.name,

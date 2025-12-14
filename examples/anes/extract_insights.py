@@ -22,7 +22,6 @@ Dependencies:
 
 import argparse
 import json
-import logging
 import re
 import zipfile
 from pathlib import Path
@@ -34,15 +33,13 @@ from tqdm.auto import tqdm
 from statqa.analysis.univariate import UnivariateAnalyzer
 from statqa.interpretation.formatter import InsightFormatter
 from statqa.metadata.schema import Variable, VariableType
+
+# Configure logging
+from statqa.utils.logging import setup_logging
 from statqa.visualization.plots import PlotFactory
 
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+logger = setup_logging(__name__, level="INFO")
 
 
 def load_data_from_zip(zip_path: str, pattern: str = r"(?i)\.csv$") -> pd.DataFrame:
@@ -56,7 +53,7 @@ def load_data_from_zip(zip_path: str, pattern: str = r"(?i)\.csv$") -> pd.DataFr
     Returns:
         DataFrame with loaded data
     """
-    logging.info(f"Loading data from ZIP: {zip_path}")
+    logger.info(f"Loading data from ZIP: {zip_path}")
     dfs = []
 
     with zipfile.ZipFile(zip_path) as z:
@@ -65,7 +62,7 @@ def load_data_from_zip(zip_path: str, pattern: str = r"(?i)\.csv$") -> pd.DataFr
             if member.startswith("__MACOSX/") or not re.search(pattern, member):
                 continue
 
-            logging.info(f"  → Reading {member}")
+            logger.info(f"  → Reading {member}")
             with z.open(member) as f:
                 dfs.append(pd.read_csv(f, low_memory=False))
 
@@ -73,7 +70,7 @@ def load_data_from_zip(zip_path: str, pattern: str = r"(?i)\.csv$") -> pd.DataFr
         raise FileNotFoundError(f"No CSV matched pattern {pattern!r} in {zip_path}")
 
     df = pd.concat(dfs, ignore_index=True) if len(dfs) > 1 else dfs[0]
-    logging.info(f"Loaded data: {len(df):,} rows, {len(df.columns)} columns")
+    logger.info(f"Loaded data: {len(df):,} rows, {len(df.columns)} columns")
 
     return df
 
@@ -88,7 +85,7 @@ def load_anes_metadata(meta_path: str) -> tuple[dict, dict, dict]:
     Returns:
         Tuple of (label_map, missing_map, valid_map) dictionaries
     """
-    logging.info(f"Loading metadata from: {meta_path}")
+    logger.info(f"Loading metadata from: {meta_path}")
     meta = pd.read_csv(meta_path)
 
     label_map = {}
@@ -110,7 +107,7 @@ def load_anes_metadata(meta_path: str) -> tuple[dict, dict, dict]:
         }
         valid_map[var] = codes
 
-    logging.info(f"Loaded metadata for {len(label_map)} variables")
+    logger.info(f"Loaded metadata for {len(label_map)} variables")
     return label_map, missing_map, valid_map
 
 
@@ -129,7 +126,7 @@ def profile_variables(
     Returns:
         DataFrame with variable profiles
     """
-    logging.info("Profiling variables...")
+    logger.info("Profiling variables...")
     profiles = []
     n = len(df)
 
@@ -151,7 +148,7 @@ def profile_variables(
     profile_df = pd.DataFrame(profiles)
     profile_path = Path(output_dir) / "variable_profile.csv"
     profile_df.to_csv(profile_path, index=False)
-    logging.info(f"✓ Saved variable profile to {profile_path}")
+    logger.info(f"✓ Saved variable profile to {profile_path}")
 
     return profile_df
 
@@ -185,7 +182,7 @@ def infer_variable_types(profile_df: pd.DataFrame) -> tuple[dict, set]:
         else:
             types[var] = "categorical"
 
-    logging.info(
+    logger.info(
         f"Inferred types for {len(types)} variables; "
         f"skipping {len(skip)} single-level variables"
     )
@@ -250,7 +247,7 @@ def run_univariate_analysis(
             insight_text += f" (N={len(data)}, dropped {miss_count} missing. No weights applied.)"
 
         except Exception as e:
-            logging.warning(f"Error analyzing {var}: {e}")
+            logger.warning(f"Error analyzing {var}: {e}")
             return None
 
     else:  # categorical
@@ -415,33 +412,33 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Step 1: Load data
-    logging.info("=" * 60)
-    logging.info("Step 1: Loading ANES data")
-    logging.info("=" * 60)
+    logger.info("=" * 60)
+    logger.info("Step 1: Loading ANES data")
+    logger.info("=" * 60)
     df = load_data_from_zip(args.data_zip)
 
     # Step 2: Load metadata
-    logging.info("\n" + "=" * 60)
-    logging.info("Step 2: Loading metadata")
-    logging.info("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("Step 2: Loading metadata")
+    logger.info("=" * 60)
     labels, missing_map, valid_map = load_anes_metadata(args.metadata)
 
     # Step 3: Profile variables
-    logging.info("\n" + "=" * 60)
-    logging.info("Step 3: Profiling variables")
-    logging.info("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("Step 3: Profiling variables")
+    logger.info("=" * 60)
     profile_df = profile_variables(df, labels, missing_map, str(output_dir))
 
     # Step 4: Infer types
-    logging.info("\n" + "=" * 60)
-    logging.info("Step 4: Inferring variable types")
-    logging.info("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("Step 4: Inferring variable types")
+    logger.info("=" * 60)
     types, skip = infer_variable_types(profile_df)
 
     # Step 5: Univariate analysis
-    logging.info("\n" + "=" * 60)
-    logging.info("Step 5: Running univariate analyses")
-    logging.info("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("Step 5: Running univariate analyses")
+    logger.info("=" * 60)
     insights = []
 
     for var, vtype in tqdm(types.items(), desc="Univariate", unit="var"):
@@ -454,13 +451,13 @@ def main():
         if insight:
             insights.append(insight)
 
-    logging.info(f"✓ Completed {len(insights)} univariate analyses")
+    logger.info(f"✓ Completed {len(insights)} univariate analyses")
 
     # Step 6: Bivariate analysis (optional)
     if not args.skip_bivariate:
-        logging.info("\n" + "=" * 60)
-        logging.info("Step 6: Running bivariate analyses")
-        logging.info("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("Step 6: Running bivariate analyses")
+        logger.info("=" * 60)
 
         vars_subset = [v for v in types if v not in skip][: args.max_vars]
         bivariate_count = 0
@@ -481,27 +478,27 @@ def main():
                     insights.append(insight)
                     bivariate_count += 1
 
-        logging.info(f"✓ Completed {bivariate_count} bivariate analyses")
+        logger.info(f"✓ Completed {bivariate_count} bivariate analyses")
 
     # Step 7: Save results
-    logging.info("\n" + "=" * 60)
-    logging.info("Step 7: Saving results")
-    logging.info("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("Step 7: Saving results")
+    logger.info("=" * 60)
 
     output_file = output_dir / "insights.json"
     with open(output_file, "w") as f:
         json.dump(insights, f, indent=2)
 
-    logging.info(f"✓ Saved {len(insights)} total insights to {output_file}")
+    logger.info(f"✓ Saved {len(insights)} total insights to {output_file}")
 
     # Summary
-    logging.info("\n" + "=" * 60)
-    logging.info("✓ Insight extraction complete!")
-    logging.info("=" * 60)
-    logging.info(f"  Total insights: {len(insights)}")
-    logging.info(f"  Output directory: {output_dir}")
-    logging.info(f"  Insights JSON: {output_file}")
-    logging.info(f"  Variable profile: {output_dir / 'variable_profile.csv'}")
+    logger.info("\n" + "=" * 60)
+    logger.info("✓ Insight extraction complete!")
+    logger.info("=" * 60)
+    logger.info(f"  Total insights: {len(insights)}")
+    logger.info(f"  Output directory: {output_dir}")
+    logger.info(f"  Insights JSON: {output_file}")
+    logger.info(f"  Variable profile: {output_dir / 'variable_profile.csv'}")
 
 
 if __name__ == "__main__":

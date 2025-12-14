@@ -15,7 +15,11 @@ from scipy import stats
 
 from statqa.metadata.schema import Variable
 from statqa.types import BivariateResult
+from statqa.utils.logging import get_logger
 from statqa.utils.stats import calculate_effect_size, cramers_v
+
+
+logger = get_logger(__name__)
 
 
 class BivariateAnalyzer:
@@ -56,6 +60,10 @@ class BivariateAnalyzer:
         Returns:
             Analysis results dictionary, or None if analysis not applicable
         """
+        logger.debug(
+            f"Analyzing relationship: '{var1.name}' ({var1.var_type}) vs '{var2.name}' ({var2.var_type})"
+        )
+
         # Extract and clean data
         subset = data[[var1.name, var2.name]].copy()
         subset = self._clean_data(subset, var1, var2)

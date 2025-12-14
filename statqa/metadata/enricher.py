@@ -10,10 +10,10 @@ Uses language models to verify, infer, and enrich variable metadata including:
 """
 
 import json
-import logging
 from typing import Any, Literal
 
 from statqa.exceptions import EnrichmentError, LLMConnectionError, LLMResponseError
+from statqa.utils.logging import get_logger
 
 
 try:
@@ -33,7 +33,7 @@ except ImportError:
 from statqa.metadata.schema import Codebook, Variable, VariableType
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class MetadataEnricher:

@@ -17,7 +17,6 @@ Usage:
 """
 
 import argparse
-import logging
 import math
 import re
 from pathlib import Path
@@ -35,11 +34,10 @@ except ImportError:
 
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+from statqa.utils.logging import setup_logging
+
+
+logger = setup_logging(__name__, level="INFO")
 
 
 def parse_anes_codebook(pdf_path: str) -> pd.DataFrame:
@@ -67,7 +65,7 @@ def parse_anes_codebook(pdf_path: str) -> pd.DataFrame:
     valid_pattern = re.compile(r"^Valid\b[:\s]*(.*)")
     missing_pattern = re.compile(r"^(Missing|INAP\.)\b[:\s]*(.*)")
 
-    logging.info(f"Opening ANES codebook PDF: {pdf_path}")
+    logger.info(f"Opening ANES codebook PDF: {pdf_path}")
     with pdfplumber.open(pdf_path) as pdf:
         # Locate start of "VARIABLE DESCRIPTION" section
         start_idx = 0
@@ -75,7 +73,7 @@ def parse_anes_codebook(pdf_path: str) -> pd.DataFrame:
             text = page.extract_text() or ""
             if "VARIABLE DESCRIPTION" in text:
                 start_idx = i + 1
-                logging.info(f"Found VARIABLE DESCRIPTION section on page {start_idx + 1}")
+                logger.info(f"Found VARIABLE DESCRIPTION section on page {start_idx + 1}")
                 break
 
         # Parse all pages starting from variable descriptions
@@ -120,7 +118,7 @@ def parse_anes_codebook(pdf_path: str) -> pd.DataFrame:
         if current:
             records.append(current)
 
-    logging.info(f"Parsed {len(records)} variables from ANES codebook")
+    logger.info(f"Parsed {len(records)} variables from ANES codebook")
     return pd.DataFrame(records)
 
 
@@ -146,9 +144,9 @@ def generate_research_questions(
     """
     if api_key:
         openai.api_key = api_key
-        logging.info("Using provided OpenAI API key")
+        logger.info("Using provided OpenAI API key")
     else:
-        logging.info("Using OPENAI_API_KEY environment variable")
+        logger.info("Using OPENAI_API_KEY environment variable")
 
     questions = []
     total_vars = len(metadata_df)
@@ -190,7 +188,7 @@ def generate_research_questions(
             "List questions as a numbered list."
         )
 
-        logging.info(
+        logger.info(
             f"Generating questions for chunk {chunk_idx+1}/{num_chunks} "
             f"(variables {start}-{end-1})"
         )
@@ -213,10 +211,10 @@ def generate_research_questions(
                 if m:
                     questions.append(m.group(1).strip())
 
-            logging.info(f"Chunk {chunk_idx+1}: Total questions collected: {len(questions)}")
+            logger.info(f"Chunk {chunk_idx+1}: Total questions collected: {len(questions)}")
 
         except Exception as e:
-            logging.error(f"LLM error in chunk {chunk_idx+1}: {e}")
+            logger.error(f"LLM error in chunk {chunk_idx+1}: {e}")
 
     return questions
 
@@ -272,19 +270,19 @@ def main():
         Path(args.output_templates).parent.mkdir(parents=True, exist_ok=True)
 
     # Step 1: Parse ANES codebook
-    logging.info("=" * 60)
-    logging.info("Step 1: Parsing ANES codebook metadata")
-    logging.info("=" * 60)
+    logger.info("=" * 60)
+    logger.info("Step 1: Parsing ANES codebook metadata")
+    logger.info("=" * 60)
 
     metadata_df = parse_anes_codebook(args.codebook)
     metadata_df.to_csv(args.output_metadata, index=False)
-    logging.info(f"✓ Saved metadata for {len(metadata_df)} variables to {args.output_metadata}")
+    logger.info(f"✓ Saved metadata for {len(metadata_df)} variables to {args.output_metadata}")
 
     # Step 2: Generate research questions (optional)
     if not args.skip_questions:
-        logging.info("\n" + "=" * 60)
-        logging.info("Step 2: Generating research questions with LLM")
-        logging.info("=" * 60)
+        logger.info("\n" + "=" * 60)
+        logger.info("Step 2: Generating research questions with LLM")
+        logger.info("=" * 60)
 
         questions = generate_research_questions(
             metadata_df,
@@ -297,13 +295,13 @@ def main():
             for i, q in enumerate(questions, 1):
                 f.write(f"{i}. {q}\n")
 
-        logging.info(f"✓ Saved {len(questions)} research questions to {args.output_templates}")
+        logger.info(f"✓ Saved {len(questions)} research questions to {args.output_templates}")
     else:
-        logging.info("\n✓ Skipped question generation (--skip-questions flag used)")
+        logger.info("\n✓ Skipped question generation (--skip-questions flag used)")
 
-    logging.info("\n" + "=" * 60)
-    logging.info("✓ Metadata parsing complete!")
-    logging.info("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("✓ Metadata parsing complete!")
+    logger.info("=" * 60)
 
 
 if __name__ == "__main__":

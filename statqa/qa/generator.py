@@ -7,7 +7,6 @@ Converts facts into multiple question/answer pairs using:
 """
 
 import json
-import logging
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
@@ -21,9 +20,10 @@ except ImportError:
     HAS_OPENAI = False
 
 from statqa.qa.templates import QuestionTemplate, infer_question_type
+from statqa.utils.logging import get_logger
 
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def _get_statqa_version() -> str:
