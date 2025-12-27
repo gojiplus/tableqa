@@ -3,8 +3,7 @@ StatQA Documentation
 
 **StatQA** is a modern Python framework for automatically extracting structured facts, statistical insights, and **multimodal Q/A pairs** from tabular datasets. It converts raw columns and values into clear, human-readable statements paired with rich visualizations, enabling rapid knowledge discovery, CLIP-style multimodal RAG corpus construction, and LLM training.
 
-.. include:: _shared/features.md
-   :parser: myst_parser.sphinx_
+.. include:: _shared/features.rst
 
 .. toctree::
    :maxdepth: 2

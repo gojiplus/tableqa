@@ -25,26 +25,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
     "sphinx_autodoc_typehints",
-    "myst_parser",
 ]
-
-# MyST parser configuration
-myst_enable_extensions = [
-    "colon_fence",
-    "deflist",
-    "fieldlist",
-    "html_admonition",
-    "html_image",
-    "linkify",
-    "replacements",
-    "smartquotes",
-    "strikethrough",
-    "substitution",
-    "tasklist",
-]
-
-# Configure file inclusion
-myst_fence_as_directive = ["mermaid"]
 
 # Templates
 templates_path = ["_templates"]
