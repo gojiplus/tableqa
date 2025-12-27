@@ -24,7 +24,6 @@ class StatisticalFormatParser(BaseParser):
     """Parser for statistical data files (SPSS, Stata, SAS)."""
 
     def __init__(self, **kwargs: Any) -> None:
-        """Initialize parser."""
         super().__init__(**kwargs)
         if not HAS_PYREADSTAT:
             raise ImportError(
@@ -75,18 +74,19 @@ class StatisticalFormatParser(BaseParser):
         """Read only metadata from statistical file."""
         suffix = path.suffix.lower()
 
-        if suffix in {".sav", ".zsav"}:
-            _, metadata = pyreadstat.read_sav(str(path), metadataonly=True)
-        elif suffix == ".por":
-            _, metadata = pyreadstat.read_por(str(path), metadataonly=True)
-        elif suffix == ".dta":
-            _, metadata = pyreadstat.read_dta(str(path), metadataonly=True)
-        elif suffix == ".sas7bdat":
-            _, metadata = pyreadstat.read_sas7bdat(str(path), metadataonly=True)
-        elif suffix == ".xpt":
-            _, metadata = pyreadstat.read_xpt(str(path), metadataonly=True)
-        else:
-            raise ValueError(f"Unsupported file format: {suffix}")
+        match suffix:
+            case ".sav" | ".zsav":
+                _, metadata = pyreadstat.read_sav(str(path), metadataonly=True)
+            case ".por":
+                _, metadata = pyreadstat.read_por(str(path), metadataonly=True)
+            case ".dta":
+                _, metadata = pyreadstat.read_dta(str(path), metadataonly=True)
+            case ".sas7bdat":
+                _, metadata = pyreadstat.read_sas7bdat(str(path), metadataonly=True)
+            case ".xpt":
+                _, metadata = pyreadstat.read_xpt(str(path), metadataonly=True)
+            case _:
+                raise ValueError(f"Unsupported file format: {suffix}")
 
         return metadata
 

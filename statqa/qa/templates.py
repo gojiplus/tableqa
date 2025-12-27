@@ -20,15 +20,14 @@ class QuestionType(str, Enum):
 
 
 class QuestionTemplate:
-    """Template for generating questions from statistical insights."""
+    """
+    Template for generating questions from statistical insights.
+
+    Args:
+        question_type: Type of question to generate
+    """
 
     def __init__(self, question_type: QuestionType) -> None:
-        """
-        Initialize question template.
-
-        Args:
-            question_type: Type of question to generate
-        """
         self.question_type = question_type
 
     def generate(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
@@ -41,6 +40,9 @@ class QuestionTemplate:
 
         Returns:
             List of Q/A pair dictionaries
+
+        Raises:
+            ValueError: If question type is not supported
         """
         if self.question_type == QuestionType.DESCRIPTIVE:
             return self._generate_descriptive(insight, answer)

@@ -11,16 +11,15 @@ import numpy as np
 
 
 class InsightFormatter:
-    """Formats statistical results as natural language insights."""
+    """
+    Formats statistical results as natural language insights.
+
+    Args:
+        include_caveats: Whether to include statistical caveats/warnings
+        precision: Decimal precision for formatting numbers
+    """
 
     def __init__(self, include_caveats: bool = True, precision: int = 2) -> None:
-        """
-        Initialize formatter.
-
-        Args:
-            include_caveats: Whether to include statistical caveats/warnings
-            precision: Decimal precision for formatting numbers
-        """
         self.include_caveats = include_caveats
         self.precision = precision
 

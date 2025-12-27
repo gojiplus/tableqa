@@ -13,13 +13,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from statqa.metadata.schema import Variable
 
 
 class PlotFactory:
-    """Factory for creating statistical visualizations."""
+    """
+    Factory for creating statistical visualizations.
+
+    Args:
+        style: Seaborn style ('whitegrid', 'darkgrid', 'white', 'dark', 'ticks')
+        context: Seaborn context ('paper', 'notebook', 'talk', 'poster')
+        figsize: Default figure size (width, height)
+        dpi: DPI for rasterized output
+    """
 
     def __init__(
         self,
@@ -28,15 +37,6 @@ class PlotFactory:
         figsize: tuple[int, int] = (8, 6),
         dpi: int = 100,
     ) -> None:
-        """
-        Initialize plot factory.
-
-        Args:
-            style: Seaborn style ('whitegrid', 'darkgrid', 'white', 'dark', 'ticks')
-            context: Seaborn context ('paper', 'notebook', 'talk', 'poster')
-            figsize: Default figure size (width, height)
-            dpi: DPI for rasterized output
-        """
         self.figsize = figsize
         self.dpi = dpi
         sns.set_style(style)
@@ -44,7 +44,7 @@ class PlotFactory:
 
     def plot_univariate(
         self,
-        data: pd.Series[Any],
+        data: pd.Series,
         variable: Variable,
         output_path: str | Path | None = None,
         return_metadata: bool = False,
@@ -144,7 +144,7 @@ class PlotFactory:
         value_var: Variable,
         group_var: Variable | None = None,
         output_path: str | Path | None = None,
-    ) -> plt.Figure:
+    ) -> Figure:
         """
         Create temporal trend plot.
 
@@ -175,7 +175,7 @@ class PlotFactory:
             # Grouped line plot
             for group_name, group_data in subset.groupby(group_var.name):
                 label = (
-                    group_var.valid_values.get(group_name, str(group_name))
+                    group_var.valid_values.get(str(group_name), str(group_name))
                     if group_var.valid_values
                     else str(group_name)
                 )
@@ -215,7 +215,7 @@ class PlotFactory:
                 clean[var.name] = clean[var.name].replace(dict.fromkeys(var.missing_values, np.nan))
         return clean
 
-    def _plot_numeric_distribution(self, data: pd.Series, variable: Variable, ax: plt.Axes) -> None:
+    def _plot_numeric_distribution(self, data: pd.Series, variable: Variable, ax: Axes) -> None:
         """Plot histogram/KDE for numeric variable."""
         n_unique = data.nunique()
 
@@ -235,9 +235,7 @@ class PlotFactory:
         ax.axvline(mean, color="red", linestyle="--", label=f"Mean: {mean:.2f}", alpha=0.7)
         ax.legend()
 
-    def _plot_categorical_distribution(
-        self, data: pd.Series, variable: Variable, ax: plt.Axes
-    ) -> None:
+    def _plot_categorical_distribution(self, data: pd.Series, variable: Variable, ax: Axes) -> None:
         """Plot bar chart for categorical variable."""
         counts = data.value_counts()
 
@@ -253,9 +251,7 @@ class PlotFactory:
         if len(counts) > 5:
             ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
 
-    def _plot_scatter(
-        self, data: pd.DataFrame, var1: Variable, var2: Variable, ax: plt.Axes
-    ) -> None:
+    def _plot_scatter(self, data: pd.DataFrame, var1: Variable, var2: Variable, ax: Axes) -> None:
         """Plot scatter plot with regression line."""
         sns.regplot(
             x=var1.name,
@@ -270,7 +266,7 @@ class PlotFactory:
         ax.set_title(f"{var1.label} vs {var2.label}")
 
     def _plot_boxplot(
-        self, data: pd.DataFrame, var_cat: Variable, var_num: Variable, ax: plt.Axes
+        self, data: pd.DataFrame, var_cat: Variable, var_num: Variable, ax: Axes
     ) -> None:
         """Plot box plot for categorical vs numeric."""
         # Map categories to labels
@@ -288,9 +284,7 @@ class PlotFactory:
         if len(plot_data[var_cat.name].unique()) > 5:
             ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
 
-    def _plot_heatmap(
-        self, data: pd.DataFrame, var1: Variable, var2: Variable, ax: plt.Axes
-    ) -> None:
+    def _plot_heatmap(self, data: pd.DataFrame, var1: Variable, var2: Variable, ax: Axes) -> None:
         """Plot heatmap for categorical vs categorical."""
         # Create contingency table
         contingency = pd.crosstab(data[var1.name], data[var2.name])
@@ -310,7 +304,7 @@ class PlotFactory:
 
     def _generate_univariate_metadata(
         self,
-        data: pd.Series[Any],
+        data: pd.Series,
         variable: Variable,
         plot_type: str,
         output_path: str | Path | None,

@@ -114,7 +114,7 @@
 114. What is the temporal trend of the thermometer ratings for Whites (VCF0207) from 1970 to 1998?
 115. Do counties with higher thermometer ratings for Southerners (VCF0208) also have higher ratings for Big Businesses (VCF0209)?
 116. Do conservatives (VCF0212) rate the Military (VCF0213) higher than the Policemen (VCF0214)?
-117. Investigate any causality between higher thermometer ratings for Labour Unions (VCF0210) and Liberals (VCF0211).
+117. Investigate any causality between higher thermometer ratings for Labor Unions (VCF0210) and Liberals (VCF0211).
 118. How have ratings for Military (VCF0213) changed over time, specifically between 1970, 1978 and 1998?
 119. What are the highest and lowest thermometer ratings for Black Militants (VCF0215) in different counties (VCF0170d)?
 120. Analyze the relationship between the ratings of Civil Rights Leaders (VCF0216) and those of Chicanos/Hispanics (VCF0217).
@@ -126,7 +126,7 @@
 126. How does the thermometer ratings for Democrats (VCF0201) differ across various counties (VCF0170d)?
 127. Have the ratings for Middle-Class People (VCF0219) increased or decreased over time?
 128. Test the hypothesis that higher ratings for Conservatives (VCF0212) leads to lower ratings for Civil Rights Leaders (VCF0216).
-129. Is there a positive association between the ratings for Democratic Party (VCF0218) and Labour Unions (VCF0210)?
+129. Is there a positive association between the ratings for Democratic Party (VCF0218) and Labor Unions (VCF0210)?
 130. What is the mean, median, and mode of VCF0220 (THERMOMETER - PEOPLE ON WELFARE)?
 131. How does the distribution of scores for VCF0221 (THERMOMETER - POLITICAL INDEPENDENTS) look like? Is it skewed in any direction?
 132. What is the standard deviation of VCF0222 (THERMOMETER - POLITICAL PARTIES)?

@@ -6,6 +6,8 @@ Converts facts into multiple question/answer pairs using:
 2. LLM paraphrasing and augmentation
 """
 
+from __future__ import annotations
+
 import json
 from datetime import UTC, datetime
 from pathlib import Path
@@ -37,7 +39,20 @@ def _get_statqa_version() -> str:
 
 
 class QAGenerator:
-    """Generates Q/A pairs from statistical insights."""
+    """
+    Generates Q/A pairs from statistical insights.
+
+    Args:
+        use_llm: Whether to use LLM for paraphrasing
+        llm_provider: LLM provider ('openai' or 'anthropic')
+        llm_model: Model name
+        api_key: API key for LLM
+        paraphrase_count: Number of paraphrased versions per question
+
+    Raises:
+        ImportError: If required LLM package not installed
+        ValueError: If LLM provider configuration is invalid
+    """
 
     def __init__(
         self,
@@ -47,16 +62,6 @@ class QAGenerator:
         api_key: str | None = None,
         paraphrase_count: int = 2,
     ) -> None:
-        """
-        Initialize Q/A generator.
-
-        Args:
-            use_llm: Whether to use LLM for paraphrasing
-            llm_provider: LLM provider ('openai' or 'anthropic')
-            llm_model: Model name
-            api_key: API key for LLM
-            paraphrase_count: Number of paraphrased versions per question
-        """
         self.use_llm = use_llm
         self.paraphrase_count = paraphrase_count
 
@@ -203,6 +208,7 @@ class QAGenerator:
             qa_pairs: Original Q/A pairs
             insight: Statistical insight for context
             variables: List of variable names involved in the analysis
+            visual_data: Optional visual metadata for multimodal context
 
         Returns:
             List of paraphrased Q/A pairs

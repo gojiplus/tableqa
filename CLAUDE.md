@@ -27,6 +27,12 @@ ruff check statqa tests
 # Format code
 ruff format statqa tests
 
+# Check docstring style and type hint consistency
+pydoclint statqa/
+
+# Run type checking
+pyright statqa/
+
 # Run tests with coverage
 pytest --cov=statqa --cov-report=html --cov-report=term-missing
 
@@ -132,7 +138,7 @@ This enables reproducibility and quality control for LLM training datasets.
 - ruff for linting (replaces flake8/isort)
 - mypy for type checking
 - black for formatting
-- GitHub Actions CI across Python 3.11-3.13 and multiple OS
+- GitHub Actions CI across Python 3.12-3.14 and multiple OS
 
 Key test markers:
 - `slow`: Long-running tests

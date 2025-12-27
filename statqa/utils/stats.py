@@ -16,8 +16,8 @@ IntArray = np.ndarray[Any, np.dtype[np.integer[Any]]]
 
 
 def calculate_effect_size(
-    data1: pd.Series[Any] | FloatArray | float,
-    data2: pd.Series[Any] | FloatArray | None = None,
+    data1: pd.Series | FloatArray | float,
+    data2: pd.Series | FloatArray | None = None,
     effect_type: Literal["cohen_d", "r_to_d", "cramers_v", "eta_squared"] = "cohen_d",
 ) -> float:
     """
@@ -33,6 +33,7 @@ def calculate_effect_size(
 
     Raises:
         ValueError: If invalid effect_type or incompatible data
+        NotImplementedError: If effect_type is not yet implemented
     """
     if effect_type == "cohen_d":
         if data2 is None:
@@ -56,7 +57,7 @@ def calculate_effect_size(
         raise ValueError(f"Unknown effect_type: {effect_type}")
 
 
-def cohens_d(group1: pd.Series[Any] | FloatArray, group2: pd.Series[Any] | FloatArray) -> float:
+def cohens_d(group1: pd.Series | FloatArray, group2: pd.Series | FloatArray) -> float:
     """
     Calculate Cohen's d effect size for two groups.
 
@@ -108,7 +109,7 @@ def correct_multiple_testing(
     p_values: list[float] | FloatArray,
     method: Literal["bonferroni", "fdr_bh", "fdr_by"] = "fdr_bh",
     alpha: float = 0.05,
-) -> tuple[FloatArray, FloatArray]:
+) -> tuple[np.ndarray[Any, np.dtype[np.bool_]], FloatArray]:
     """
     Apply multiple testing correction to p-values.
 
@@ -124,6 +125,9 @@ def correct_multiple_testing(
         Tuple of (reject, corrected_p_values)
         - reject: Boolean array indicating which tests reject null
         - corrected_p_values: Adjusted p-values
+
+    Raises:
+        ValueError: If correction method is not supported
     """
     p_values = np.asarray(p_values)
 
@@ -141,7 +145,7 @@ def correct_multiple_testing(
     return reject, corrected
 
 
-def robust_stats(data: pd.Series[Any] | FloatArray) -> dict[str, float]:
+def robust_stats(data: pd.Series | FloatArray) -> dict[str, float]:
     """
     Calculate robust statistics for potentially outlier-heavy data.
 
@@ -182,7 +186,7 @@ def robust_stats(data: pd.Series[Any] | FloatArray) -> dict[str, float]:
 
 
 def detect_outliers(
-    data: pd.Series[Any] | FloatArray,
+    data: pd.Series | FloatArray,
     method: Literal["iqr", "mad", "zscore"] = "iqr",
     threshold: float = 1.5,
 ) -> FloatArray:
@@ -199,6 +203,9 @@ def detect_outliers(
 
     Returns:
         Boolean array indicating outliers
+
+    Raises:
+        ValueError: If outlier detection method is not supported
     """
     data = np.asarray(data)
     valid = ~np.isnan(data)
@@ -228,7 +235,7 @@ def detect_outliers(
     return outliers.astype(float)
 
 
-def mann_kendall_trend(series: pd.Series[Any] | FloatArray) -> dict[str, float | str]:
+def mann_kendall_trend(series: pd.Series | FloatArray) -> dict[str, float | str]:
     """
     Perform Mann-Kendall trend test for temporal data.
 

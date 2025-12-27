@@ -8,6 +8,8 @@ Analyzes trends and patterns over time:
 - Year-over-year changes
 """
 
+from __future__ import annotations
+
 from typing import Any
 
 import numpy as np
@@ -19,20 +21,19 @@ from statqa.utils.stats import mann_kendall_trend
 
 
 class TemporalAnalyzer:
-    """Analyzer for temporal patterns and trends."""
+    """
+    Analyzer for temporal patterns and trends.
+
+    Args:
+        significance_level: Alpha level for statistical tests
+        min_periods: Minimum number of time periods required
+    """
 
     def __init__(
         self,
         significance_level: float = 0.05,
         min_periods: int = 3,
     ) -> None:
-        """
-        Initialize temporal analyzer.
-
-        Args:
-            significance_level: Alpha level for statistical tests
-            min_periods: Minimum number of time periods required
-        """
         self.alpha = significance_level
         self.min_periods = min_periods
 
@@ -51,7 +52,7 @@ class TemporalAnalyzer:
             value_var: Value variable being analyzed over time
 
         Returns:
-            Trend analysis results
+            Trend analysis results as dictionary
         """
         # Clean and prepare data
         subset = data[[time_var.name, value_var.name]].copy()
@@ -126,7 +127,7 @@ class TemporalAnalyzer:
             group_var: Grouping variable
 
         Returns:
-            Grouped trend analysis results
+            Grouped trend analysis results as dictionary
         """
         subset = data[[time_var.name, value_var.name, group_var.name]].copy()
         subset = subset.dropna()
@@ -152,7 +153,7 @@ class TemporalAnalyzer:
                 )
                 # Map group code to label
                 label = (
-                    group_var.valid_values.get(group_name, str(group_name))
+                    group_var.valid_values.get(str(group_name), str(group_name))
                     if group_var.valid_values
                     else str(group_name)
                 )
@@ -177,10 +178,13 @@ class TemporalAnalyzer:
             value_var: Value variable
 
         Returns:
-            Change point detection results
+            Change point detection results as dictionary
         """
         subset = data[[time_var.name, value_var.name]].copy()
-        subset = subset.dropna().sort_values(time_var.name)
+        subset = subset.dropna()
+
+        # Sort by time
+        subset = subset.sort_values(time_var.name)  # type: ignore[call-overload]
 
         if len(subset) < self.min_periods * 2:
             return {"error": "Insufficient data for change point detection"}
@@ -266,7 +270,7 @@ class TemporalAnalyzer:
             value_var: Value variable
 
         Returns:
-            Year-over-year analysis results
+            Year-over-year analysis results as dictionary
         """
         subset = data[[year_var.name, value_var.name]].copy()
         subset = subset.dropna()

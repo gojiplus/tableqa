@@ -9,6 +9,8 @@ associations in causal language:
 - Sensitivity analysis
 """
 
+from __future__ import annotations
+
 from typing import Any
 
 import numpy as np
@@ -25,6 +27,11 @@ class CausalAnalyzer:
     Note: These are *observational* analyses and do not establish true causation
     without strong assumptions. Results should be interpreted as associations
     controlling for measured confounders.
+
+    Args:
+        significance_level: Alpha level for hypothesis tests
+        min_sample_size: Minimum sample size required
+        robust_se: Use heteroskedasticity-robust standard errors
     """
 
     def __init__(
@@ -33,14 +40,6 @@ class CausalAnalyzer:
         min_sample_size: int = 30,
         robust_se: bool = True,
     ) -> None:
-        """
-        Initialize causal analyzer.
-
-        Args:
-            significance_level: Alpha level for hypothesis tests
-            min_sample_size: Minimum sample size required
-            robust_se: Use heteroskedasticity-robust standard errors
-        """
         self.alpha = significance_level
         self.min_n = min_sample_size
         self.robust_se = robust_se
@@ -62,7 +61,7 @@ class CausalAnalyzer:
             control_vars: List of control/confounder variables
 
         Returns:
-            Treatment effect analysis results
+            Treatment effect analysis results as dictionary
         """
         # Prepare data
         var_names = [treatment_var.name, outcome_var.name]
@@ -126,7 +125,7 @@ class CausalAnalyzer:
             potential_confounders: List of potential confounders to test
 
         Returns:
-            Confounder identification results
+            Confounder identification results as dictionary
         """
         result: dict[str, Any] = {
             "analysis_type": "confounder_identification",
@@ -253,7 +252,7 @@ class CausalAnalyzer:
             control_vars: Control variables
 
         Returns:
-            Sensitivity analysis results
+            Sensitivity analysis results as dictionary
         """
         # Model without controls
         y = data[outcome_name]

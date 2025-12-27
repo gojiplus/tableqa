@@ -7,7 +7,7 @@ name = "statqa"
 version = "0.3.0"
 description = "Automatically extract structured facts, insights, and Q/A pairs from tabular datasets"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = "MIT"
 authors = [
     {name = "Gaurav Sood"}
@@ -27,9 +27,9 @@ classifiers = [
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Typing :: Typed",
@@ -67,6 +67,8 @@ dev = [
     "pytest-mock>=3.12.0",
     "pytest-asyncio>=0.21.0",
     "ruff>=0.1.0",
+    "pydoclint>=0.3.8",
+    "pyright>=1.1.390",
     "ipython>=8.12.0",
     "ipdb>=0.13.0",
 ]
@@ -142,7 +144,7 @@ exclude_lines = [
 
 # Ruff configuration (replaces flake8, isort, etc.)
 [tool.ruff]
-target-version = "py311"
+target-version = "py312"
 line-length = 100
 src = [".", "tests"]
 
@@ -181,5 +183,35 @@ lines-after-imports = 2
 pep621_dev_dependency_groups = ["dev", "docs", "examples", "pdf", "llm", "statistical-formats"]
 known_first_party = ["statqa"]
 ignore = ["DEP004"]  # Allow optional dependencies
+
+# Pydoclint configuration
+[tool.pydoclint]
+style = "google"
+arg-type-hints-in-signature = true
+arg-type-hints-in-docstring = false
+check-arg-order = true
+check-return-types = false
+check-yield-types = false
+require-return-section-when-returning-nothing = false
+exclude = "tests/|examples/"
+check-class-attributes = false
+skip-checking-nonpublic = true
+skip-checking-short-docstrings = true
+
+# Pyright configuration
+[tool.pyright]
+include = ["statqa"]
+exclude = ["tests", "examples", "build", "dist"]
+pythonVersion = "3.12"
+typeCheckingMode = "basic"
+reportMissingImports = "error"
+reportMissingTypeStubs = "none"
+reportGeneralTypeIssues = "none"
+reportUnknownMemberType = "none"
+reportUnknownVariableType = "none"
+reportUnknownArgumentType = "none"
+reportArgumentType = "none"
+reportOperatorIssue = "none"
+reportAttributeAccessIssue = "none"
 
 # Ruff handles formatting - no need for black/isort

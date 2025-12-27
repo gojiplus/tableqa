@@ -12,6 +12,9 @@ def setup_theme(style: Literal["publication", "presentation", "notebook"] = "pub
 
     Args:
         style: Theme style ('publication', 'presentation', 'notebook')
+
+    Raises:
+        ValueError: If style is not supported
     """
     if style == "publication":
         # Publication-ready theme

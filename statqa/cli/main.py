@@ -136,8 +136,7 @@ def analyze(
 
     import json
 
-    with open(codebook_path) as f:
-        codebook_data = json.load(f)
+    codebook_data = json.loads(Path(codebook_path).read_text(encoding="utf-8"))
 
     from statqa.metadata.schema import Codebook
 
@@ -220,8 +219,7 @@ def generate_qa(
 
     import json
 
-    with open(insights_path) as f:
-        insights = json.load(f)
+    insights = json.loads(Path(insights_path).read_text(encoding="utf-8"))
 
     console.print(f"[green]✓[/green] Loaded {len(insights)} insights")
 
@@ -247,24 +245,24 @@ def generate_qa(
     # Export
     lines = []
     for qa in all_qa:
-        if export_format == "jsonl":
-            lines.append(json.dumps(qa, ensure_ascii=False))
-        elif export_format == "openai":
-            entry = {
-                "messages": [
-                    {"role": "system", "content": "You are a data analyst."},
-                    {"role": "user", "content": qa["question"]},
-                    {"role": "assistant", "content": qa["answer"]},
-                ]
-            }
-            lines.append(json.dumps(entry, ensure_ascii=False))
-        elif export_format == "anthropic":
-            entry = {"prompt": qa["question"], "completion": qa["answer"]}
-            lines.append(json.dumps(entry, ensure_ascii=False))
+        match export_format:
+            case "jsonl":
+                lines.append(json.dumps(qa, ensure_ascii=False))
+            case "openai":
+                entry = {
+                    "messages": [
+                        {"role": "system", "content": "You are a data analyst."},
+                        {"role": "user", "content": qa["question"]},
+                        {"role": "assistant", "content": qa["answer"]},
+                    ]
+                }
+                lines.append(json.dumps(entry, ensure_ascii=False))
+            case "anthropic":
+                entry = {"prompt": qa["question"], "completion": qa["answer"]}
+                lines.append(json.dumps(entry, ensure_ascii=False))
 
     output.parent.mkdir(parents=True, exist_ok=True)
-    with open(output, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+    output.write_text("\n".join(lines), encoding="utf-8")
 
     console.print(f"[green]✓[/green] Saved to {output}")
 

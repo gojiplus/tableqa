@@ -16,7 +16,6 @@ import pandas as pd
 from scipy import stats
 
 from statqa.metadata.schema import Variable
-from statqa.types import UnivariateResult
 from statqa.utils.logging import get_logger
 from statqa.utils.stats import detect_outliers, robust_stats
 
@@ -25,20 +24,19 @@ logger = get_logger(__name__)
 
 
 class UnivariateAnalyzer:
-    """Analyzer for single-variable statistics."""
+    """
+    Analyzer for single-variable statistics.
+
+    Args:
+        handle_outliers: Whether to detect and report outliers
+        robust: Whether to include robust statistics (median, MAD)
+    """
 
     def __init__(self, handle_outliers: bool = True, robust: bool = True) -> None:
-        """
-        Initialize univariate analyzer.
-
-        Args:
-            handle_outliers: Whether to detect and report outliers
-            robust: Whether to include robust statistics (median, MAD)
-        """
         self.handle_outliers = handle_outliers
         self.robust = robust
 
-    def analyze(self, data: pd.Series[Any], variable: Variable) -> UnivariateResult:
+    def analyze(self, data: pd.Series, variable: Variable) -> dict[str, Any]:
         """
         Analyze a single variable.
 
@@ -47,7 +45,7 @@ class UnivariateAnalyzer:
             variable: Variable metadata
 
         Returns:
-            Dictionary with analysis results
+            Analysis results as UnivariateResult
         """
         logger.debug(f"Analyzing variable '{variable.name}' (type: {variable.var_type})")
 
@@ -263,7 +261,7 @@ class UnivariateAnalyzer:
             variables: Mapping of column names to Variable metadata
 
         Returns:
-            List of analysis results
+            List of analysis results as dictionaries
         """
         results = []
 

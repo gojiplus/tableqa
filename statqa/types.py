@@ -5,6 +5,8 @@ This module contains TypedDict definitions for structured data
 to provide better type safety than generic dict[str, Any].
 """
 
+from __future__ import annotations
+
 from typing import Any, Literal, TypedDict
 
 

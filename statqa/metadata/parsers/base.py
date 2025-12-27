@@ -12,15 +12,14 @@ from statqa.metadata.schema import Codebook
 
 
 class BaseParser(ABC):
-    """Abstract base class for codebook parsers."""
+    """
+    Abstract base class for codebook parsers.
+
+    Args:
+        **kwargs: Parser-specific configuration options
+    """
 
     def __init__(self, **kwargs: Any) -> None:
-        """
-        Initialize parser with optional configuration.
-
-        Args:
-            **kwargs: Parser-specific configuration options
-        """
         self.config = kwargs
 
     @abstractmethod

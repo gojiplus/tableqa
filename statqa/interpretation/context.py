@@ -11,16 +11,15 @@ from statqa.metadata.schema import Codebook, Variable
 
 
 class ContextBuilder:
-    """Builds context strings for LLM prompting."""
+    """
+    Builds context strings for LLM prompting.
+
+    Args:
+        include_metadata: Whether to include variable metadata
+        max_variables: Maximum variables to include in context
+    """
 
     def __init__(self, include_metadata: bool = True, max_variables: int = 50) -> None:
-        """
-        Initialize context builder.
-
-        Args:
-            include_metadata: Whether to include variable metadata
-            max_variables: Maximum variables to include in context
-        """
         self.include_metadata = include_metadata
         self.max_variables = max_variables
 
@@ -224,6 +223,9 @@ class ContextBuilder:
 
         Returns:
             LLM prompt string
+
+        Raises:
+            ValueError: If task type is not supported
         """
         if task == "interpret":
             return self._build_interpretation_prompt(analysis_result, variables)

@@ -26,7 +26,6 @@ def load_data(
 
     Raises:
         FileNotFoundError: If source doesn't exist
-        ValueError: If no valid files found
     """
     source_path = Path(source)
 
@@ -79,8 +78,9 @@ def save_json(data: Any, output_path: str | Path, indent: int = 2) -> None:
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=indent, ensure_ascii=False, default=str)
+    output_path.write_text(
+        json.dumps(data, indent=indent, ensure_ascii=False, default=str), encoding="utf-8"
+    )
 
 
 def load_json(input_path: str | Path) -> Any:
@@ -93,5 +93,4 @@ def load_json(input_path: str | Path) -> Any:
     Returns:
         Loaded data
     """
-    with open(input_path, encoding="utf-8") as f:
-        return json.load(f)
+    return json.loads(Path(input_path).read_text(encoding="utf-8"))

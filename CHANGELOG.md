@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Structured logging in core analysis modules (univariate, bivariate)
   - Computational provenance logging in analysis operations
 
-- **Enhanced Type System**: Comprehensive type hints using Python 3.11+ features
+- **Enhanced Type System**: Comprehensive type hints using Python 3.12+ features
   - `Final` annotations for enum constants and immutable values
   - `Literal` types for constrained parameters (providers, analysis types)
   - `Self` type annotations for better IDE support
@@ -47,7 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - API stabilization for core analysis functionality
   - Production readiness for basic workflows
 
-- **Code Modernization**: Updated codebase to leverage Python 3.11+ features
+- **Code Modernization**: Updated codebase to leverage Python 3.12+ features
   - Pattern matching in `enricher.py` for provider selection
   - Enhanced error handling with structured exceptions
   - Improved type hints throughout codebase
@@ -74,17 +74,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Configured deptry to properly handle optional dependencies
   - Clean dependency separation between core, examples, and development needs
 
-- **Import Issues**: Fixed Python 3.11+ compatibility
+- **Import Issues**: Fixed Python 3.12+ compatibility
   - Added `from __future__ import annotations` where needed
   - Resolved pandas type subscripting errors
-  - Enhanced compatibility across Python 3.11-3.13
+  - Enhanced compatibility across Python 3.12-3.14
 
 ### Technical Details
 This release focuses on **developer experience** and **code modernization** without breaking existing APIs. Key technical improvements include:
 
 - **Logging Architecture**: Simple, non-intrusive logging that respects the principle of not over-engineering
 - **Type Safety**: Enhanced without the complexity overhead of mypy
-- **Modern Python**: Leverages Python 3.11+ features for better performance and developer experience
+- **Modern Python**: Leverages Python 3.12+ features for better performance and developer experience
 - **Dependency Hygiene**: Clean separation of concerns in package dependencies
 
 ### Migration Guide

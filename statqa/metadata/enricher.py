@@ -41,6 +41,16 @@ class MetadataEnricher:
     Enrich metadata using LLM capabilities.
 
     Supports both OpenAI and Anthropic models.
+
+    Args:
+        provider: LLM provider ('openai' or 'anthropic')
+        model: Model name (defaults to gpt-4 or claude-3-sonnet)
+        api_key: API key (or use environment variable)
+        **kwargs: Additional provider-specific options
+
+    Raises:
+        ImportError: If required LLM package not installed
+        ValueError: If provider is not supported
     """
 
     def __init__(
@@ -50,15 +60,6 @@ class MetadataEnricher:
         api_key: str | None = None,
         **kwargs: Any,
     ) -> None:
-        """
-        Initialize metadata enricher.
-
-        Args:
-            provider: LLM provider ('openai' or 'anthropic')
-            model: Model name (defaults to gpt-4 or claude-3-sonnet)
-            api_key: API key (or use environment variable)
-            **kwargs: Additional provider-specific options
-        """
         self.provider = provider.lower()
         self.kwargs = kwargs
 
@@ -90,6 +91,11 @@ class MetadataEnricher:
 
         Returns:
             Enriched Variable with updated metadata
+
+        Raises:
+            EnrichmentError: If enrichment process fails
+            LLMConnectionError: If LLM connection fails
+            LLMResponseError: If LLM response is invalid
         """
         prompt = self._build_variable_prompt(variable, dataset_context)
 

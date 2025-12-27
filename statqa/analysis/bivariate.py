@@ -7,6 +7,8 @@ Analyzes relationships between pairs of variables:
 - Categorical x Numeric: Group comparisons, ANOVA
 """
 
+from __future__ import annotations
+
 from typing import Any
 
 import numpy as np
@@ -14,7 +16,6 @@ import pandas as pd
 from scipy import stats
 
 from statqa.metadata.schema import Variable
-from statqa.types import BivariateResult
 from statqa.utils.logging import get_logger
 from statqa.utils.stats import calculate_effect_size, cramers_v
 
@@ -23,7 +24,14 @@ logger = get_logger(__name__)
 
 
 class BivariateAnalyzer:
-    """Analyzer for two-variable relationships."""
+    """
+    Analyzer for two-variable relationships.
+
+    Args:
+        significance_level: Alpha level for statistical tests
+        min_sample_size: Minimum sample size for analysis
+        use_robust: Use robust methods (Spearman) when appropriate
+    """
 
     def __init__(
         self,
@@ -31,14 +39,6 @@ class BivariateAnalyzer:
         min_sample_size: int = 10,
         use_robust: bool = True,
     ) -> None:
-        """
-        Initialize bivariate analyzer.
-
-        Args:
-            significance_level: Alpha level for statistical tests
-            min_sample_size: Minimum sample size for analysis
-            use_robust: Use robust methods (Spearman) when appropriate
-        """
         self.alpha = significance_level
         self.min_n = min_sample_size
         self.use_robust = use_robust
@@ -48,7 +48,7 @@ class BivariateAnalyzer:
         data: pd.DataFrame,
         var1: Variable,
         var2: Variable,
-    ) -> BivariateResult | None:
+    ) -> dict[str, Any] | None:
         """
         Analyze relationship between two variables.
 
@@ -58,14 +58,14 @@ class BivariateAnalyzer:
             var2: Second variable metadata
 
         Returns:
-            Analysis results dictionary, or None if analysis not applicable
+            Analysis results, or None if analysis not applicable
         """
         logger.debug(
             f"Analyzing relationship: '{var1.name}' ({var1.var_type}) vs '{var2.name}' ({var2.var_type})"
         )
 
         # Extract and clean data
-        subset = data[[var1.name, var2.name]].copy()
+        subset = data[[var1.name, var2.name]].copy()  # type: ignore[assignment]
         subset = self._clean_data(subset, var1, var2)
 
         # Check minimum sample size
@@ -329,7 +329,7 @@ class BivariateAnalyzer:
             max_pairs: Maximum number of pairs to analyze (None for all)
 
         Returns:
-            List of analysis results
+            List of analysis results as dictionaries
         """
         results = []
         var_list = list(variables.values())
