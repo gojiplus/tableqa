@@ -26,7 +26,7 @@ statqa pipeline data.csv codebook.csv --output-dir output/ --enrich --qa --plots
 
 ## Next Steps
 
-- **{doc}`user_guide/index`** - Comprehensive guides for all features
+- **{doc}`tutorials/index`** - Step-by-step tutorials
 - **{doc}`examples/index`** - Real-world examples with datasets
-- **{doc}`api/index`** - Complete API reference
+- **{doc}`api_reference/index`** - Complete API reference
 - **{doc}`concepts/index`** - Core concepts and architecture

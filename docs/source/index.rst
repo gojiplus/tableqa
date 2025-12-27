@@ -17,9 +17,9 @@ StatQA Documentation
    :maxdepth: 2
    :caption: Documentation:
 
-   user_guide/index
+   tutorials/index
+   api_reference/index
    examples/index
-   api/index
 
 .. toctree::
    :maxdepth: 1

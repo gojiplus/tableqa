@@ -1961,6 +1961,7 @@ name = "statqa"
 version = "0.3.0"
 source = { editable = "." }
 dependencies = [
+    { name = "linkify-it-py" },
     { name = "matplotlib" },
     { name = "numpy" },
     { name = "pandas" },
@@ -2032,6 +2033,7 @@ requires-dist = [
     { name = "furo", marker = "extra == 'docs'", specifier = ">=2024.7.18" },
     { name = "ipdb", marker = "extra == 'dev'", specifier = ">=0.13.0" },
     { name = "ipython", marker = "extra == 'dev'", specifier = ">=8.12.0" },
+    { name = "linkify-it-py", specifier = ">=2.0.3" },
     { name = "linkify-it-py", marker = "extra == 'docs'", specifier = ">=2.0.0" },
     { name = "matplotlib", specifier = ">=3.7.0" },
     { name = "myst-parser", marker = "extra == 'docs'", specifier = ">=2.0.0" },

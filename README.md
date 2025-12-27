@@ -1,6 +1,7 @@
 # StatQA: Extract Multimodal Stats Q/A from Tables With Provenance
 
 [![PyPI version](https://img.shields.io/pypi/v/statqa.svg)](https://pypi.org/project/statqa/)
+[![Python](https://img.shields.io/pypi/pyversions/statqa.svg)](https://pypi.org/project/statqa/)
 [![CI](https://github.com/gojiplus/statqa/actions/workflows/ci.yml/badge.svg)](https://github.com/gojiplus/statqa/actions/workflows/ci.yml)
 [![Downloads](https://pepy.tech/badge/statqa)](https://pepy.tech/project/statqa)
 [![Documentation](https://github.com/gojiplus/statqa/actions/workflows/docs.yml/badge.svg)](https://gojiplus.github.io/statqa)
@@ -417,7 +418,7 @@ fig = plotter.plot_bivariate(data, var1, var2, output_path="plot.png")
 ## 📚 Documentation
 
 - **Full Documentation**: [https://gojiplus.github.io/statqa](https://gojiplus.github.io/statqa)
-- **API Reference**: [API Docs](https://gojiplus.github.io/statqa/api/)
+- **API Reference**: [API Docs](https://gojiplus.github.io/statqa/api_reference/)
 - **Examples**: See [examples/](examples/) directory
 
 ## 🧪 Development
