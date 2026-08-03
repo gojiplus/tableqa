@@ -89,7 +89,7 @@ import pandas as pd
 import json
 from statqa.analysis.univariate import UnivariateAnalyzer
 from statqa.interpretation.formatter import InsightFormatter
-from statqa.metadata.model import Codebook
+from statqa.metadata.schema import Codebook
 
 data = pd.read_csv('data.csv')
 with open('codebook.json') as f:
@@ -156,12 +156,9 @@ for qa in qa_pairs:
 
 ### Export Insights
 ```python
-import json
-from statqa.utils.io import export_insights
+from statqa.utils.io import save_json
 
-# Save to JSON
-with open("insights.json", "w") as f:
-    json.dump(insights, f, indent=2)
+save_json(insights, "insights.json")
 ```
 
 ### Create Visualizations
@@ -169,8 +166,15 @@ with open("insights.json", "w") as f:
 from statqa.visualization.plots import PlotFactory
 
 plotter = PlotFactory(style="whitegrid")
-plotter.plot_univariate(result, output_path="distribution.png")
-plotter.plot_bivariate(result, output_path="relationship.png")
+
+# Univariate takes the column and its metadata; bivariate takes the frame
+# and both variables.
+plotter.plot_univariate(
+    data["sepal_length"], sepal_length_var, output_path="distribution.png"
+)
+plotter.plot_bivariate(
+    data, sepal_length_var, petal_length_var, output_path="relationship.png"
+)
 ```
 
 ## File Structure

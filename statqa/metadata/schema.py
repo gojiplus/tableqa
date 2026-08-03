@@ -215,4 +215,34 @@ class Codebook(BaseModel):
         """Add a variable to the codebook."""
         self.variables[variable.name] = variable
 
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], name: str = "codebook") -> Codebook:
+        """Build a codebook from a parsed JSON mapping, accepting either shape.
+
+        A full codebook carries its own metadata and nests the variables under
+        a `variables` key. Exports written straight from a variable mapping --
+        which is what the bundled example codebooks contain -- are a bare
+        `{variable_name: {...}}` map with no surrounding metadata. Both are
+        accepted so that either can be handed to the CLI.
+
+        Args:
+            data: Parsed JSON mapping in either shape.
+            name: Name to use when the mapping does not carry one of its own.
+
+        Returns:
+            The constructed codebook.
+
+        Raises:
+            ValueError: If data is not a mapping.
+        """
+        if not isinstance(data, dict):
+            raise ValueError(
+                f"codebook must be a JSON object, got {type(data).__name__}"
+            )
+
+        if isinstance(data.get("variables"), dict):
+            return cls(**{"name": name, **data})
+
+        return cls(name=name, variables=data)
+
     model_config = {"validate_assignment": True}

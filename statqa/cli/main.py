@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Literal
 
 import typer
+from pydantic import ValidationError
 from rich.console import Console
 from rich.progress import track
 
@@ -150,7 +151,12 @@ def analyze(
 
     from statqa.metadata.schema import Codebook
 
-    codebook = Codebook(**codebook_data)
+    try:
+        codebook = Codebook.from_dict(codebook_data, name=Path(codebook_path).stem)
+    except (ValidationError, ValueError) as exc:
+        console.print(f"[red]Error:[/red] Could not read {codebook_path}: {exc}")
+        raise typer.Exit(1) from exc
+
     console.print(
         f"[green]✓[/green] Loaded codebook with {len(codebook.variables)} variables"
     )
