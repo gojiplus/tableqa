@@ -231,3 +231,60 @@ class TestPipeline:
 
         assert result.exit_code == 0, result.stdout
         assert out.exists()
+
+
+class TestWithoutPyreadstat:
+    """A plain `pip install statqa` has no pyreadstat.
+
+    statistical.py keeps importing without it -- that is what makes the
+    dependency optional -- so the class is always importable and only its
+    constructor raises. Auto-detection therefore has to consult availability
+    rather than assume an importable class is a usable one.
+    """
+
+    @pytest.fixture
+    def without_pyreadstat(self, monkeypatch):
+        class Unusable:
+            def __init__(self, **kwargs):
+                raise ImportError(
+                    "pyreadstat is required for statistical format parsing."
+                )
+
+        monkeypatch.setattr("statqa.cli.main.StatisticalFormatParser", Unusable)
+        monkeypatch.setattr("statqa.cli.main.HAS_STATISTICAL_PARSER", False)
+
+    def test_auto_detection_still_parses_a_csv(
+        self, without_pyreadstat, codebook_csv, tmp_path
+    ):
+        out = tmp_path / "parsed.json"
+
+        result = runner.invoke(
+            app, ["parse-codebook", str(codebook_csv), "--output", str(out)]
+        )
+
+        assert result.exit_code == 0, result.stdout
+        assert set(json.loads(out.read_text())["variables"]) == {
+            "age",
+            "gender",
+            "income",
+        }
+
+    def test_asking_for_the_statistical_format_reports_it_is_unavailable(
+        self, without_pyreadstat, codebook_csv, tmp_path
+    ):
+        result = runner.invoke(
+            app,
+            [
+                "parse-codebook",
+                str(codebook_csv),
+                "--format",
+                "statistical",
+                "--output",
+                str(tmp_path / "x.json"),
+            ],
+        )
+
+        assert result.exit_code == 1
+        # rich reads [...] as markup, so an unescaped extra silently vanishes
+        # and the message would read "pip install statqa".
+        assert "statistical-formats" in " ".join(result.stdout.split())

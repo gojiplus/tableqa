@@ -10,7 +10,11 @@ import tomllib
 from pathlib import Path
 
 import pytest
-import yaml
+
+# These assert on repository configuration rather than on installed behaviour.
+# The wheel smoke test installs only the wheel and pytest, so PyYAML is absent
+# there and the whole module is out of scope; skip rather than fail collection.
+yaml = pytest.importorskip("yaml", reason="PyYAML is in the dev dependency group")
 
 ROOT = Path(__file__).resolve().parents[1]
 

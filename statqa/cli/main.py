@@ -26,16 +26,26 @@ from statqa.metadata.parsers.text import TextParser
 
 # Optional statistical format parser. Bind to None rather than only tracking a
 # boolean: narrowing on `is None` is what lets a type checker see it is bound.
+#
+# Importing the class is not enough to know it is usable. The module keeps
+# working without pyreadstat -- that is the point of the optional dependency --
+# so the import always succeeds and only the constructor raises. Availability
+# has to be read from HAS_PYREADSTAT.
 try:
-    from statqa.metadata.parsers.statistical import StatisticalFormatParser
+    from statqa.metadata.parsers.statistical import (
+        HAS_PYREADSTAT,
+        StatisticalFormatParser,
+    )
 except ImportError:
     StatisticalFormatParser = None
+    HAS_PYREADSTAT = False
 
 from statqa.qa.generator import QAGenerator
 from statqa.utils.io import load_data, save_json
 from statqa.visualization.plots import PlotFactory
 
-HAS_STATISTICAL_PARSER = StatisticalFormatParser is not None
+#: True only when the parser can actually be constructed.
+HAS_STATISTICAL_PARSER = StatisticalFormatParser is not None and HAS_PYREADSTAT
 
 app = typer.Typer(help="TableQA: Extract structured facts from tabular datasets")
 console = Console()
@@ -69,7 +79,7 @@ def parse_codebook(
     if format == "auto":
         # Try parsers in order - statistical first since it's more specific
         parsers: list[BaseParser] = []
-        if StatisticalFormatParser is not None:
+        if StatisticalFormatParser is not None and HAS_STATISTICAL_PARSER:
             parsers.append(StatisticalFormatParser())
         parsers.extend([CSVParser(), TextParser()])
 
@@ -88,9 +98,14 @@ def parse_codebook(
             case "text":
                 parser = TextParser()
             case "statistical":
-                if StatisticalFormatParser is None:
+                if StatisticalFormatParser is None or not HAS_STATISTICAL_PARSER:
+                    # The bracket is escaped because rich reads [...] as markup
+                    # and would otherwise drop the extra, leaving the message
+                    # telling the reader to run plain `pip install statqa`.
                     console.print(
-                        "[red]Error:[/red] Statistical format support not available. Install with: pip install statqa[statistical-formats]"
+                        "[red]Error:[/red] Statistical format support not "
+                        "available. Install with: "
+                        r"pip install 'statqa\[statistical-formats]'"
                     )
                     raise typer.Exit(1)
                 parser = StatisticalFormatParser()
