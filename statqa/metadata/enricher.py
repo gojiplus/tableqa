@@ -182,7 +182,7 @@ class MetadataEnricher:
 Variable Information:
 - Name: {variable.name}
 - Label: {variable.label}
-- Current Type: {variable.var_type.value}
+- Current Type: {variable.var_type}
 - Description: {variable.description or "Not provided"}
 - Valid Values: {variable.valid_values or "Not provided"}
 - Missing Values: {variable.missing_values or "Not provided"}
@@ -228,7 +228,7 @@ Return ONLY a valid JSON object with these fields.
         """Infer relationships between variables."""
         # Build summary of all variables
         var_list = [
-            f"- {v.name}: {v.label} ({v.var_type.value})"
+            f"- {v.name}: {v.label} ({v.var_type})"
             for v in list(codebook.variables.values())[
                 :50
             ]  # Limit to avoid token limits

@@ -49,7 +49,7 @@ class ContextBuilder:
         # Data generating process
         dgp_counts: dict[str, int] = {}
         for var in codebook.variables.values():
-            dgp = var.dgp.value
+            dgp = str(var.dgp)
             dgp_counts[dgp] = dgp_counts.get(dgp, 0) + 1
 
         if dgp_counts and dgp_counts.get("unknown", 0) < len(codebook.variables):
@@ -89,7 +89,7 @@ class ContextBuilder:
 
         if detailed:
             # Type
-            parts.append(f"Type: {variable.var_type.value}")
+            parts.append(f"Type: {variable.var_type}")
 
             # Description
             if variable.description:
@@ -149,9 +149,7 @@ class ContextBuilder:
         if len(variables) == 1:
             parts.append("Analyzing: " + self.build_variable_context(variables[0]))
         else:
-            var_summary = ", ".join(
-                [f"{v.label} ({v.var_type.value})" for v in variables]
-            )
+            var_summary = ", ".join([f"{v.label} ({v.var_type})" for v in variables])
             parts.append(f"Analyzing relationship between: {var_summary}")
 
         return "\n\n".join(parts)
@@ -183,7 +181,7 @@ class ContextBuilder:
             list(codebook.variables.items())[:max_vars]
         ):
             lines.append(f"\n### {var.label} ({var_name})")
-            lines.append(f"- Type: {var.var_type.value}")
+            lines.append(f"- Type: {var.var_type}")
 
             if var.description:
                 lines.append(f"- Description: {var.description}")

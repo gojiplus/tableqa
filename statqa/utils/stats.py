@@ -45,6 +45,13 @@ def calculate_effect_size(
         if not isinstance(data1, int | float):
             raise ValueError("r_to_d expects a correlation coefficient (float)")
         r = float(data1)
+        # d = 2r/sqrt(1-r^2) diverges at |r| = 1, which a derived or
+        # unit-converted column produces exactly. Returning inf would serialize
+        # as `Infinity`, which is not valid JSON for anything downstream.
+        if abs(r) >= 1.0:
+            raise ValueError(
+                "Cohen's d is undefined for a perfect correlation (|r| = 1)"
+            )
         return float(2 * r / np.sqrt(1 - r**2))
 
     elif effect_type == "eta_squared":

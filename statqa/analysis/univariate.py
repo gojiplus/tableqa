@@ -57,11 +57,9 @@ class UnivariateAnalyzer:
         result: dict[str, Any] = {
             "variable": variable.name,
             "label": variable.label,
-            "type": (
-                variable.var_type.value
-                if hasattr(variable.var_type, "value")
-                else variable.var_type
-            ),
+            # Variable sets use_enum_values, so var_type is already a plain str;
+            # str() also yields the value if it ever arrives as the enum itself.
+            "type": str(variable.var_type),
             "n_total": len(data),
             "n_valid": len(clean_data.dropna()),
             "n_missing": int(clean_data.isna().sum()),

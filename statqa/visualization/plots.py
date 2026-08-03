@@ -297,7 +297,16 @@ class PlotFactory:
                 lambda x: variable.valid_values.get(x, str(x))
             )
 
-        sns.barplot(x=counts.index, y=counts.values, ax=ax, palette="viridis")
+        # hue duplicates x with legend=False: seaborn removes bare `palette`
+        # in 0.14, and this is the replacement it documents.
+        sns.barplot(
+            x=counts.index,
+            y=counts.values,
+            hue=counts.index,
+            ax=ax,
+            palette="viridis",
+            legend=False,
+        )
         ax.set_xlabel(variable.label)
         ax.set_ylabel("Count")
 
@@ -333,7 +342,13 @@ class PlotFactory:
             )
 
         sns.boxplot(
-            x=var_cat.name, y=var_num.name, data=plot_data, ax=ax, palette="Set2"
+            x=var_cat.name,
+            y=var_num.name,
+            hue=var_cat.name,
+            data=plot_data,
+            ax=ax,
+            palette="Set2",
+            legend=False,
         )
         ax.set_xlabel(var_cat.label)
         ax.set_ylabel(var_num.label)
