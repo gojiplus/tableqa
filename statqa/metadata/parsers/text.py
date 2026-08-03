@@ -1,26 +1,24 @@
 """Text-based codebook parser.
 
 Parses structured text codebooks with variable definitions.
-Supports formats like:
+Supports formats like::
 
-```
-# Variable: age
-Label: Respondent Age
-Type: numeric_continuous
-Units: years
-Range: 18-99
-Missing: -1, 999
-Description: Age of respondent at time of survey
+    # Variable: age
+    Label: Respondent Age
+    Type: numeric_continuous
+    Units: years
+    Range: 18-99
+    Missing: -1, 999
+    Description: Age of respondent at time of survey
 
-# Variable: gender
-Label: Gender
-Type: categorical_nominal
-Values:
-  1: Male
-  2: Female
-  3: Other
-Missing: 0
-```
+    # Variable: gender
+    Label: Gender
+    Type: categorical_nominal
+    Values:
+      1: Male
+      2: Female
+      3: Other
+    Missing: 0
 """
 
 import re

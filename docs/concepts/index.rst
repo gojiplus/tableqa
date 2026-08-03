@@ -7,6 +7,7 @@ Understanding StatQA's architecture and design principles.
    :maxdepth: 2
 
    multimodal_qa
+   qa_dataset_pipeline
    provenance
    architecture
 

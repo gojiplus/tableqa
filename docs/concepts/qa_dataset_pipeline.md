@@ -314,7 +314,7 @@ qa_pairs = qa_gen.generate_qa_pairs(
 ### 6. Export Formats
 
 **JSONL (Enhanced Multimodal)**:
-```json
+```text
 {"question": "...", "answer": "...", "type": "...", "provenance": {...}, "visual": {...}, "vars": [...]}
 ```
 
