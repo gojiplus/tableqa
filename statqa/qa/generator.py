@@ -12,15 +12,17 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
 
+# Bind the module to None rather than only tracking a boolean: narrowing on
+# `is None` is what lets a type checker see the import is bound at use sites.
 try:
     import openai
-
-    HAS_OPENAI = True
 except ImportError:
-    HAS_OPENAI = False
+    openai = None
 
 from statqa.qa.templates import QuestionTemplate, infer_question_type
 from statqa.utils.logging import get_logger
+
+HAS_OPENAI = openai is not None
 
 logger = get_logger(__name__)
 
@@ -64,7 +66,7 @@ class QAGenerator:
 
         if use_llm:
             if llm_provider == "openai":
-                if not HAS_OPENAI:
+                if openai is None:
                     raise ImportError("openai required for LLM features")
                 self.client = (
                     openai.OpenAI(api_key=api_key) if api_key else openai.OpenAI()

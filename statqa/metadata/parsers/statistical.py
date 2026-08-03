@@ -7,12 +7,12 @@ including variable labels, value labels, and missing value definitions.
 from pathlib import Path
 from typing import Any
 
+# Bind the module to None rather than only tracking a boolean: narrowing on
+# `is None` is what lets a type checker see the import is bound at use sites.
 try:
     import pyreadstat
-
-    HAS_PYREADSTAT = True
 except ImportError:
-    HAS_PYREADSTAT = False
+    pyreadstat = None
 
 from statqa.metadata.parsers.base import BaseParser
 from statqa.metadata.schema import (
@@ -21,6 +21,8 @@ from statqa.metadata.schema import (
     Variable,
     VariableType,
 )
+
+HAS_PYREADSTAT = pyreadstat is not None
 
 
 class StatisticalFormatParser(BaseParser):
@@ -82,7 +84,24 @@ class StatisticalFormatParser(BaseParser):
         )
 
     def _read_metadata_only(self, path: Path) -> Any:
-        """Read only metadata from statistical file."""
+        """Read only metadata from statistical file.
+
+        Args:
+            path: Path to the statistical data file.
+
+        Returns:
+            The pyreadstat metadata container for the file.
+
+        Raises:
+            ImportError: If pyreadstat is not installed.
+            ValueError: If the file suffix is not a supported format.
+        """
+        if pyreadstat is None:
+            raise ImportError(
+                "pyreadstat is required for statistical format parsing. "
+                "Install with: pip install statqa[statistical-formats]"
+            )
+
         suffix = path.suffix.lower()
 
         match suffix:

@@ -14,21 +14,22 @@ from typing import Any, Literal
 from statqa.exceptions import EnrichmentError, LLMConnectionError, LLMResponseError
 from statqa.utils.logging import get_logger
 
+# Bind the module to None rather than only tracking a boolean: narrowing on
+# `is None` is what lets a type checker see the import is bound at use sites.
 try:
     import openai
-
-    HAS_OPENAI = True
 except ImportError:
-    HAS_OPENAI = False
+    openai = None
 
 try:
     import anthropic
-
-    HAS_ANTHROPIC = True
 except ImportError:
-    HAS_ANTHROPIC = False
+    anthropic = None
 
 from statqa.metadata.schema import Codebook, Variable, VariableType
+
+HAS_OPENAI = openai is not None
+HAS_ANTHROPIC = anthropic is not None
 
 logger = get_logger(__name__)
 
@@ -63,7 +64,7 @@ class MetadataEnricher:
 
         match self.provider:
             case "openai":
-                if not HAS_OPENAI:
+                if openai is None:
                     raise ImportError(
                         "openai package required. Install with: pip install openai"
                     )
@@ -72,7 +73,7 @@ class MetadataEnricher:
                 )
                 self.model = model or "gpt-4"
             case "anthropic":
-                if not HAS_ANTHROPIC:
+                if anthropic is None:
                     raise ImportError(
                         "anthropic package required. Install with: pip install anthropic"
                     )

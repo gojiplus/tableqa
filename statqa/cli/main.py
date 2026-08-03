@@ -23,16 +23,18 @@ from statqa.metadata.parsers.base import BaseParser
 from statqa.metadata.parsers.csv import CSVParser
 from statqa.metadata.parsers.text import TextParser
 
-# Optional statistical format parser
+# Optional statistical format parser. Bind to None rather than only tracking a
+# boolean: narrowing on `is None` is what lets a type checker see it is bound.
 try:
     from statqa.metadata.parsers.statistical import StatisticalFormatParser
-
-    HAS_STATISTICAL_PARSER = True
 except ImportError:
-    HAS_STATISTICAL_PARSER = False
+    StatisticalFormatParser = None
+
 from statqa.qa.generator import QAGenerator
 from statqa.utils.io import load_data, save_json
 from statqa.visualization.plots import PlotFactory
+
+HAS_STATISTICAL_PARSER = StatisticalFormatParser is not None
 
 app = typer.Typer(help="TableQA: Extract structured facts from tabular datasets")
 console = Console()
@@ -66,7 +68,7 @@ def parse_codebook(
     if format == "auto":
         # Try parsers in order - statistical first since it's more specific
         parsers: list[BaseParser] = []
-        if HAS_STATISTICAL_PARSER:
+        if StatisticalFormatParser is not None:
             parsers.append(StatisticalFormatParser())
         parsers.extend([CSVParser(), TextParser()])
 
@@ -85,7 +87,7 @@ def parse_codebook(
             case "text":
                 parser = TextParser()
             case "statistical":
-                if not HAS_STATISTICAL_PARSER:
+                if StatisticalFormatParser is None:
                     console.print(
                         "[red]Error:[/red] Statistical format support not available. Install with: pip install statqa[statistical-formats]"
                     )
