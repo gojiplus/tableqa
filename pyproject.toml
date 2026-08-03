@@ -1,10 +1,9 @@
 [build-system]
-requires = ["uv_build>=0.9.0,<0.10.0"]
-build-backend = "uv_build"
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
 
 [project]
 name = "statqa"
-version = "0.3.0"
 description = "Automatically extract structured facts, insights, and Q/A pairs from tabular datasets"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -47,6 +46,7 @@ dependencies = [
     "rich>=13.0.0",
     "linkify-it-py>=2.0.3",
 ]
+dynamic = ["version"]
 
 [project.optional-dependencies]
 llm = [
@@ -74,10 +74,6 @@ Repository = "https://github.com/gojiplus/statqa"
 
 [project.scripts]
 statqa = "statqa.cli.main:app"
-
-[tool.uv.build-backend]
-module-name = "statqa"
-module-root = ""
 
 # Pytest configuration
 [tool.pytest.ini_options]
@@ -173,6 +169,16 @@ exclude = '\.venv|tests|docs'
 [tool.pyright]
 include = ["statqa"]
 typeCheckingMode = "standard"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.hatch.build.targets.wheel]
+packages = ["statqa"]
+
+[tool.uv-dynamic-versioning]
+vcs = "git"
+style = "pep440"
 
 [dependency-groups]
 docs = ["sphinx>=8", "furo", "myst-parser", "sphinx-copybutton", "py-canon @ git+https://github.com/gojiplus/py-canon@v1"]

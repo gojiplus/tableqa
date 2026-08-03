@@ -2044,7 +2044,6 @@ wheels = [
 
 [[package]]
 name = "statqa"
-version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "linkify-it-py" },
@@ -2104,24 +2103,28 @@ docs = [
 
 [package.metadata]
 requires-dist = [
+    { name = "anthropic", marker = "extra == 'all'", specifier = ">=0.18.0" },
     { name = "anthropic", marker = "extra == 'llm'", specifier = ">=0.18.0" },
     { name = "linkify-it-py", specifier = ">=2.0.3" },
     { name = "matplotlib", specifier = ">=3.7.0" },
     { name = "numpy", specifier = ">=1.24.0" },
+    { name = "openai", marker = "extra == 'all'", specifier = ">=1.0.0" },
     { name = "openai", marker = "extra == 'llm'", specifier = ">=1.0.0" },
     { name = "pandas", specifier = ">=2.0.0" },
+    { name = "pdfplumber", marker = "extra == 'all'", specifier = ">=0.10.0" },
     { name = "pdfplumber", marker = "extra == 'pdf'", specifier = ">=0.10.0" },
     { name = "pydantic", specifier = ">=2.0.0" },
+    { name = "pyreadstat", marker = "extra == 'all'", specifier = ">=1.3.0" },
     { name = "pyreadstat", marker = "extra == 'statistical-formats'", specifier = ">=1.3.0" },
     { name = "rich", specifier = ">=13.0.0" },
     { name = "scipy", specifier = ">=1.11.0" },
     { name = "seaborn", specifier = ">=0.12.0" },
-    { name = "statqa", extras = ["llm", "pdf", "statistical-formats", "examples"], marker = "extra == 'all'" },
     { name = "statsmodels", specifier = ">=0.14.0" },
+    { name = "tqdm", marker = "extra == 'all'", specifier = ">=4.65.0" },
     { name = "tqdm", marker = "extra == 'examples'", specifier = ">=4.65.0" },
     { name = "typer", specifier = ">=0.9.0" },
 ]
-provides-extras = ["llm", "pdf", "statistical-formats", "examples", "all"]
+provides-extras = ["all", "examples", "llm", "pdf", "statistical-formats"]
 
 [package.metadata.requires-dev]
 dev = [
