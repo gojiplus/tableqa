@@ -183,8 +183,7 @@ def infer_variable_types(profile_df: pd.DataFrame) -> tuple[dict, set]:
             types[var] = "categorical"
 
     logger.info(
-        f"Inferred types for {len(types)} variables; "
-        f"skipping {len(skip)} single-level variables"
+        f"Inferred types for {len(types)} variables; skipping {len(skip)} single-level variables"
     )
     return types, skip
 
@@ -374,8 +373,7 @@ def run_bivariate_analysis(
         # Format insight
         mapping = {str(k): round(v, 2) for k, v in grp.items()}
         insight_text = (
-            f"Mean **{label_y}** by **{label_x}**: {mapping}. "
-            f"Dropped missing; no weights applied."
+            f"Mean **{label_y}** by **{label_x}**: {mapping}. Dropped missing; no weights applied."
         )
 
         return {"vars": [x, y], "insight": insight_text, "figure": str(fig_path)}

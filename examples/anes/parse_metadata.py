@@ -189,8 +189,8 @@ def generate_research_questions(
         )
 
         logger.info(
-            f"Generating questions for chunk {chunk_idx+1}/{num_chunks} "
-            f"(variables {start}-{end-1})"
+            f"Generating questions for chunk {chunk_idx + 1}/{num_chunks} "
+            f"(variables {start}-{end - 1})"
         )
 
         try:
@@ -211,10 +211,10 @@ def generate_research_questions(
                 if m:
                     questions.append(m.group(1).strip())
 
-            logger.info(f"Chunk {chunk_idx+1}: Total questions collected: {len(questions)}")
+            logger.info(f"Chunk {chunk_idx + 1}: Total questions collected: {len(questions)}")
 
         except Exception as e:
-            logger.error(f"LLM error in chunk {chunk_idx+1}: {e}")
+            logger.error(f"LLM error in chunk {chunk_idx + 1}: {e}")
 
     return questions
 

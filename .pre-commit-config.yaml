@@ -3,15 +3,15 @@
 # Run manually: pre-commit run --all-files
 
 default_language_version:
-  python: python3.13
+  python: python3.12
 
 repos:
   # Ruff - Fast Python linter (replaces flake8, isort, etc.)
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.4
+    rev: v0.16.1
     hooks:
       # Run the linter
-      - id: ruff
+      - id: ruff-check
         args: [--fix]
         types_or: [python, pyi]
       # Run the formatter
@@ -22,7 +22,7 @@ repos:
 
   # Standard pre-commit hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
         exclude: ^docs/

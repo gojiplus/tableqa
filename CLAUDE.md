@@ -27,8 +27,10 @@ ruff check statqa tests
 # Format code
 ruff format statqa tests
 
-# Check docstring style and type hint consistency
-pydoclint statqa/
+# Check docstring style and type hint consistency.
+# Run isolated: pydoclint needs docstring-parser-fork, which claims the same
+# `docstring_parser` module name as the docstring-parser that anthropic pulls in.
+uvx pydoclint statqa/
 
 # Run type checking
 pyright statqa/

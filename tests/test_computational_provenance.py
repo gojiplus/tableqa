@@ -174,6 +174,6 @@ class TestComputationalProvenance:
         for cmd in prov["python_commands"]:
             assert isinstance(cmd, str)
             # Commands should either be function calls or assignments
-            assert any(
-                pattern in cmd for pattern in ["=", "(", "Result:"]
-            ), f"Invalid command format: {cmd}"
+            assert any(pattern in cmd for pattern in ["=", "(", "Result:"]), (
+                f"Invalid command format: {cmd}"
+            )

@@ -7,13 +7,13 @@ providing type-safe, validated models with rich metadata support.
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
 
-class VariableType(str, Enum):
+class VariableType(StrEnum):
     """Statistical type of a variable."""
 
     NUMERIC_CONTINUOUS = "numeric_continuous"
@@ -26,7 +26,7 @@ class VariableType(str, Enum):
     UNKNOWN = "unknown"
 
 
-class DataGeneratingProcess(str, Enum):
+class DataGeneratingProcess(StrEnum):
     """How the data was generated."""
 
     OBSERVATIONAL = "observational"
@@ -38,7 +38,7 @@ class DataGeneratingProcess(str, Enum):
     UNKNOWN = "unknown"
 
 
-class MissingPattern(str, Enum):
+class MissingPattern(StrEnum):
     """Pattern of missing data."""
 
     MCAR = "mcar"  # Missing Completely At Random

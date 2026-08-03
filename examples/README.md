@@ -218,7 +218,6 @@ examples/
 
 - **Documentation**: https://gojiplus.github.io/statqa
 - **Issues**: https://github.com/gojiplus/statqa/issues
-- **Discussions**: https://github.com/gojiplus/statqa/discussions
 
 ## Next Steps
 

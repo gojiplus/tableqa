@@ -4,11 +4,11 @@ Question templates for Q/A pair generation.
 Defines templates for converting facts into question/answer pairs.
 """
 
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 
-class QuestionType(str, Enum):
+class QuestionType(StrEnum):
     """Types of questions that can be generated."""
 
     DESCRIPTIVE = "descriptive"  # What is the average...?
