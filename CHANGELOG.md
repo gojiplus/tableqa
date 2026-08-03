@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `InsightFormatter.format_temporal` and `format_causal` raised
+  `UnboundLocalError`, and `format_univariate` raised `KeyError`, on any result
+  lacking an optional section. Analyzers return `{"error": ...}` on their
+  insufficient-data paths, so all three were reachable from ordinary data.
+- Reading a `.xpt` (SAS transport) file called `pyreadstat.read_xpt`, which does
+  not exist; the function is `read_xport`.
+- Cohen's d is undefined at a perfect correlation, where the conversion returned
+  `inf` and serialized as `Infinity` — not valid JSON. It is now omitted.
+- Reading `.value` from `Variable.var_type` and `Variable.dgp` raised
+  `AttributeError`: `use_enum_values` means those fields already hold the value.
+
+### Changed
+- The version is derived from the git tag (hatchling + uv-dynamic-versioning)
+  rather than being written in `pyproject.toml`.
+- `pytest` no longer collects coverage or writes reports unless asked; use
+  `pytest --cov`.
+- `pydoclint` is no longer a dev dependency. It requires `docstring-parser-fork`,
+  which collides with the `docstring-parser` that `anthropic` requires; run it
+  isolated with `uvx pydoclint statqa/`.
+
+### Added
+- Adopted the py-canon fleet standard: shared CI, docs and release workflows,
+  `CITATION.cff`, dependabot and zizmor configuration.
+- Test coverage raised from 22% to 74%, with CI enforcing a 70% floor.
+
 ## [0.3.0] - 2025-12-14
 
 ### Added

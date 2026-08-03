@@ -51,6 +51,9 @@ def load_data_from_zip(zip_path: str, pattern: str = r"(?i)\.csv$") -> pd.DataFr
 
     Returns:
         DataFrame with loaded data
+
+    Raises:
+        FileNotFoundError: If no file in the archive matches `pattern`.
     """
     logger.info(f"Loading data from ZIP: {zip_path}")
     dfs = []
@@ -231,14 +234,14 @@ def run_univariate_analysis(
         # Use tableqa's UnivariateAnalyzer
         analyzer = UnivariateAnalyzer()
         var_meta = Variable(
-            name=var, label=pretty_name, type=VariableType.NUMERIC_CONTINUOUS
+            name=var, label=pretty_name, var_type=VariableType.NUMERIC_CONTINUOUS
         )
 
         try:
             result = analyzer.analyze(data, var_meta)
 
             # Generate visualization
-            plotter = PlotFactory(style="seaborn", figsize=(6, 4))
+            plotter = PlotFactory(style="whitegrid", figsize=(6, 4))
             fig_path = Path(output_dir) / f"univariate_{var}.png"
             plotter.plot_univariate(data, var_meta, output_path=str(fig_path))
 
@@ -264,7 +267,7 @@ def run_univariate_analysis(
         pct = (counts / total * 100).round(1)
 
         # Create visualization
-        plotter = PlotFactory(style="seaborn", figsize=(6, 4))
+        plotter = PlotFactory(style="whitegrid", figsize=(6, 4))
         fig_path = Path(output_dir) / f"univariate_{var}.png"
 
         # Simple bar plot for categorical
