@@ -1,5 +1,4 @@
-"""
-Custom exceptions for statqa package.
+"""Custom exceptions for statqa package.
 
 This module defines exception hierarchy for better error handling
 using Python 3.12+ features like exception groups.

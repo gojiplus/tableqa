@@ -71,8 +71,8 @@ from statqa.interpretation.formatter import InsightFormatter
 from statqa.metadata.model import Codebook
 
 # Load data and codebook
-data = pd.read_csv('data.csv')
-with open('codebook.json') as f:
+data = pd.read_csv("data.csv")
+with open("codebook.json") as f:
     codebook_dict = json.load(f)
 codebook = Codebook.from_dict(codebook_dict)
 
@@ -87,12 +87,19 @@ for var_name, variable in codebook.variables.items():
         insight = formatter.format_univariate(result)
 
         # Generate visual metadata
-        plot_data = {"data": data, "variables": codebook.variables,
-                    "output_path": f"plots/univariate_{var_name}.png"}
-        visual_metadata = qa_gen.generate_visual_metadata(result, variables=[var_name], plot_data=plot_data)
+        plot_data = {
+            "data": data,
+            "variables": codebook.variables,
+            "output_path": f"plots/univariate_{var_name}.png",
+        }
+        visual_metadata = qa_gen.generate_visual_metadata(
+            result, variables=[var_name], plot_data=plot_data
+        )
 
         # Generate enhanced Q/A pairs
-        qa_pairs = qa_gen.generate_qa_pairs(result, insight, variables=[var_name], visual_data=visual_metadata)
+        qa_pairs = qa_gen.generate_qa_pairs(
+            result, insight, variables=[var_name], visual_data=visual_metadata
+        )
         print(f"Generated {len(qa_pairs)} Q/A pairs for {var_name}")
 ```
 

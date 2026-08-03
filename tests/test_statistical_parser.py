@@ -11,7 +11,6 @@ import pytest
 from statqa.metadata.parsers.statistical import StatisticalFormatParser
 from statqa.metadata.schema import Codebook, VariableType
 
-
 # Test requires pyreadstat - skip if not available
 pyreadstat = pytest.importorskip("pyreadstat")
 
@@ -190,8 +189,14 @@ class TestStatisticalFormatParser:
 
         # Note: The exact type depends on the inference logic
         # These might be CATEGORICAL_NOMINAL or UNKNOWN initially
-        assert gender_var.var_type in {VariableType.CATEGORICAL_NOMINAL, VariableType.UNKNOWN}
-        assert satisfaction_var.var_type in {VariableType.CATEGORICAL_NOMINAL, VariableType.UNKNOWN}
+        assert gender_var.var_type in {
+            VariableType.CATEGORICAL_NOMINAL,
+            VariableType.UNKNOWN,
+        }
+        assert satisfaction_var.var_type in {
+            VariableType.CATEGORICAL_NOMINAL,
+            VariableType.UNKNOWN,
+        }
 
     def test_dataset_info_extraction(self, temp_spss_file):
         """Test dataset info extraction."""
@@ -211,8 +216,17 @@ class TestStatisticalFormatParser:
         with pytest.raises(ImportError, match="pyreadstat is required"):
             StatisticalFormatParser()
 
-    @pytest.mark.parametrize("extension", [".sav", ".zsav", ".por", ".dta", ".sas7bdat", ".xpt"])
+    @pytest.mark.parametrize(
+        "extension", [".sav", ".zsav", ".por", ".dta", ".sas7bdat", ".xpt"]
+    )
     def test_supported_extensions(self, extension):
         """Test all supported file extensions are recognized."""
         # Just check that the extension is in supported list
-        assert extension.lower() in {".sav", ".zsav", ".por", ".dta", ".sas7bdat", ".xpt"}
+        assert extension.lower() in {
+            ".sav",
+            ".zsav",
+            ".por",
+            ".dta",
+            ".sas7bdat",
+            ".xpt",
+        }

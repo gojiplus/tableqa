@@ -1,5 +1,4 @@
-"""
-Type definitions for statqa package.
+"""Type definitions for statqa package.
 
 This module contains TypedDict definitions for structured data
 to provide better type safety than generic dict[str, Any].
@@ -59,7 +58,9 @@ class BivariateResult(TypedDict, total=False):
     var2: str
     var1_label: str
     var2_label: str
-    analysis_type: Literal["numeric_numeric", "categorical_categorical", "categorical_numeric"]
+    analysis_type: Literal[
+        "numeric_numeric", "categorical_categorical", "categorical_numeric"
+    ]
     sample_size: int
 
     # Correlation analysis
@@ -135,7 +136,9 @@ class CausalResult(TypedDict, total=False):
     treatment: str
     outcome: str
     confounders: list[str]
-    analysis_type: Literal["treatment_effect", "instrumental_variable", "regression_discontinuity"]
+    analysis_type: Literal[
+        "treatment_effect", "instrumental_variable", "regression_discontinuity"
+    ]
 
     # Treatment effect
     ate: float  # Average Treatment Effect

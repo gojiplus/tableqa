@@ -1,5 +1,4 @@
-"""
-Text-based codebook parser.
+"""Text-based codebook parser.
 
 Parses structured text codebooks with variable definitions.
 Supports formats like:
@@ -29,7 +28,12 @@ from pathlib import Path
 from typing import Any
 
 from statqa.metadata.parsers.base import BaseParser
-from statqa.metadata.schema import Codebook, DataGeneratingProcess, Variable, VariableType
+from statqa.metadata.schema import (
+    Codebook,
+    DataGeneratingProcess,
+    Variable,
+    VariableType,
+)
 
 
 class TextParser(BaseParser):
@@ -161,7 +165,9 @@ class TextParser(BaseParser):
                     case "description":
                         # Description might be multi-line
                         desc_lines = [value]
-                        while i < len(lines) and not re.match(r"^[A-Z][a-z]+:", lines[i]):
+                        while i < len(lines) and not re.match(
+                            r"^[A-Z][a-z]+:", lines[i]
+                        ):
                             desc_lines.append(lines[i].strip())
                             i += 1
                         data["description"] = " ".join(desc_lines)

@@ -1,5 +1,4 @@
-"""
-CSV-based codebook parser.
+"""CSV-based codebook parser.
 
 Parses codebooks stored in CSV format with columns like:
 - variable_name
@@ -19,7 +18,12 @@ from typing import Any
 import pandas as pd
 
 from statqa.metadata.parsers.base import BaseParser
-from statqa.metadata.schema import Codebook, DataGeneratingProcess, Variable, VariableType
+from statqa.metadata.schema import (
+    Codebook,
+    DataGeneratingProcess,
+    Variable,
+    VariableType,
+)
 
 
 class CSVParser(BaseParser):
@@ -47,10 +51,14 @@ class CSVParser(BaseParser):
         # Determine name column
         name_col = self._get_name_column(df)
         if not name_col:
-            raise ValueError("CSV must have 'variable_name', 'varname', or 'name' column")
+            raise ValueError(
+                "CSV must have 'variable_name', 'varname', or 'name' column"
+            )
 
         # Extract codebook metadata
-        codebook_name = Path(source).stem if isinstance(source, str | Path) else "codebook"
+        codebook_name = (
+            Path(source).stem if isinstance(source, str | Path) else "codebook"
+        )
 
         # Parse variables
         variables = []
@@ -95,11 +103,15 @@ class CSVParser(BaseParser):
             data["description"] = desc
 
         # Valid values
-        if valid_str := self._get_value(row, ["valid_values", "values", "value_labels"]):
+        if valid_str := self._get_value(
+            row, ["valid_values", "values", "value_labels"]
+        ):
             data["valid_values"] = self._parse_values(valid_str)
 
         # Missing values
-        if missing_str := self._get_value(row, ["missing_values", "missing", "missing_codes"]):
+        if missing_str := self._get_value(
+            row, ["missing_values", "missing", "missing_codes"]
+        ):
             data["missing_values"] = self._parse_missing(missing_str)
 
         # Units
@@ -135,7 +147,9 @@ class CSVParser(BaseParser):
 
         return Variable(**data)
 
-    def _get_value(self, row: pd.Series, columns: list[str], default: Any = None) -> str | None:
+    def _get_value(
+        self, row: pd.Series, columns: list[str], default: Any = None
+    ) -> str | None:
         """Get value from first available column."""
         for col in columns:
             if col in row.index and not pd.isna(row[col]):

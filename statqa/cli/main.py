@@ -1,5 +1,4 @@
-"""
-Main CLI interface for tableqa.
+"""Main CLI interface for tableqa.
 
 Provides commands for:
 - Parsing codebooks
@@ -24,7 +23,6 @@ from statqa.metadata.parsers.base import BaseParser
 from statqa.metadata.parsers.csv import CSVParser
 from statqa.metadata.parsers.text import TextParser
 
-
 # Optional statistical format parser
 try:
     from statqa.metadata.parsers.statistical import StatisticalFormatParser
@@ -35,7 +33,6 @@ except ImportError:
 from statqa.qa.generator import QAGenerator
 from statqa.utils.io import load_data, save_json
 from statqa.visualization.plots import PlotFactory
-
 
 app = typer.Typer(help="TableQA: Extract structured facts from tabular datasets")
 console = Console()
@@ -50,7 +47,9 @@ def version() -> None:
 @app.command()
 def parse_codebook(
     codebook_path: Path = typer.Argument(..., help="Path to codebook file"),
-    output: Path = typer.Option("codebook.json", "--output", "-o", help="Output JSON file"),
+    output: Path = typer.Option(
+        "codebook.json", "--output", "-o", help="Output JSON file"
+    ),
     format: Literal["auto", "text", "csv", "statistical"] = typer.Option(
         "auto", "--format", "-f", help="Codebook format (auto, text, csv, statistical)"
     ),
@@ -120,12 +119,21 @@ def parse_codebook(
 def analyze(
     data_path: Path = typer.Argument(..., help="Path to data file (CSV or ZIP)"),
     codebook_path: Path = typer.Argument(..., help="Path to codebook JSON"),
-    output_dir: Path = typer.Option("output", "--output-dir", "-o", help="Output directory"),
-    analyses: str = typer.Option(
-        "all", "--analyses", "-a", help="Comma-separated: univariate,bivariate,temporal,causal"
+    output_dir: Path = typer.Option(
+        "output", "--output-dir", "-o", help="Output directory"
     ),
-    max_bivariate_pairs: int = typer.Option(100, "--max-pairs", help="Maximum bivariate pairs"),
-    generate_plots: bool = typer.Option(True, "--plots/--no-plots", help="Generate plots"),
+    analyses: str = typer.Option(
+        "all",
+        "--analyses",
+        "-a",
+        help="Comma-separated: univariate,bivariate,temporal,causal",
+    ),
+    max_bivariate_pairs: int = typer.Option(
+        100, "--max-pairs", help="Maximum bivariate pairs"
+    ),
+    generate_plots: bool = typer.Option(
+        True, "--plots/--no-plots", help="Generate plots"
+    ),
 ) -> None:
     """Run statistical analyses on dataset."""
     console.print(f"[blue]Loading data:[/blue] {data_path}")
@@ -141,7 +149,9 @@ def analyze(
     from statqa.metadata.schema import Codebook
 
     codebook = Codebook(**codebook_data)
-    console.print(f"[green]✓[/green] Loaded codebook with {len(codebook.variables)} variables")
+    console.print(
+        f"[green]✓[/green] Loaded codebook with {len(codebook.variables)} variables"
+    )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     plot_dir = output_dir / "plots"
@@ -163,7 +173,9 @@ def analyze(
         plot_factory = PlotFactory() if generate_plots else None
 
         results = []
-        for var_name in track(codebook.variables.keys(), description="Analyzing variables"):
+        for var_name in track(
+            codebook.variables.keys(), description="Analyzing variables"
+        ):
             if var_name in df.columns:
                 var = codebook.variables[var_name]
                 result = analyzer.analyze(df[var_name], var)
@@ -187,7 +199,9 @@ def analyze(
         console.print("\n[bold]Running bivariate analysis...[/bold]")
         analyzer = BivariateAnalyzer()
 
-        results = analyzer.batch_analyze(df, codebook.variables, max_pairs=max_bivariate_pairs)
+        results = analyzer.batch_analyze(
+            df, codebook.variables, max_pairs=max_bivariate_pairs
+        )
 
         for result in results:
             result["formatted_insight"] = formatter.format_bivariate(result)
@@ -198,13 +212,17 @@ def analyze(
 
     # Save all insights
     save_json(all_insights, output_dir / "all_insights.json")
-    console.print(f"\n[bold green]✓ Analysis complete![/bold green] Results in {output_dir}")
+    console.print(
+        f"\n[bold green]✓ Analysis complete![/bold green] Results in {output_dir}"
+    )
 
 
 @app.command()
 def generate_qa(
     insights_path: Path = typer.Argument(..., help="Path to insights JSON"),
-    output: Path = typer.Option("qa_pairs.jsonl", "--output", "-o", help="Output JSONL file"),
+    output: Path = typer.Option(
+        "qa_pairs.jsonl", "--output", "-o", help="Output JSONL file"
+    ),
     use_llm: bool = typer.Option(False, "--llm", help="Use LLM for paraphrasing"),
     llm_provider: Literal["openai", "anthropic"] = typer.Option(
         "openai", "--llm-provider", help="LLM provider"
@@ -271,9 +289,13 @@ def generate_qa(
 def pipeline(
     data_path: Path = typer.Argument(..., help="Path to data file"),
     codebook_path: Path = typer.Argument(..., help="Path to codebook"),
-    output_dir: Path = typer.Option("output", "--output-dir", "-o", help="Output directory"),
+    output_dir: Path = typer.Option(
+        "output", "--output-dir", "-o", help="Output directory"
+    ),
     generate_qa: bool = typer.Option(True, "--qa/--no-qa", help="Generate Q/A pairs"),
-    enrich_metadata: bool = typer.Option(False, "--enrich", help="Enrich metadata with LLM"),
+    enrich_metadata: bool = typer.Option(
+        False, "--enrich", help="Enrich metadata with LLM"
+    ),
     api_key: str | None = typer.Option(None, "--api-key", help="LLM API key"),
 ) -> None:
     """Run complete pipeline: parse → analyze → generate Q/A."""

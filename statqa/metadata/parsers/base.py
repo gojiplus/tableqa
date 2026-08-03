@@ -1,5 +1,4 @@
-"""
-Base parser interface for codebook parsing.
+"""Base parser interface for codebook parsing.
 
 Defines the abstract interface that all codebook parsers must implement.
 """
@@ -12,20 +11,19 @@ from statqa.metadata.schema import Codebook
 
 
 class BaseParser(ABC):
-    """
-    Abstract base class for codebook parsers.
-
-    Args:
-        **kwargs: Parser-specific configuration options
-    """
+    """Abstract base class for codebook parsers."""
 
     def __init__(self, **kwargs: Any) -> None:
+        """Initialize the parser with format-specific configuration.
+
+        Args:
+            **kwargs: Parser-specific configuration options
+        """
         self.config = kwargs
 
     @abstractmethod
     def parse(self, source: str | Path) -> Codebook:
-        """
-        Parse a codebook from the given source.
+        """Parse a codebook from the given source.
 
         Args:
             source: Path to codebook file or string content
@@ -41,8 +39,7 @@ class BaseParser(ABC):
 
     @abstractmethod
     def validate(self, source: str | Path) -> bool:
-        """
-        Check if this parser can handle the given source.
+        """Check if this parser can handle the given source.
 
         Args:
             source: Path to codebook file or string content
@@ -53,8 +50,7 @@ class BaseParser(ABC):
         pass
 
     def parse_file(self, file_path: str | Path) -> Codebook:
-        """
-        Convenience method to parse from file path.
+        """Convenience method to parse from file path.
 
         Args:
             file_path: Path to codebook file
@@ -65,8 +61,7 @@ class BaseParser(ABC):
         return self.parse(file_path)
 
     def parse_string(self, content: str) -> Codebook:
-        """
-        Convenience method to parse from string content.
+        """Convenience method to parse from string content.
 
         Args:
             content: Codebook content as string

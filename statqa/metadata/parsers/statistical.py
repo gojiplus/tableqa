@@ -1,5 +1,4 @@
-"""
-Statistical format parser for SPSS, Stata, and SAS files.
+"""Statistical format parser for SPSS, Stata, and SAS files.
 
 Uses pyreadstat library to parse statistical data files and extract rich metadata
 including variable labels, value labels, and missing value definitions.
@@ -7,7 +6,6 @@ including variable labels, value labels, and missing value definitions.
 
 from pathlib import Path
 from typing import Any
-
 
 try:
     import pyreadstat
@@ -17,13 +15,26 @@ except ImportError:
     HAS_PYREADSTAT = False
 
 from statqa.metadata.parsers.base import BaseParser
-from statqa.metadata.schema import Codebook, DataGeneratingProcess, Variable, VariableType
+from statqa.metadata.schema import (
+    Codebook,
+    DataGeneratingProcess,
+    Variable,
+    VariableType,
+)
 
 
 class StatisticalFormatParser(BaseParser):
     """Parser for statistical data files (SPSS, Stata, SAS)."""
 
     def __init__(self, **kwargs: Any) -> None:
+        """Initialize the parser, requiring pyreadstat to be installed.
+
+        Args:
+            **kwargs: Parser-specific configuration options
+
+        Raises:
+            ImportError: If pyreadstat is not installed.
+        """
         super().__init__(**kwargs)
         if not HAS_PYREADSTAT:
             raise ImportError(
@@ -139,7 +150,9 @@ class StatisticalFormatParser(BaseParser):
                 var_data["missing_values"] = missing_values
 
             # Infer data generating process based on file type
-            var_data["dgp"] = DataGeneratingProcess.SURVEY  # Most statistical files are surveys
+            var_data["dgp"] = (
+                DataGeneratingProcess.SURVEY
+            )  # Most statistical files are surveys
 
             variables.append(Variable(**var_data))
 
@@ -167,7 +180,9 @@ class StatisticalFormatParser(BaseParser):
                 return VariableType.DATETIME
             elif "int" in orig_type or "long" in orig_type:
                 return VariableType.NUMERIC_DISCRETE
-            elif "float" in orig_type or "double" in orig_type or "numeric" in orig_type:
+            elif (
+                "float" in orig_type or "double" in orig_type or "numeric" in orig_type
+            ):
                 return VariableType.NUMERIC_CONTINUOUS
 
         # Default to unknown - will be inferred during analysis

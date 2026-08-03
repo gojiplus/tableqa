@@ -62,24 +62,8 @@ statistical-formats = [
 examples = [
     "tqdm>=4.65.0",
 ]
-dev = [
-    "pytest>=7.4.0",
-    "pytest-cov>=4.1.0",
-    "pytest-mock>=3.12.0",
-    "pytest-asyncio>=0.21.0",
-    "ruff>=0.1.0",
-    "pyright>=1.1.390",
-    "ipython>=8.12.0",
-    "ipdb>=0.13.0",
-]
-docs = [
-    "sphinx>=7.0.0",
-    "furo>=2024.7.18",
-    "sphinx-autodoc-typehints>=1.24.0",
-    "linkify-it-py>=2.0.0",
-]
 all = [
-    "statqa[llm,pdf,statistical-formats,examples,dev,docs]",
+    "statqa[llm,pdf,statistical-formats,examples]",
 ]
 
 [project.urls]
@@ -143,74 +127,55 @@ exclude_lines = [
 
 # Ruff configuration (replaces flake8, isort, etc.)
 [tool.ruff]
+line-length = 88
 target-version = "py312"
-line-length = 100
-src = [".", "tests"]
 
 [tool.ruff.lint]
-select = [
-    "E",      # pycodestyle errors
-    "W",      # pycodestyle warnings
-    "F",      # pyflakes
-    "I",      # isort
-    "N",      # pep8-naming
-    "UP",     # pyupgrade
-    "B",      # flake8-bugbear
-    "C4",     # flake8-comprehensions
-    "SIM",    # flake8-simplify
-    "TID",    # flake8-tidy-imports
-    "RUF",    # Ruff-specific rules
-]
-ignore = [
-    "E501",   # line too long (handled by formatter)
-    "B008",   # do not perform function calls in argument defaults
-    "B905",   # zip without strict parameter
-]
+external = ["DOC"]
+select = ["E", "W", "F", "I", "B", "C4", "UP", "N", "D", "S", "SIM", "T20", "PT", "RUF"]
+ignore = ["D203", "D213", "B008", "B905", "E501"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401", "F403"]
-"tests/**/*.py" = ["S101", "PLR2004"]
+"tests/**" = ["S101", "D"]
+"docs/**" = ["D"]
+# Demonstration scripts: printing to stdout is their output, and they are read
+# top-to-bottom rather than imported, so module/function docstrings add noise.
+"examples/**" = ["T201", "D"]
 
-[tool.ruff.lint.isort]
-known-first-party = ["statqa"]
-force-single-line = false
-lines-after-imports = 2
-
-
-# Deptry configuration
 [tool.deptry]
-pep621_dev_dependency_groups = ["dev", "docs", "examples", "pdf", "llm", "statistical-formats"]
+pep621_dev_dependency_groups = ["examples", "pdf", "llm", "statistical-formats"]
 known_first_party = ["statqa"]
 ignore = ["DEP004"]  # Allow optional dependencies
 
 # Pydoclint configuration
 [tool.pydoclint]
 style = "google"
-arg-type-hints-in-signature = true
 arg-type-hints-in-docstring = false
-check-arg-order = true
 check-return-types = false
-check-yield-types = false
-require-return-section-when-returning-nothing = false
-exclude = "\\.venv/|build/|dist/|tests/|examples/"
 check-class-attributes = false
-skip-checking-nonpublic = true
-skip-checking-short-docstrings = true
+allow-init-docstring = true
+exclude = '\.venv|tests|docs'
 
-# Pyright configuration
 [tool.pyright]
 include = ["statqa"]
-exclude = ["tests", "examples", "build", "dist"]
-pythonVersion = "3.12"
-typeCheckingMode = "basic"
-reportMissingImports = "error"
-reportMissingTypeStubs = "none"
-reportGeneralTypeIssues = "none"
-reportUnknownMemberType = "none"
-reportUnknownVariableType = "none"
-reportUnknownArgumentType = "none"
-reportArgumentType = "none"
-reportOperatorIssue = "none"
-reportAttributeAccessIssue = "none"
+typeCheckingMode = "standard"
 
-# Ruff handles formatting - no need for black/isort
+[dependency-groups]
+docs = ["sphinx>=8", "furo", "myst-parser", "sphinx-copybutton", "py-canon @ git+https://github.com/gojiplus/py-canon@v1"]
+# pydoclint is deliberately absent: it requires docstring-parser-fork, which
+# installs the same `docstring_parser` module name as the docstring-parser that
+# anthropic (the llm extra) requires. Whichever installs second wins, so the two
+# cannot share an environment. Run it isolated instead: uvx pydoclint statqa/
+dev = [
+    "ruff>=0.14",
+    "pyright>=1.1.390",
+    "pytest>=8",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "pytest-asyncio>=0.21.0",
+    "ipython>=8.12.0",
+    "ipdb>=0.13.0",
+]

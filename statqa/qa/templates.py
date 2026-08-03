@@ -1,5 +1,4 @@
-"""
-Question templates for Q/A pair generation.
+"""Question templates for Q/A pair generation.
 
 Defines templates for converting facts into question/answer pairs.
 """
@@ -20,19 +19,18 @@ class QuestionType(StrEnum):
 
 
 class QuestionTemplate:
-    """
-    Template for generating questions from statistical insights.
-
-    Args:
-        question_type: Type of question to generate
-    """
+    """Template for generating questions from statistical insights."""
 
     def __init__(self, question_type: QuestionType) -> None:
+        """Initialize the template for a given question type.
+
+        Args:
+            question_type: Type of question to generate
+        """
         self.question_type = question_type
 
     def generate(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
-        """
-        Generate question/answer pairs from an insight.
+        """Generate question/answer pairs from an insight.
 
         Args:
             insight: Statistical insight dictionary
@@ -60,7 +58,9 @@ class QuestionTemplate:
         # This should never be reached due to enum constraint
         raise ValueError(f"Unknown question type: {self.question_type}")
 
-    def _generate_descriptive(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
+    def _generate_descriptive(
+        self, insight: dict[str, Any], answer: str
+    ) -> list[dict[str, str]]:
         """Generate descriptive questions (univariate statistics)."""
         questions = []
         var_label = insight.get("label", insight.get("variable", "Variable"))
@@ -104,7 +104,9 @@ class QuestionTemplate:
 
         return questions
 
-    def _generate_comparative(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
+    def _generate_comparative(
+        self, insight: dict[str, Any], answer: str
+    ) -> list[dict[str, str]]:
         """Generate comparative questions (group comparisons)."""
         questions = []
 
@@ -134,7 +136,9 @@ class QuestionTemplate:
 
         return questions
 
-    def _generate_temporal(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
+    def _generate_temporal(
+        self, insight: dict[str, Any], answer: str
+    ) -> list[dict[str, str]]:
         """Generate temporal questions (trends over time)."""
         questions = []
 
@@ -163,7 +167,9 @@ class QuestionTemplate:
 
         return questions
 
-    def _generate_causal(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
+    def _generate_causal(
+        self, insight: dict[str, Any], answer: str
+    ) -> list[dict[str, str]]:
         """Generate causal questions (treatment effects)."""
         questions = []
 
@@ -197,7 +203,9 @@ class QuestionTemplate:
         questions.extend(base_questions)
         return questions
 
-    def _generate_correlational(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
+    def _generate_correlational(
+        self, insight: dict[str, Any], answer: str
+    ) -> list[dict[str, str]]:
         """Generate correlational questions (associations)."""
         questions = []
 
@@ -262,8 +270,7 @@ class QuestionTemplate:
 
 
 def infer_question_type(insight: dict[str, Any]) -> QuestionType:
-    """
-    Infer the appropriate question type from an insight.
+    """Infer the appropriate question type from an insight.
 
     Args:
         insight: Statistical insight dictionary
@@ -274,7 +281,10 @@ def infer_question_type(insight: dict[str, Any]) -> QuestionType:
     analysis_type = insight.get("analysis_type", "")
 
     # Temporal
-    if analysis_type in ["temporal_trend", "year_over_year"] or "mann_kendall" in insight:
+    if (
+        analysis_type in ["temporal_trend", "year_over_year"]
+        or "mann_kendall" in insight
+    ):
         return QuestionType.TEMPORAL
 
     # Causal

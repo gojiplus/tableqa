@@ -49,7 +49,9 @@ def sample_categorical_variable() -> Variable:
 
 
 @pytest.fixture
-def sample_codebook(sample_variable: Variable, sample_categorical_variable: Variable) -> Codebook:
+def sample_codebook(
+    sample_variable: Variable, sample_categorical_variable: Variable
+) -> Codebook:
     """Sample codebook with multiple variables."""
     return Codebook(
         name="Test Codebook",

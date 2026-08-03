@@ -52,9 +52,16 @@ def generate_synthetic_survey(n: int = 1000, seed: int = 42) -> pd.DataFrame:
 
     # Add some correlations for interesting insights
     # Education → Income correlation
-    edu_income_map = {"High School": 50000, "Bachelor": 70000, "Master": 95000, "PhD": 140000}
+    edu_income_map = {
+        "High School": 50000,
+        "Bachelor": 70000,
+        "Master": 95000,
+        "PhD": 140000,
+    }
     base_income = data["education"].map(edu_income_map)
-    data["income"] = (base_income + np.random.normal(0, 20000, n)).clip(20000, 200000).astype(int)
+    data["income"] = (
+        (base_income + np.random.normal(0, 20000, n)).clip(20000, 200000).astype(int)
+    )
 
     # Income → Satisfaction correlation
     income_effect = (data["income"] - data["income"].mean()) / data["income"].std()
@@ -193,7 +200,10 @@ def main():
     codebook_path = output_dir / "codebook.json"
     with open(codebook_path, "w") as f:
         json.dump(
-            {var.name: var.model_dump(mode="json") for var in codebook.variables.values()},
+            {
+                var.name: var.model_dump(mode="json")
+                for var in codebook.variables.values()
+            },
             f,
             indent=2,
         )
@@ -269,9 +279,8 @@ def main():
 
                 bivariate_count += 1
 
-            except Exception:
-                # Skip pairs that can't be analyzed
-                pass
+            except Exception as exc:
+                print(f"  skipped {var1_name} x {var2_name}: {exc}")
 
     print(f"✓ Completed {bivariate_count} bivariate analyses")
 

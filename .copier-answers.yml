@@ -1,0 +1,13 @@
+# Managed by copier — records template version for `copier update`. Do not edit.
+_commit: v1
+_src_path: gh:gojiplus/py-canon
+author_email: gsood07@gmail.com
+author_name: Gaurav Sood
+coverage_floor: 0
+default_branch: main
+description: Automatically extract structured facts, insights, and Q/A pairs from
+    tabular datasets
+needs_cli: true
+org: gojiplus
+package_name: statqa
+project_name: statqa

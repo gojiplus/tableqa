@@ -160,7 +160,7 @@ import json
 from statqa.utils.io import export_insights
 
 # Save to JSON
-with open('insights.json', 'w') as f:
+with open("insights.json", "w") as f:
     json.dump(insights, f, indent=2)
 ```
 
@@ -168,9 +168,9 @@ with open('insights.json', 'w') as f:
 ```python
 from statqa.visualization.plots import PlotFactory
 
-plotter = PlotFactory(style='seaborn')
-plotter.plot_univariate(result, output_path='distribution.png')
-plotter.plot_bivariate(result, output_path='relationship.png')
+plotter = PlotFactory(style="seaborn")
+plotter.plot_univariate(result, output_path="distribution.png")
+plotter.plot_bivariate(result, output_path="relationship.png")
 ```
 
 ## File Structure

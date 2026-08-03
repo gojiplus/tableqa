@@ -38,7 +38,6 @@ from statqa.metadata.schema import Variable, VariableType
 from statqa.utils.logging import setup_logging
 from statqa.visualization.plots import PlotFactory
 
-
 logger = setup_logging(__name__, level="INFO")
 
 
@@ -103,7 +102,8 @@ def load_anes_metadata(meta_path: str) -> tuple[dict, dict, dict]:
 
         # Parse value coding
         codes = {
-            int(m.group(1)): m.group(2).strip() for m in re.finditer(r"(\d+)\.\s*([^\n;]+)", valid)
+            int(m.group(1)): m.group(2).strip()
+            for m in re.finditer(r"(\d+)\.\s*([^\n;]+)", valid)
         }
         valid_map[var] = codes
 
@@ -230,7 +230,9 @@ def run_univariate_analysis(
 
         # Use tableqa's UnivariateAnalyzer
         analyzer = UnivariateAnalyzer()
-        var_meta = Variable(name=var, label=pretty_name, type=VariableType.NUMERIC_CONTINUOUS)
+        var_meta = Variable(
+            name=var, label=pretty_name, type=VariableType.NUMERIC_CONTINUOUS
+        )
 
         try:
             result = analyzer.analyze(data, var_meta)
@@ -243,7 +245,9 @@ def run_univariate_analysis(
             # Format insight
             formatter = InsightFormatter()
             insight_text = formatter.format_univariate(result)
-            insight_text += f" (N={len(data)}, dropped {miss_count} missing. No weights applied.)"
+            insight_text += (
+                f" (N={len(data)}, dropped {miss_count} missing. No weights applied.)"
+            )
 
         except Exception as e:
             logger.warning(f"Error analyzing {var}: {e}")
@@ -289,7 +293,11 @@ def run_univariate_analysis(
             f"N={total}, dropped {miss_count} missing. (No weights applied.)"
         )
 
-    return {"vars": [var], "insight": insight_text, "figure": str(fig_path) if fig_path else None}
+    return {
+        "vars": [var],
+        "insight": insight_text,
+        "figure": str(fig_path) if fig_path else None,
+    }
 
 
 def run_bivariate_analysis(
@@ -372,9 +380,7 @@ def run_bivariate_analysis(
 
         # Format insight
         mapping = {str(k): round(v, 2) for k, v in grp.items()}
-        insight_text = (
-            f"Mean **{label_y}** by **{label_x}**: {mapping}. Dropped missing; no weights applied."
-        )
+        insight_text = f"Mean **{label_y}** by **{label_x}**: {mapping}. Dropped missing; no weights applied."
 
         return {"vars": [x, y], "insight": insight_text, "figure": str(fig_path)}
 
@@ -389,7 +395,9 @@ def main():
     parser.add_argument("--data-zip", required=True, help="Path to ANES data ZIP file")
     parser.add_argument("--metadata", required=True, help="Path to ANES metadata CSV")
     parser.add_argument(
-        "--output-dir", required=True, help="Output directory for insights and visualizations"
+        "--output-dir",
+        required=True,
+        help="Output directory for insights and visualizations",
     )
     parser.add_argument(
         "--max-vars",

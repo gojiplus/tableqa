@@ -5,7 +5,6 @@ from pathlib import Path
 
 from statqa import __version__
 
-
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parents[2]))
 

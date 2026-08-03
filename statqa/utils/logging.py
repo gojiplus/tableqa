@@ -1,5 +1,4 @@
-"""
-Simple logging setup for statqa.
+"""Simple logging setup for statqa.
 
 Provides minimal logging configuration with debug support via environment variable.
 No complex logging infrastructure - just simple, useful debugging.
@@ -14,8 +13,7 @@ def setup_logging(
     logger_name: str,
     level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] | None = None,
 ) -> logging.Logger:
-    """
-    Set up simple logging for statqa modules.
+    """Set up simple logging for statqa modules.
 
     Respects STATQA_DEBUG environment variable:
     - STATQA_DEBUG=1: DEBUG level

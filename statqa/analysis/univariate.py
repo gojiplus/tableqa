@@ -1,5 +1,4 @@
-"""
-Univariate statistical analysis.
+"""Univariate statistical analysis.
 
 Performs descriptive statistics for single variables including:
 - Numeric: mean, median, std, robust statistics, distribution tests
@@ -19,26 +18,24 @@ from statqa.metadata.schema import Variable
 from statqa.utils.logging import get_logger
 from statqa.utils.stats import detect_outliers, robust_stats
 
-
 logger = get_logger(__name__)
 
 
 class UnivariateAnalyzer:
-    """
-    Analyzer for single-variable statistics.
-
-    Args:
-        handle_outliers: Whether to detect and report outliers
-        robust: Whether to include robust statistics (median, MAD)
-    """
+    """Analyzer for single-variable statistics."""
 
     def __init__(self, handle_outliers: bool = True, robust: bool = True) -> None:
+        """Initialize the univariate analyzer.
+
+        Args:
+            handle_outliers: Whether to detect and report outliers
+            robust: Whether to include robust statistics (median, MAD)
+        """
         self.handle_outliers = handle_outliers
         self.robust = robust
 
     def analyze(self, data: pd.Series, variable: Variable) -> dict[str, Any]:
-        """
-        Analyze a single variable.
+        """Analyze a single variable.
 
         Args:
             data: Data series
@@ -47,11 +44,15 @@ class UnivariateAnalyzer:
         Returns:
             Analysis results as UnivariateResult
         """
-        logger.debug(f"Analyzing variable '{variable.name}' (type: {variable.var_type})")
+        logger.debug(
+            f"Analyzing variable '{variable.name}' (type: {variable.var_type})"
+        )
 
         # Clean missing values based on metadata
         clean_data = self._clean_missing(data, variable)
-        logger.debug(f"Data cleaning: {len(data)} total → {len(clean_data.dropna())} valid values")
+        logger.debug(
+            f"Data cleaning: {len(data)} total → {len(clean_data.dropna())} valid values"
+        )
 
         result: dict[str, Any] = {
             "variable": variable.name,
@@ -118,7 +119,9 @@ class UnivariateAnalyzer:
         computation_log.append(f"scipy.stats.skew(valid_data)  # Result: {skew_val}")
 
         kurt_val = float(stats.kurtosis(valid_data))
-        computation_log.append(f"scipy.stats.kurtosis(valid_data)  # Result: {kurt_val}")
+        computation_log.append(
+            f"scipy.stats.kurtosis(valid_data)  # Result: {kurt_val}"
+        )
 
         result: dict[str, Any] = {
             "mean": mean_val,
@@ -157,8 +160,8 @@ class UnivariateAnalyzer:
                     "p_value": float(p_value),
                     "is_normal": bool(p_value > 0.05),
                 }
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Shapiro-Wilk normality test failed: %s", exc)
         else:
             try:
                 result_ad = stats.anderson(valid_data)
@@ -168,10 +171,12 @@ class UnivariateAnalyzer:
                 result["normality_test"] = {
                     "test": "anderson-darling",
                     "statistic": float(result_ad.statistic),
-                    "is_normal": bool(result_ad.statistic < result_ad.critical_values[2]),
+                    "is_normal": bool(
+                        result_ad.statistic < result_ad.critical_values[2]
+                    ),
                 }
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Anderson-Darling normality test failed: %s", exc)
 
         # Range validation
         if variable.range_min is not None or variable.range_max is not None:
@@ -184,7 +189,9 @@ class UnivariateAnalyzer:
 
         return result
 
-    def _analyze_categorical(self, data: pd.Series, variable: Variable) -> dict[str, Any]:
+    def _analyze_categorical(
+        self, data: pd.Series, variable: Variable
+    ) -> dict[str, Any]:
         """Analyze categorical variable."""
         valid_data = data.dropna()
 
@@ -197,17 +204,23 @@ class UnivariateAnalyzer:
 
         # Frequency counts with computation tracking
         counts = valid_data.value_counts()
-        computation_log.append(f"counts = valid_data.value_counts()  # {len(counts)} unique values")
+        computation_log.append(
+            f"counts = valid_data.value_counts()  # {len(counts)} unique values"
+        )
 
         frequencies = (counts / len(valid_data) * 100).round(2)
-        computation_log.append("frequencies = (counts / len(valid_data) * 100).round(2)")
+        computation_log.append(
+            "frequencies = (counts / len(valid_data) * 100).round(2)"
+        )
 
         # Mode
         mode = counts.idxmax()
         computation_log.append(f"mode = counts.idxmax()  # Result: {mode}")
 
         mode_freq = frequencies.max()
-        computation_log.append(f"mode_frequency = frequencies.max()  # Result: {mode_freq}%")
+        computation_log.append(
+            f"mode_frequency = frequencies.max()  # Result: {mode_freq}%"
+        )
 
         result: dict[str, Any] = {
             "n_unique": len(counts),
@@ -253,8 +266,7 @@ class UnivariateAnalyzer:
     def batch_analyze(
         self, df: pd.DataFrame, variables: dict[str, Variable]
     ) -> list[dict[str, Any]]:
-        """
-        Analyze multiple variables at once.
+        """Analyze multiple variables at once.
 
         Args:
             df: DataFrame with data

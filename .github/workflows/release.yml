@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: >-
+          Upload to PyPI. Only takes effect when the run is started from a tag;
+          from a branch this is a build-and-check rehearsal.
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# A manual run and a tag push can otherwise race for the same ref: two builds,
+# and two `dist` artifacts uploaded under one name.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    uses: gojiplus/py-canon/.github/workflows/reusable-release.yml@v1
+    permissions:
+      contents: write
+      id-token: write
+    with:
+      # `gh release create` fails when the release already exists, so create it
+      # only on the original tag push — not on a manual re-run of a released tag.
+      github-release: ${{ github.event_name == 'push' }}
+
+  # PyPI trusted publishing rejects reusable workflows (the OIDC claims
+  # must reference this repo's workflow file), so the publish step lives
+  # here rather than in py-canon's reusable-release.
+  publish:
+    needs: release
+    # The version is derived from the tag, so anything built off a branch is a dev
+    # version (1.0.post3.dev0+abc1234). A PyPI upload cannot be withdrawn, so never
+    # publish a non-tag build, and make a manual run opt in explicitly.
+    if: >-
+      startsWith(github.ref, 'refs/tags/') &&
+      (github.event_name == 'push' || inputs.publish)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: dist
+          path: dist/
+      - name: Publish (trusted publishing, PEP 740 attestations)
+        uses: pypa/gh-action-pypi-publish@ba38be9e461d3875417946c167d0b5f3d385a247 # release/v1
+        with:
+          attestations: true

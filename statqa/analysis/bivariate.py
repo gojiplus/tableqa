@@ -1,5 +1,4 @@
-"""
-Bivariate statistical analysis.
+"""Bivariate statistical analysis.
 
 Analyzes relationships between pairs of variables:
 - Numeric x Numeric: Pearson/Spearman correlation, regression
@@ -19,19 +18,11 @@ from statqa.metadata.schema import Variable
 from statqa.utils.logging import get_logger
 from statqa.utils.stats import calculate_effect_size, cramers_v
 
-
 logger = get_logger(__name__)
 
 
 class BivariateAnalyzer:
-    """
-    Analyzer for two-variable relationships.
-
-    Args:
-        significance_level: Alpha level for statistical tests
-        min_sample_size: Minimum sample size for analysis
-        use_robust: Use robust methods (Spearman) when appropriate
-    """
+    """Analyzer for two-variable relationships."""
 
     def __init__(
         self,
@@ -39,6 +30,13 @@ class BivariateAnalyzer:
         min_sample_size: int = 10,
         use_robust: bool = True,
     ) -> None:
+        """Initialize the bivariate analyzer.
+
+        Args:
+            significance_level: Alpha level for statistical tests
+            min_sample_size: Minimum sample size for analysis
+            use_robust: Use robust methods (Spearman) when appropriate
+        """
         self.alpha = significance_level
         self.min_n = min_sample_size
         self.use_robust = use_robust
@@ -49,8 +47,7 @@ class BivariateAnalyzer:
         var1: Variable,
         var2: Variable,
     ) -> dict[str, Any] | None:
-        """
-        Analyze relationship between two variables.
+        """Analyze relationship between two variables.
 
         Args:
             data: DataFrame containing both variables
@@ -81,18 +78,24 @@ class BivariateAnalyzer:
             return self._analyze_categorical_numeric(subset, var1, var2)
         elif var1.is_numeric() and var2.is_categorical():
             # Swap order
-            return self._analyze_categorical_numeric(subset[[var2.name, var1.name]], var2, var1)
+            return self._analyze_categorical_numeric(
+                subset[[var2.name, var1.name]], var2, var1
+            )
 
         return None
 
-    def _clean_data(self, data: pd.DataFrame, var1: Variable, var2: Variable) -> pd.DataFrame:
+    def _clean_data(
+        self, data: pd.DataFrame, var1: Variable, var2: Variable
+    ) -> pd.DataFrame:
         """Clean missing values based on metadata."""
         clean = data.copy()
 
         # Replace missing codes with NaN
         for var in [var1, var2]:
             if var.missing_values:
-                clean[var.name] = clean[var.name].replace(dict.fromkeys(var.missing_values, np.nan))
+                clean[var.name] = clean[var.name].replace(
+                    dict.fromkeys(var.missing_values, np.nan)
+                )
 
         return clean
 
@@ -140,8 +143,8 @@ class BivariateAnalyzer:
                     "cohens_d": float(d),
                     "interpretation": self._interpret_cohens_d(d),
                 }
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Cohen's d conversion from Pearson r failed: %s", exc)
 
         # Strength interpretation
         result["strength"] = self._interpret_correlation(abs(r_pearson))
@@ -237,7 +240,9 @@ class BivariateAnalyzer:
             }
 
             # Effect size (Cohen's d)
-            d = calculate_effect_size(group_data[0], group_data[1], effect_type="cohen_d")
+            d = calculate_effect_size(
+                group_data[0], group_data[1], effect_type="cohen_d"
+            )
             result["effect_size"] = {
                 "cohens_d": float(d),
                 "interpretation": self._interpret_cohens_d(d),
@@ -320,8 +325,7 @@ class BivariateAnalyzer:
         variables: dict[str, Variable],
         max_pairs: int | None = None,
     ) -> list[dict[str, Any]]:
-        """
-        Analyze multiple variable pairs.
+        """Analyze multiple variable pairs.
 
         Args:
             df: DataFrame with data
