@@ -244,7 +244,7 @@ class TemporalAnalyzer:
         """Fit linear trend and return statistics."""
         # Create numeric time index
         time_numeric = np.arange(len(data))
-        values = data[value_col].values
+        values = data[value_col].to_numpy(dtype=float)
 
         # Linear regression
         fit = stats.linregress(time_numeric, values)
@@ -287,9 +287,21 @@ class TemporalAnalyzer:
         if len(yearly) < 2:
             return {"error": "Insufficient years"}
 
-        # Calculate YoY changes
+        # Calculate YoY changes. Materialise them as plain dicts keyed by year:
+        # the first year has no predecessor, so both series carry a NaN that has
+        # to read as null rather than as a value.
         yoy_absolute = yearly.diff()
         yoy_percent = yearly.pct_change() * 100
+        yoy_absolute_by_year = {
+            year: float(change)
+            for year, change in yoy_absolute.items()
+            if not pd.isna(change)
+        }
+        yoy_percent_by_year = {
+            year: float(change)
+            for year, change in yoy_percent.items()
+            if not pd.isna(change)
+        }
 
         result: dict[str, Any] = {
             "analysis_type": "year_over_year",
@@ -299,18 +311,8 @@ class TemporalAnalyzer:
             "years": {
                 str(year): {
                     "value": float(value),
-                    "yoy_absolute": (
-                        float(yoy_absolute.loc[year])
-                        if year in yoy_absolute.index
-                        and not np.isnan(yoy_absolute.loc[year])
-                        else None
-                    ),
-                    "yoy_percent": (
-                        float(yoy_percent.loc[year])
-                        if year in yoy_percent.index
-                        and not np.isnan(yoy_percent.loc[year])
-                        else None
-                    ),
+                    "yoy_absolute": yoy_absolute_by_year.get(year),
+                    "yoy_percent": yoy_percent_by_year.get(year),
                 }
                 for year, value in yearly.items()
             },

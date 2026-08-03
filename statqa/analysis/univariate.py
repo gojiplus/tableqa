@@ -8,7 +8,7 @@ Performs descriptive statistics for single variables including:
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import pandas as pd
@@ -235,7 +235,8 @@ class UnivariateAnalyzer:
         # Map codes to labels if available
         if variable.valid_values:
             result["frequency_labels"] = {
-                variable.valid_values.get(k, str(k)): v for k, v in frequencies.items()
+                variable.valid_values.get(cast("int | str", k), str(k)): v
+                for k, v in frequencies.items()
             }
 
         # Diversity measures (entropy, Gini-Simpson)

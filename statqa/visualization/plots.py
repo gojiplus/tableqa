@@ -6,7 +6,7 @@ Creates publication-quality plots for insights.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Literal, overload
+from typing import Any, Literal, cast, overload
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -269,11 +269,11 @@ class PlotFactory:
 
         if n_unique > 50:
             # Use KDE for continuous data
-            sns.histplot(data, kde=True, ax=ax, stat="density")
+            sns.histplot(x=data, kde=True, ax=ax, stat="density")
             ax.set_ylabel("Density")
         else:
             # Use count histogram for discrete data
-            sns.histplot(data, kde=False, ax=ax, bins=min(n_unique, 30))
+            sns.histplot(x=data, kde=False, ax=ax, bins=min(n_unique, 30))
             ax.set_ylabel("Count")
 
         ax.set_xlabel(variable.label)
@@ -329,7 +329,7 @@ class PlotFactory:
         plot_data = data.copy()
         if var_cat.valid_values:
             plot_data[var_cat.name] = plot_data[var_cat.name].map(
-                lambda x: var_cat.valid_values.get(x, str(x))
+                lambda x: var_cat.valid_values.get(cast("int | str", x), str(x))
             )
 
         sns.boxplot(
@@ -424,8 +424,9 @@ class PlotFactory:
             std_val = data.std()
             n_obs = len(data)
 
-            # Detect distribution shape
-            skewness = data.skew()
+            # Detect distribution shape. pandas types .skew() as Scalar, which
+            # includes Timedelta; this branch is guarded by is_numeric().
+            skewness = cast("float", data.skew())
             if abs(skewness) < 0.5:
                 shape = "approximately normal distribution"
             elif skewness > 0.5:
@@ -460,7 +461,7 @@ class PlotFactory:
     ) -> str:
         """Generate descriptive caption for bivariate plots."""
         if plot_type == "scatter":
-            correlation = data.corr().iloc[0, 1]
+            correlation = cast("float", data.corr().iloc[0, 1])
             if abs(correlation) < 0.3:
                 strength = "weak"
             elif abs(correlation) < 0.7:
@@ -555,7 +556,7 @@ class PlotFactory:
             elements["annotations"] = [f"Mean: {data.mean():.2f}"]
 
             # Add distribution characteristics
-            if abs(data.skew()) > 0.5:
+            if abs(cast("float", data.skew())) > 0.5:
                 elements["key_features"].append("skewed distribution")
 
         elif plot_type == "bar_chart":

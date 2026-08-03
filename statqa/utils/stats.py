@@ -36,7 +36,7 @@ def calculate_effect_size(
     if effect_type == "cohen_d":
         if data2 is None:
             raise ValueError("cohen_d requires two samples")
-        if isinstance(data1, float):
+        if isinstance(data1, int | float):
             raise ValueError("cohen_d requires array-like data, not scalar")
         return cohens_d(data1, data2)
 
