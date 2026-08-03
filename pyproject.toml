@@ -82,14 +82,13 @@ module-root = ""
 # Pytest configuration
 [tool.pytest.ini_options]
 minversion = "7.0"
+# Coverage is opt-in (`pytest --cov`) rather than forced here: generating the
+# HTML report on every run left an htmlcov/ tree that spell and link checks
+# then walked, and CI asks for the reports it wants explicitly.
 addopts = [
     "-ra",
     "--strict-markers",
     "--strict-config",
-    "--cov=statqa",
-    "--cov-report=term-missing",
-    "--cov-report=html",
-    "--cov-report=xml",
 ]
 testpaths = ["tests"]
 pythonpath = ["."]
@@ -129,6 +128,10 @@ exclude_lines = [
 [tool.ruff]
 line-length = 88
 target-version = "py312"
+# htmlcov is generated coverage output; data/ holds datasets and survey text,
+# not source. preen's checks read this list too, so naming the directories here
+# keeps the spell checker out of them as well.
+extend-exclude = ["htmlcov", "data"]
 
 [tool.ruff.lint]
 external = ["DOC"]
@@ -144,6 +147,14 @@ convention = "google"
 # Demonstration scripts: printing to stdout is their output, and they are read
 # top-to-bottom rather than imported, so module/function docstrings add noise.
 "examples/**" = ["T201", "D"]
+
+[tool.codespell]
+# Domain vocabulary rather than typos: .sav/.por are SPSS extensions, and
+# `ttest` and `te` (treatment effect) are statistics identifiers.
+ignore-words-list = "sav,ttest,te,womens"
+# Survey instruments carry respondent-facing text verbatim; it is data, not prose.
+# The rest is generated output: minified assets trip the dictionary constantly.
+skip = "./examples/anes/data,./examples/anes/templates,./examples/question_templates.txt,./docs/build,./docs/_build,./htmlcov,./.venv,./uv.lock"
 
 [tool.deptry]
 pep621_dev_dependency_groups = ["examples", "pdf", "llm", "statistical-formats"]
