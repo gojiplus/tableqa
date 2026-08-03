@@ -6,7 +6,7 @@ Creates publication-quality plots for insights.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, overload
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -40,6 +40,26 @@ class PlotFactory:
         self.dpi = dpi
         sns.set_style(style)
         sns.set_context(context)
+
+    @overload
+    def plot_univariate(
+        self,
+        data: pd.Series,
+        variable: Variable,
+        output_path: str | Path | None = ...,
+        *,
+        return_metadata: Literal[False] = ...,
+    ) -> Figure: ...
+
+    @overload
+    def plot_univariate(
+        self,
+        data: pd.Series,
+        variable: Variable,
+        output_path: str | Path | None = ...,
+        *,
+        return_metadata: Literal[True],
+    ) -> tuple[Figure, dict[str, Any]]: ...
 
     def plot_univariate(
         self,
@@ -85,6 +105,28 @@ class PlotFactory:
             return fig, metadata
 
         return fig
+
+    @overload
+    def plot_bivariate(
+        self,
+        data: pd.DataFrame,
+        var1: Variable,
+        var2: Variable,
+        output_path: str | Path | None = ...,
+        *,
+        return_metadata: Literal[False] = ...,
+    ) -> Figure: ...
+
+    @overload
+    def plot_bivariate(
+        self,
+        data: pd.DataFrame,
+        var1: Variable,
+        var2: Variable,
+        output_path: str | Path | None = ...,
+        *,
+        return_metadata: Literal[True],
+    ) -> tuple[Figure, dict[str, Any]]: ...
 
     def plot_bivariate(
         self,

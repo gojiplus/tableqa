@@ -29,7 +29,7 @@ class QuestionTemplate:
         """
         self.question_type = question_type
 
-    def generate(self, insight: dict[str, Any], answer: str) -> list[dict[str, str]]:
+    def generate(self, insight: dict[str, Any], answer: str) -> list[dict[str, Any]]:
         """Generate question/answer pairs from an insight.
 
         Args:
@@ -60,7 +60,7 @@ class QuestionTemplate:
 
     def _generate_descriptive(
         self, insight: dict[str, Any], answer: str
-    ) -> list[dict[str, str]]:
+    ) -> list[dict[str, Any]]:
         """Generate descriptive questions (univariate statistics)."""
         questions = []
         var_label = insight.get("label", insight.get("variable", "Variable"))
@@ -106,7 +106,7 @@ class QuestionTemplate:
 
     def _generate_comparative(
         self, insight: dict[str, Any], answer: str
-    ) -> list[dict[str, str]]:
+    ) -> list[dict[str, Any]]:
         """Generate comparative questions (group comparisons)."""
         questions = []
 
@@ -138,7 +138,7 @@ class QuestionTemplate:
 
     def _generate_temporal(
         self, insight: dict[str, Any], answer: str
-    ) -> list[dict[str, str]]:
+    ) -> list[dict[str, Any]]:
         """Generate temporal questions (trends over time)."""
         questions = []
 
@@ -169,7 +169,7 @@ class QuestionTemplate:
 
     def _generate_causal(
         self, insight: dict[str, Any], answer: str
-    ) -> list[dict[str, str]]:
+    ) -> list[dict[str, Any]]:
         """Generate causal questions (treatment effects)."""
         questions = []
 
@@ -205,7 +205,7 @@ class QuestionTemplate:
 
     def _generate_correlational(
         self, insight: dict[str, Any], answer: str
-    ) -> list[dict[str, str]]:
+    ) -> list[dict[str, Any]]:
         """Generate correlational questions (associations)."""
         questions = []
 
@@ -236,7 +236,7 @@ class QuestionTemplate:
 
     def _generate_distributional(
         self, insight: dict[str, Any], answer: str
-    ) -> list[dict[str, str]]:
+    ) -> list[dict[str, Any]]:
         """Generate distributional questions (shape, spread)."""
         questions = []
         var_label = insight.get("label", insight.get("variable", "Variable"))
