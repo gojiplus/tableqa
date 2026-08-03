@@ -5,15 +5,8 @@ import pandas as pd
 import pytest
 
 from statqa.analysis.causal import CausalAnalyzer
-from statqa.metadata.schema import Variable, VariableType
-
-
-def num(name: str) -> Variable:
-    return Variable(name=name, label=name, var_type=VariableType.NUMERIC_CONTINUOUS)
-
-
-def cat(name: str) -> Variable:
-    return Variable(name=name, label=name, var_type=VariableType.CATEGORICAL_NOMINAL)
+from tests.factories import categorical_var as cat
+from tests.factories import numeric_var as num
 
 
 @pytest.fixture

@@ -28,9 +28,7 @@ from typing import Any
 from statqa.metadata.parsers.base import BaseParser
 from statqa.metadata.schema import (
     Codebook,
-    DataGeneratingProcess,
     Variable,
-    VariableType,
 )
 
 
@@ -193,29 +191,6 @@ class TextParser(BaseParser):
 
         return Variable(**data)
 
-    def _parse_type(self, type_str: str) -> VariableType:
-        """Parse variable type string."""
-        type_str = type_str.lower().strip()
-        type_map = {
-            "numeric_continuous": VariableType.NUMERIC_CONTINUOUS,
-            "numeric_discrete": VariableType.NUMERIC_DISCRETE,
-            "numeric": VariableType.NUMERIC_CONTINUOUS,
-            "continuous": VariableType.NUMERIC_CONTINUOUS,
-            "discrete": VariableType.NUMERIC_DISCRETE,
-            "categorical_nominal": VariableType.CATEGORICAL_NOMINAL,
-            "categorical_ordinal": VariableType.CATEGORICAL_ORDINAL,
-            "categorical": VariableType.CATEGORICAL_NOMINAL,
-            "nominal": VariableType.CATEGORICAL_NOMINAL,
-            "ordinal": VariableType.CATEGORICAL_ORDINAL,
-            "boolean": VariableType.BOOLEAN,
-            "bool": VariableType.BOOLEAN,
-            "datetime": VariableType.DATETIME,
-            "date": VariableType.DATETIME,
-            "text": VariableType.TEXT,
-            "string": VariableType.TEXT,
-        }
-        return type_map.get(type_str, VariableType.UNKNOWN)
-
     def _parse_range(self, range_str: str) -> tuple[float | None, float | None]:
         """Parse range string like '18-99' or '0 to 100'."""
         # Try dash separator
@@ -237,29 +212,3 @@ class TextParser(BaseParser):
                     pass
 
         return None, None
-
-    def _parse_missing(self, missing_str: str) -> set[int | str]:
-        """Parse missing values like '-1, 999' or 'NA, -1'."""
-        missing = set()
-        for item in missing_str.split(","):
-            item = item.strip()
-            try:
-                missing.add(int(item))
-            except ValueError:
-                if item:  # Add non-empty strings
-                    missing.add(item)
-        return missing
-
-    def _parse_dgp(self, dgp_str: str) -> DataGeneratingProcess:
-        """Parse data generating process."""
-        dgp_str = dgp_str.lower().strip()
-        dgp_map = {
-            "observational": DataGeneratingProcess.OBSERVATIONAL,
-            "experimental": DataGeneratingProcess.EXPERIMENTAL,
-            "quasi_experimental": DataGeneratingProcess.QUASI_EXPERIMENTAL,
-            "quasi-experimental": DataGeneratingProcess.QUASI_EXPERIMENTAL,
-            "survey": DataGeneratingProcess.SURVEY,
-            "administrative": DataGeneratingProcess.ADMINISTRATIVE,
-            "simulation": DataGeneratingProcess.SIMULATION,
-        }
-        return dgp_map.get(dgp_str, DataGeneratingProcess.UNKNOWN)

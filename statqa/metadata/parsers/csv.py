@@ -20,9 +20,7 @@ import pandas as pd
 from statqa.metadata.parsers.base import BaseParser
 from statqa.metadata.schema import (
     Codebook,
-    DataGeneratingProcess,
     Variable,
-    VariableType,
 )
 
 
@@ -164,29 +162,6 @@ class CSVParser(BaseParser):
         val_lower = val.lower()
         return val_lower in {"true", "1", "yes", "y", "t"}
 
-    def _parse_type(self, type_str: str) -> VariableType:
-        """Parse variable type."""
-        type_str = type_str.lower().strip()
-        type_map = {
-            "numeric_continuous": VariableType.NUMERIC_CONTINUOUS,
-            "numeric_discrete": VariableType.NUMERIC_DISCRETE,
-            "numeric": VariableType.NUMERIC_CONTINUOUS,
-            "continuous": VariableType.NUMERIC_CONTINUOUS,
-            "discrete": VariableType.NUMERIC_DISCRETE,
-            "categorical_nominal": VariableType.CATEGORICAL_NOMINAL,
-            "categorical_ordinal": VariableType.CATEGORICAL_ORDINAL,
-            "categorical": VariableType.CATEGORICAL_NOMINAL,
-            "nominal": VariableType.CATEGORICAL_NOMINAL,
-            "ordinal": VariableType.CATEGORICAL_ORDINAL,
-            "boolean": VariableType.BOOLEAN,
-            "bool": VariableType.BOOLEAN,
-            "datetime": VariableType.DATETIME,
-            "date": VariableType.DATETIME,
-            "text": VariableType.TEXT,
-            "string": VariableType.TEXT,
-        }
-        return type_map.get(type_str, VariableType.UNKNOWN)
-
     def _parse_values(self, values_str: str) -> dict[int | str, str]:
         """Parse value mappings from string like '1: Male; 2: Female' or '1=Male, 2=Female'."""
         values = {}
@@ -218,41 +193,3 @@ class CSVParser(BaseParser):
                 values[code] = label
 
         return values
-
-    def _parse_missing(self, missing_str: str) -> set[int | str]:
-        """Parse missing values from string like '-1, 999, NA'."""
-        missing = set()
-        separators = [";", ",", "|"]
-
-        # Find the separator
-        sep = ","
-        for s in separators:
-            if s in missing_str:
-                sep = s
-                break
-
-        for item in missing_str.split(sep):
-            item = item.strip()
-            if not item:
-                continue
-
-            try:
-                missing.add(int(item))
-            except ValueError:
-                missing.add(item)
-
-        return missing
-
-    def _parse_dgp(self, dgp_str: str) -> DataGeneratingProcess:
-        """Parse data generating process."""
-        dgp_str = dgp_str.lower().strip()
-        dgp_map = {
-            "observational": DataGeneratingProcess.OBSERVATIONAL,
-            "experimental": DataGeneratingProcess.EXPERIMENTAL,
-            "quasi_experimental": DataGeneratingProcess.QUASI_EXPERIMENTAL,
-            "quasi-experimental": DataGeneratingProcess.QUASI_EXPERIMENTAL,
-            "survey": DataGeneratingProcess.SURVEY,
-            "administrative": DataGeneratingProcess.ADMINISTRATIVE,
-            "simulation": DataGeneratingProcess.SIMULATION,
-        }
-        return dgp_map.get(dgp_str, DataGeneratingProcess.UNKNOWN)

@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 from statqa.metadata.schema import Variable, VariableType
 from statqa.visualization.plots import PlotFactory
+from tests.factories import numeric_var
 
 
 @pytest.fixture(autouse=True)
@@ -54,10 +55,6 @@ def frame():
             "year": rng.choice([2018, 2019, 2020, 2021], size=n),
         }
     )
-
-
-def numeric(name: str) -> Variable:
-    return Variable(name=name, label=name, var_type=VariableType.NUMERIC_CONTINUOUS)
 
 
 class TestUnivariate:
@@ -109,7 +106,7 @@ class TestUnivariate:
 class TestBivariate:
     def test_numeric_pair_is_a_scatter(self, factory, frame, continuous):
         _, meta = factory.plot_bivariate(
-            frame, continuous, numeric("income"), return_metadata=True
+            frame, continuous, numeric_var("income"), return_metadata=True
         )
 
         assert meta["plot_type"] == "scatter"
@@ -136,7 +133,7 @@ class TestBivariate:
 
     def test_caption_mentions_both_variables(self, factory, frame, continuous):
         _, meta = factory.plot_bivariate(
-            frame, continuous, numeric("income"), return_metadata=True
+            frame, continuous, numeric_var("income"), return_metadata=True
         )
 
         assert "Age" in meta["caption"]
@@ -147,7 +144,9 @@ class TestBivariate:
     ):
         out = tmp_path / "biv.png"
 
-        factory.plot_bivariate(frame, continuous, numeric("income"), output_path=out)
+        factory.plot_bivariate(
+            frame, continuous, numeric_var("income"), output_path=out
+        )
 
         assert out.exists()
 
@@ -158,7 +157,7 @@ class TestTemporal:
             name="year", label="Year", var_type=VariableType.NUMERIC_DISCRETE
         )
 
-        fig = factory.plot_temporal(frame, time_var, numeric("income"))
+        fig = factory.plot_temporal(frame, time_var, numeric_var("income"))
 
         assert fig.axes
 
@@ -168,7 +167,7 @@ class TestTemporal:
         )
 
         fig = factory.plot_temporal(
-            frame, time_var, numeric("income"), group_var=categorical
+            frame, time_var, numeric_var("income"), group_var=categorical
         )
 
         assert fig.axes
@@ -179,7 +178,7 @@ class TestTemporal:
         )
         out = tmp_path / "temporal.png"
 
-        factory.plot_temporal(frame, time_var, numeric("income"), output_path=out)
+        factory.plot_temporal(frame, time_var, numeric_var("income"), output_path=out)
 
         assert out.exists()
 

@@ -7,20 +7,8 @@ import pandas as pd
 import pytest
 
 from statqa.analysis.bivariate import BivariateAnalyzer
-from statqa.metadata.schema import Variable, VariableType
-
-
-def num(name: str) -> Variable:
-    return Variable(name=name, label=name, var_type=VariableType.NUMERIC_CONTINUOUS)
-
-
-def cat(name: str, values: dict | None = None) -> Variable:
-    return Variable(
-        name=name,
-        label=name,
-        var_type=VariableType.CATEGORICAL_NOMINAL,
-        valid_values=values or {},
-    )
+from tests.factories import categorical_var as cat
+from tests.factories import numeric_var as num
 
 
 @pytest.fixture

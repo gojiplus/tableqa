@@ -9,13 +9,16 @@ from pathlib import Path
 from typing import Any, Literal, cast, overload
 
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from statqa.metadata.schema import Variable
+from statqa.utils.cleaning import (
+    blank_missing_codes,
+    blank_missing_codes_frame,
+)
 
 
 class PlotFactory:
@@ -243,23 +246,14 @@ class PlotFactory:
         return fig
 
     def _clean_data(self, data: pd.Series, variable: Variable) -> pd.Series:
-        """Clean missing values from series."""
-        clean = data.copy()
-        if variable.missing_values:
-            clean = clean.replace(dict.fromkeys(variable.missing_values, np.nan))
-        return clean.dropna()
+        """Replace the variable's missing codes with NaN and drop them."""
+        return blank_missing_codes(data, variable).dropna()
 
     def _clean_dataframe(
         self, data: pd.DataFrame, variables: list[Variable]
     ) -> pd.DataFrame:
-        """Clean missing values from dataframe."""
-        clean = data.copy()
-        for var in variables:
-            if var.missing_values:
-                clean[var.name] = clean[var.name].replace(
-                    dict.fromkeys(var.missing_values, np.nan)
-                )
-        return clean
+        """Replace each variable's missing codes with NaN."""
+        return blank_missing_codes_frame(data, variables)
 
     def _plot_numeric_distribution(
         self, data: pd.Series, variable: Variable, ax: Axes

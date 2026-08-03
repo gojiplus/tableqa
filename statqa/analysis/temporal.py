@@ -16,6 +16,7 @@ import pandas as pd
 from scipy import stats
 
 from statqa.metadata.schema import Variable
+from statqa.utils.cleaning import blank_missing_codes_frame
 from statqa.utils.stats import mann_kendall_trend
 
 
@@ -229,14 +230,8 @@ class TemporalAnalyzer:
         return result
 
     def _clean_data(self, data: pd.DataFrame, *variables: Variable) -> pd.DataFrame:
-        """Clean missing values based on metadata."""
-        clean = data.copy()
-        for var in variables:
-            if var.missing_values:
-                clean[var.name] = clean[var.name].replace(
-                    dict.fromkeys(var.missing_values, np.nan)
-                )
-        return clean
+        """Replace each variable's missing codes with NaN."""
+        return blank_missing_codes_frame(data, variables)
 
     def _linear_trend(
         self, data: pd.DataFrame, time_col: str, value_col: str

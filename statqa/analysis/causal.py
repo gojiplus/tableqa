@@ -17,6 +17,7 @@ import pandas as pd
 import statsmodels.api as sm
 
 from statqa.metadata.schema import Variable
+from statqa.utils.cleaning import blank_missing_codes_frame
 
 
 class CausalAnalyzer:
@@ -309,14 +310,8 @@ class CausalAnalyzer:
     def _clean_data(
         self, data: pd.DataFrame, variables: list[Variable]
     ) -> pd.DataFrame:
-        """Clean missing values based on metadata."""
-        clean = data.copy()
-        for var in variables:
-            if var.missing_values:
-                clean[var.name] = clean[var.name].replace(
-                    dict.fromkeys(var.missing_values, np.nan)
-                )
-        return clean
+        """Replace each variable's missing codes with NaN."""
+        return blank_missing_codes_frame(data, variables)
 
     def _is_significant(self, analysis_result: dict[str, Any]) -> bool:
         """Check if analysis result shows significant association."""

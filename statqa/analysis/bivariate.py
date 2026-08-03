@@ -10,11 +10,11 @@ from __future__ import annotations
 
 from typing import Any
 
-import numpy as np
 import pandas as pd
 from scipy import stats
 
 from statqa.metadata.schema import Variable
+from statqa.utils.cleaning import blank_missing_codes_frame
 from statqa.utils.logging import get_logger
 from statqa.utils.stats import calculate_effect_size, cramers_v
 
@@ -87,17 +87,8 @@ class BivariateAnalyzer:
     def _clean_data(
         self, data: pd.DataFrame, var1: Variable, var2: Variable
     ) -> pd.DataFrame:
-        """Clean missing values based on metadata."""
-        clean = data.copy()
-
-        # Replace missing codes with NaN
-        for var in [var1, var2]:
-            if var.missing_values:
-                clean[var.name] = clean[var.name].replace(
-                    dict.fromkeys(var.missing_values, np.nan)
-                )
-
-        return clean
+        """Replace both variables' missing codes with NaN."""
+        return blank_missing_codes_frame(data, (var1, var2))
 
     def _analyze_numeric_numeric(
         self, data: pd.DataFrame, var1: Variable, var2: Variable
