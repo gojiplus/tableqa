@@ -22,20 +22,20 @@ With Optional Features
    # Include statistical formats (SPSS/Stata/SAS)
    pip install statqa[statistical-formats]
 
-   # Development installation
-   pip install statqa[dev]
-
-   # Complete installation
+   # Every optional feature
    pip install statqa[all]
 
 From Source
 -----------
 
+Development tooling lives in PEP 735 dependency groups rather than extras, so
+``uv sync`` installs it:
+
 .. code-block:: bash
 
    git clone https://github.com/gojiplus/statqa.git
    cd statqa
-   uv pip install -e ".[dev]"
+   uv sync --all-groups --all-extras
 
 Development Environment
 -----------------------

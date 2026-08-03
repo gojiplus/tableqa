@@ -40,7 +40,9 @@ dependencies = [
     "scipy>=1.11.0",
     "statsmodels>=0.14.0",
     "matplotlib>=3.7.0",
-    "seaborn>=0.12.0",
+    # 0.13 added `legend` to the categorical plots; on 0.12 it is forwarded to
+    # matplotlib and raises.
+    "seaborn>=0.13.0",
     "pydantic>=2.0.0",
     "typer>=0.9.0",
     "rich>=13.0.0",
@@ -197,4 +199,5 @@ dev = [
     "ipdb>=0.13.0",
     "pandas-stubs>=3.0.5.260730",
     "scipy-stubs>=1.18.0.1",
+    "pyyaml>=6.0.3",
 ]

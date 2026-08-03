@@ -19,6 +19,10 @@ jobs:
     uses: gojiplus/py-canon/.github/workflows/reusable-ci.yml@v1
     with:
       wheel-import: statqa
+      # The reusable workflow defaults to ["3.11", "3.14"], but requires-python
+      # is >=3.12, so the 3.11 job would fail in `uv sync --frozen`. Keep this
+      # in step with the Programming Language classifiers in pyproject.toml.
+      python-versions: '["3.12", "3.13", "3.14"]'
       # Set a few points below the current 74% so ordinary churn does not fail
       # CI, but a real regression does. Raise it as coverage climbs.
       coverage-floor: 70

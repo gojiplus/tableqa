@@ -45,19 +45,19 @@ pip install statqa[llm]
 # Include PDF parsing
 pip install statqa[pdf]
 
-# Development installation
-pip install statqa[dev]
-
-# Complete installation
+# Every optional feature
 pip install statqa[all]
 ```
 
 ### From Source
 
+Development tooling lives in PEP 735 dependency groups rather than extras, so
+`uv sync` installs it:
+
 ```bash
 git clone https://github.com/gojiplus/statqa.git
 cd statqa
-pip install -e ".[dev]"
+uv sync --all-groups --all-extras
 ```
 
 ## 🚀 Quick Start

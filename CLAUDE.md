@@ -6,8 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Package Installation
 ```bash
-# Development installation (includes all dev tools)
-uv pip install -e ".[dev]"
+# Development installation. Dev and docs tooling are PEP 735 dependency
+# groups, not extras, so there is no [dev] extra to install.
+uv sync --all-groups --all-extras
 
 # With specific optional dependencies
 uv pip install -e ".[llm]"                # OpenAI/Anthropic LLM support

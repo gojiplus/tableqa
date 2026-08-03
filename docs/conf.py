@@ -26,5 +26,7 @@ configure(
         "source_branch": "main",
         "source_directory": "docs/",
     },
-    html_static_path=["_static"],
+    # html_static_path is deliberately unset: there are no static assets, and
+    # naming a directory git cannot track (an empty one) makes the -W build
+    # fail everywhere except a working copy that happens to have it.
 )
