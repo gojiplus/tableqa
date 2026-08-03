@@ -1,5 +1,4 @@
-"""
-TableQA: Automatically extract structured facts from tabular datasets.
+"""TableQA: Automatically extract structured facts from tabular datasets.
 
 This package provides tools for:
 - Parsing codebooks and metadata
@@ -18,7 +17,6 @@ from statqa.analysis.univariate import UnivariateAnalyzer
 
 # Import main public APIs
 from statqa.metadata.schema import Codebook, Variable, VariableType
-
 
 # Get version from package metadata
 __version__ = version("statqa")

@@ -1,5 +1,4 @@
-"""
-Context building for LLM-aware analysis.
+"""Context building for LLM-aware analysis.
 
 Builds rich context strings that include metadata, statistical results,
 and domain knowledge for use in LLM prompts.
@@ -11,21 +10,20 @@ from statqa.metadata.schema import Codebook, Variable
 
 
 class ContextBuilder:
-    """
-    Builds context strings for LLM prompting.
-
-    Args:
-        include_metadata: Whether to include variable metadata
-        max_variables: Maximum variables to include in context
-    """
+    """Builds context strings for LLM prompting."""
 
     def __init__(self, include_metadata: bool = True, max_variables: int = 50) -> None:
+        """Initialize the context builder.
+
+        Args:
+            include_metadata: Whether to include variable metadata
+            max_variables: Maximum variables to include in context
+        """
         self.include_metadata = include_metadata
         self.max_variables = max_variables
 
     def build_dataset_context(self, codebook: Codebook) -> str:
-        """
-        Build high-level dataset context.
+        """Build high-level dataset context.
 
         Args:
             codebook: Codebook with metadata
@@ -51,7 +49,7 @@ class ContextBuilder:
         # Data generating process
         dgp_counts: dict[str, int] = {}
         for var in codebook.variables.values():
-            dgp = var.dgp.value
+            dgp = str(var.dgp)
             dgp_counts[dgp] = dgp_counts.get(dgp, 0) + 1
 
         if dgp_counts and dgp_counts.get("unknown", 0) < len(codebook.variables):
@@ -78,8 +76,7 @@ class ContextBuilder:
         return ". ".join(context_parts) + "."
 
     def build_variable_context(self, variable: Variable, detailed: bool = True) -> str:
-        """
-        Build context for a single variable.
+        """Build context for a single variable.
 
         Args:
             variable: Variable metadata
@@ -92,7 +89,7 @@ class ContextBuilder:
 
         if detailed:
             # Type
-            parts.append(f"Type: {variable.var_type.value}")
+            parts.append(f"Type: {variable.var_type}")
 
             # Description
             if variable.description:
@@ -133,8 +130,7 @@ class ContextBuilder:
         variables: list[Variable],
         codebook: Codebook | None = None,
     ) -> str:
-        """
-        Build context for analysis involving specific variables.
+        """Build context for analysis involving specific variables.
 
         Args:
             variables: Variables involved in analysis
@@ -153,14 +149,15 @@ class ContextBuilder:
         if len(variables) == 1:
             parts.append("Analyzing: " + self.build_variable_context(variables[0]))
         else:
-            var_summary = ", ".join([f"{v.label} ({v.var_type.value})" for v in variables])
+            var_summary = ", ".join([f"{v.label} ({v.var_type})" for v in variables])
             parts.append(f"Analyzing relationship between: {var_summary}")
 
         return "\n\n".join(parts)
 
-    def build_codebook_summary(self, codebook: Codebook, max_variables: int | None = None) -> str:
-        """
-        Build comprehensive codebook summary for LLM context.
+    def build_codebook_summary(
+        self, codebook: Codebook, max_variables: int | None = None
+    ) -> str:
+        """Build comprehensive codebook summary for LLM context.
 
         Args:
             codebook: Codebook to summarize
@@ -180,9 +177,11 @@ class ContextBuilder:
         lines.append(f"\n## Variables ({len(codebook.variables)} total)")
 
         # List variables (up to max)
-        for _i, (var_name, var) in enumerate(list(codebook.variables.items())[:max_vars]):
+        for _i, (var_name, var) in enumerate(
+            list(codebook.variables.items())[:max_vars]
+        ):
             lines.append(f"\n### {var.label} ({var_name})")
-            lines.append(f"- Type: {var.var_type.value}")
+            lines.append(f"- Type: {var.var_type}")
 
             if var.description:
                 lines.append(f"- Description: {var.description}")
@@ -203,7 +202,9 @@ class ContextBuilder:
                 lines.append(f"- Missing codes: {missing_str}")
 
         if len(codebook.variables) > max_vars:
-            lines.append(f"\n... and {len(codebook.variables) - max_vars} more variables")
+            lines.append(
+                f"\n... and {len(codebook.variables) - max_vars} more variables"
+            )
 
         return "\n".join(lines)
 
@@ -213,8 +214,7 @@ class ContextBuilder:
         variables: list[Variable],
         task: str = "interpret",
     ) -> str:
-        """
-        Build prompt for LLM to interpret or enhance analysis results.
+        """Build prompt for LLM to interpret or enhance analysis results.
 
         Args:
             analysis_result: Statistical analysis result
@@ -259,7 +259,9 @@ Keep the interpretation concise (2-3 sentences).
 """
         return prompt
 
-    def _build_enhancement_prompt(self, result: dict[str, Any], variables: list[Variable]) -> str:
+    def _build_enhancement_prompt(
+        self, result: dict[str, Any], variables: list[Variable]
+    ) -> str:
         """Build prompt for enhancing analysis with domain knowledge."""
         var_context = "\n".join(
             [f"- {v.label}: {v.description or 'No description'}" for v in variables]
@@ -282,7 +284,9 @@ Format as a brief expert commentary (3-4 sentences).
 """
         return prompt
 
-    def _build_question_prompt(self, result: dict[str, Any], variables: list[Variable]) -> str:
+    def _build_question_prompt(
+        self, result: dict[str, Any], variables: list[Variable]
+    ) -> str:
         """Build prompt for generating questions from results."""
         var_context = ", ".join([v.label for v in variables])
 
@@ -332,10 +336,14 @@ Format as a numbered list.
 
         if "treatment_effect" in result:
             te = result["treatment_effect"]
-            lines.append(f"Treatment Effect: β={te['coefficient']:.3f}, p={te['p_value']:.3f}")
+            lines.append(
+                f"Treatment Effect: β={te['coefficient']:.3f}, p={te['p_value']:.3f}"
+            )
 
         if "mann_kendall" in result:
             mk = result["mann_kendall"]
-            lines.append(f"Trend: {mk['trend']} (τ={mk['tau']:.3f}, p={mk['p_value']:.3f})")
+            lines.append(
+                f"Trend: {mk['trend']} (τ={mk['tau']:.3f}, p={mk['p_value']:.3f})"
+            )
 
         return "\n".join(lines)

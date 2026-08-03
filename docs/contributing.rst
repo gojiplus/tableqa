@@ -6,21 +6,23 @@ We welcome contributions to StatQA! This guide will help you get started.
 Development Setup
 -----------------
 
-1. Fork the repository on GitHub
-2. Clone your fork locally:
+1. Clone the repository:
 
 .. code-block:: bash
 
-   git clone https://github.com/yourusername/statqa.git
+   git clone https://github.com/gojiplus/statqa.git
    cd statqa
 
-3. Install development dependencies:
+If you do not have push access, fork the repository on GitHub first and clone
+your fork instead.
+
+2. Install development dependencies:
 
 .. code-block:: bash
 
    uv sync --all-extras
 
-4. Install pre-commit hooks:
+3. Install pre-commit hooks:
 
 .. code-block:: bash
 

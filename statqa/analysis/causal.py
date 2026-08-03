@@ -1,5 +1,4 @@
-"""
-Causal analysis with confounding control.
+"""Causal analysis with confounding control.
 
 Performs regression analysis with control variables to surface
 associations in causal language:
@@ -18,20 +17,15 @@ import pandas as pd
 import statsmodels.api as sm
 
 from statqa.metadata.schema import Variable
+from statqa.utils.cleaning import blank_missing_codes_frame
 
 
 class CausalAnalyzer:
-    """
-    Analyzer for causal relationships with confounding control.
+    """Analyzer for causal relationships with confounding control.
 
     Note: These are *observational* analyses and do not establish true causation
     without strong assumptions. Results should be interpreted as associations
     controlling for measured confounders.
-
-    Args:
-        significance_level: Alpha level for hypothesis tests
-        min_sample_size: Minimum sample size required
-        robust_se: Use heteroskedasticity-robust standard errors
     """
 
     def __init__(
@@ -40,6 +34,13 @@ class CausalAnalyzer:
         min_sample_size: int = 30,
         robust_se: bool = True,
     ) -> None:
+        """Initialize the causal analyzer.
+
+        Args:
+            significance_level: Alpha level for hypothesis tests
+            min_sample_size: Minimum sample size required
+            robust_se: Use heteroskedasticity-robust standard errors
+        """
         self.alpha = significance_level
         self.min_n = min_sample_size
         self.robust_se = robust_se
@@ -51,8 +52,7 @@ class CausalAnalyzer:
         outcome_var: Variable,
         control_vars: list[Variable] | None = None,
     ) -> dict[str, Any]:
-        """
-        Estimate treatment effect on outcome with optional controls.
+        """Estimate treatment effect on outcome with optional controls.
 
         Args:
             data: DataFrame with variables
@@ -69,11 +69,15 @@ class CausalAnalyzer:
             var_names.extend([v.name for v in control_vars])
 
         subset = data[var_names].copy()
-        subset = self._clean_data(subset, [treatment_var, outcome_var] + (control_vars or []))
+        subset = self._clean_data(
+            subset, [treatment_var, outcome_var] + (control_vars or [])
+        )
         subset = subset.dropna()
 
         if len(subset) < self.min_n:
-            return {"error": f"Insufficient sample size (n={len(subset)}, min={self.min_n})"}
+            return {
+                "error": f"Insufficient sample size (n={len(subset)}, min={self.min_n})"
+            }
 
         result: dict[str, Any] = {
             "analysis_type": "treatment_effect",
@@ -110,8 +114,7 @@ class CausalAnalyzer:
         outcome_var: Variable,
         potential_confounders: list[Variable],
     ) -> dict[str, Any]:
-        """
-        Identify which variables act as confounders.
+        """Identify which variables act as confounders.
 
         A confounder must:
         1. Be associated with treatment
@@ -189,7 +192,9 @@ class CausalAnalyzer:
         x = sm.add_constant(x)  # Add intercept
 
         # Fit model
-        model = sm.OLS(y, x).fit(cov_type="HC3") if self.robust_se else sm.OLS(y, x).fit()
+        model = (
+            sm.OLS(y, x).fit(cov_type="HC3") if self.robust_se else sm.OLS(y, x).fit()
+        )
 
         # Extract treatment effect
         treatment_coef = model.params[treatment_name]
@@ -242,8 +247,7 @@ class CausalAnalyzer:
         outcome_name: str,
         control_vars: list[Variable],
     ) -> dict[str, Any]:
-        """
-        Perform sensitivity analysis by comparing models with/without controls.
+        """Perform sensitivity analysis by comparing models with/without controls.
 
         Args:
             data: DataFrame
@@ -284,10 +288,16 @@ class CausalAnalyzer:
                 "p_value": float(model_with_controls.pvalues[treatment_name]),
             },
             "confounding": {
-                "percent_change": float(percent_change) if not np.isnan(percent_change) else None,
-                "direction": ("positive" if coef_with_controls > coef_no_controls else "negative"),
+                "percent_change": float(percent_change)
+                if not np.isnan(percent_change)
+                else None,
+                "direction": (
+                    "positive" if coef_with_controls > coef_no_controls else "negative"
+                ),
                 "substantial": (
-                    bool(abs(percent_change) > 10) if not np.isnan(percent_change) else False
+                    bool(abs(percent_change) > 10)
+                    if not np.isnan(percent_change)
+                    else False
                 ),
             },
             "model_comparison": {
@@ -297,13 +307,11 @@ class CausalAnalyzer:
             },
         }
 
-    def _clean_data(self, data: pd.DataFrame, variables: list[Variable]) -> pd.DataFrame:
-        """Clean missing values based on metadata."""
-        clean = data.copy()
-        for var in variables:
-            if var.missing_values:
-                clean[var.name] = clean[var.name].replace(dict.fromkeys(var.missing_values, np.nan))
-        return clean
+    def _clean_data(
+        self, data: pd.DataFrame, variables: list[Variable]
+    ) -> pd.DataFrame:
+        """Replace each variable's missing codes with NaN."""
+        return blank_missing_codes_frame(data, variables)
 
     def _is_significant(self, analysis_result: dict[str, Any]) -> bool:
         """Check if analysis result shows significant association."""

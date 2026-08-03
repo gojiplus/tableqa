@@ -14,12 +14,13 @@ from statqa.analysis.univariate import UnivariateAnalyzer
 from statqa.interpretation.formatter import InsightFormatter
 from statqa.metadata.parsers import StatisticalFormatParser
 
-
 # Optional: only run if pyreadstat is available
 try:
     import pyreadstat
 except ImportError:
-    print("This example requires pyreadstat. Install with: pip install statqa[statistical-formats]")
+    print(
+        "This example requires pyreadstat. Install with: pip install statqa[statistical-formats]"
+    )
     exit(1)
 
 
@@ -32,7 +33,18 @@ def create_sample_spss_file():
         "gender": [1, 2, 1, 2, 1, 1, 2, 1, 2, 1],
         "education": [3, 4, 2, 4, 1, 2, 3, 4, 3, 2],
         "satisfaction": [4, 5, 3, 2, 5, 4, 3, 4, 2, 5],
-        "income": [45000, 65000, 55000, 35000, 85000, 95000, 42000, 58000, 48000, 72000],
+        "income": [
+            45000,
+            65000,
+            55000,
+            35000,
+            85000,
+            95000,
+            42000,
+            58000,
+            48000,
+            72000,
+        ],
     }
 
     df = pd.DataFrame(data)

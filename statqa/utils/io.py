@@ -13,8 +13,7 @@ def load_data(
     file_pattern: str = r"(?i)\.csv$",
     **kwargs: Any,
 ) -> pd.DataFrame:
-    """
-    Load data from various sources.
+    """Load data from various sources.
 
     Args:
         source: Path to file (CSV, ZIP containing CSVs, etc.)
@@ -67,8 +66,7 @@ def _load_from_zip(
 
 
 def save_json(data: Any, output_path: str | Path, indent: int = 2) -> None:
-    """
-    Save data to JSON file.
+    """Save data to JSON file.
 
     Args:
         data: Data to save (must be JSON-serializable)
@@ -79,13 +77,13 @@ def save_json(data: Any, output_path: str | Path, indent: int = 2) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     output_path.write_text(
-        json.dumps(data, indent=indent, ensure_ascii=False, default=str), encoding="utf-8"
+        json.dumps(data, indent=indent, ensure_ascii=False, default=str),
+        encoding="utf-8",
     )
 
 
 def load_json(input_path: str | Path) -> Any:
-    """
-    Load data from JSON file.
+    """Load data from JSON file.
 
     Args:
         input_path: Input file path

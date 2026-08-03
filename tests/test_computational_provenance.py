@@ -109,7 +109,9 @@ class TestComputationalProvenance:
         """Test that computation results are included in log comments."""
         data = pd.Series([10.0, 20.0, 30.0], name="test")
 
-        variable = Variable(name="test", label="Test", var_type=VariableType.NUMERIC_CONTINUOUS)
+        variable = Variable(
+            name="test", label="Test", var_type=VariableType.NUMERIC_CONTINUOUS
+        )
 
         analyzer = UnivariateAnalyzer()
         result = analyzer.analyze(data, variable)
@@ -127,7 +129,9 @@ class TestComputationalProvenance:
         # Create data that will trigger Shapiro-Wilk test (< 5000 samples)
         data = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], name="test")
 
-        variable = Variable(name="test", label="Test", var_type=VariableType.NUMERIC_CONTINUOUS)
+        variable = Variable(
+            name="test", label="Test", var_type=VariableType.NUMERIC_CONTINUOUS
+        )
 
         analyzer = UnivariateAnalyzer()
         result = analyzer.analyze(data, variable)
@@ -174,6 +178,6 @@ class TestComputationalProvenance:
         for cmd in prov["python_commands"]:
             assert isinstance(cmd, str)
             # Commands should either be function calls or assignments
-            assert any(
-                pattern in cmd for pattern in ["=", "(", "Result:"]
-            ), f"Invalid command format: {cmd}"
+            assert any(pattern in cmd for pattern in ["=", "(", "Result:"]), (
+                f"Invalid command format: {cmd}"
+            )

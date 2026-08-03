@@ -45,19 +45,19 @@ pip install statqa[llm]
 # Include PDF parsing
 pip install statqa[pdf]
 
-# Development installation
-pip install statqa[dev]
-
-# Complete installation
+# Every optional feature
 pip install statqa[all]
 ```
 
 ### From Source
 
+Development tooling lives in PEP 735 dependency groups rather than extras, so
+`uv sync` installs it:
+
 ```bash
 git clone https://github.com/gojiplus/statqa.git
 cd statqa
-pip install -e ".[dev]"
+uv sync --all-groups --all-extras
 ```
 
 ## 🚀 Quick Start
@@ -109,9 +109,7 @@ print(result)
 # Bivariate analysis
 biv_analyzer = BivariateAnalyzer()
 result = biv_analyzer.analyze(
-    data,
-    codebook.variables["age"],
-    codebook.variables["satisfaction"]
+    data, codebook.variables["age"], codebook.variables["satisfaction"]
 )
 ```
 
@@ -139,10 +137,14 @@ qa_gen = QAGenerator(use_llm=False)  # Template-based
 plot_data = {
     "data": data,
     "variables": codebook.variables,
-    "output_path": "plots/univariate_age.png"
+    "output_path": "plots/univariate_age.png",
 }
-visual_metadata = qa_gen.generate_visual_metadata(result, variables=["age"], plot_data=plot_data)
-qa_pairs = qa_gen.generate_qa_pairs(result, insight, variables=["age"], visual_data=visual_metadata)
+visual_metadata = qa_gen.generate_visual_metadata(
+    result, variables=["age"], plot_data=plot_data
+)
+qa_pairs = qa_gen.generate_qa_pairs(
+    result, insight, variables=["age"], visual_data=visual_metadata
+)
 
 for qa in qa_pairs:
     print(f"Q: {qa['question']}")
@@ -244,6 +246,7 @@ for result in results:
 
 # 5. Generate multimodal Q/A pairs with visualizations
 from pathlib import Path
+
 qa_gen = QAGenerator(use_llm=True, api_key="your-api-key")
 plots_dir = Path("plots")
 plots_dir.mkdir(exist_ok=True)
@@ -254,16 +257,24 @@ for result in results:
     plot_data = {
         "data": data,
         "variables": codebook.variables,
-        "output_path": plots_dir / f"univariate_{result['variable']}.png"
+        "output_path": plots_dir / f"univariate_{result['variable']}.png",
     }
-    visual_metadata = qa_gen.generate_visual_metadata(result, variables=[result['variable']], plot_data=plot_data)
+    visual_metadata = qa_gen.generate_visual_metadata(
+        result, variables=[result["variable"]], plot_data=plot_data
+    )
 
     # Generate Q/A pairs with visual data
-    qa_pairs = qa_gen.generate_qa_pairs(result, result["insight"], variables=[result['variable']], visual_data=visual_metadata)
+    qa_pairs = qa_gen.generate_qa_pairs(
+        result,
+        result["insight"],
+        variables=[result["variable"]],
+        visual_data=visual_metadata,
+    )
     all_qa_pairs.extend(qa_pairs)
 
 # 6. Export multimodal Q/A dataset
 import json
+
 with open("multimodal_qa_dataset.jsonl", "w") as f:
     for qa in all_qa_pairs:
         f.write(json.dumps(qa) + "\n")

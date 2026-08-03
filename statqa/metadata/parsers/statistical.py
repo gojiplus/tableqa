@@ -1,5 +1,4 @@
-"""
-Statistical format parser for SPSS, Stata, and SAS files.
+"""Statistical format parser for SPSS, Stata, and SAS files.
 
 Uses pyreadstat library to parse statistical data files and extract rich metadata
 including variable labels, value labels, and missing value definitions.
@@ -8,22 +7,36 @@ including variable labels, value labels, and missing value definitions.
 from pathlib import Path
 from typing import Any
 
-
+# Bind the module to None rather than only tracking a boolean: narrowing on
+# `is None` is what lets a type checker see the import is bound at use sites.
 try:
     import pyreadstat
-
-    HAS_PYREADSTAT = True
 except ImportError:
-    HAS_PYREADSTAT = False
+    pyreadstat = None
 
 from statqa.metadata.parsers.base import BaseParser
-from statqa.metadata.schema import Codebook, DataGeneratingProcess, Variable, VariableType
+from statqa.metadata.schema import (
+    Codebook,
+    DataGeneratingProcess,
+    Variable,
+    VariableType,
+)
+
+HAS_PYREADSTAT = pyreadstat is not None
 
 
 class StatisticalFormatParser(BaseParser):
     """Parser for statistical data files (SPSS, Stata, SAS)."""
 
     def __init__(self, **kwargs: Any) -> None:
+        """Initialize the parser, requiring pyreadstat to be installed.
+
+        Args:
+            **kwargs: Parser-specific configuration options
+
+        Raises:
+            ImportError: If pyreadstat is not installed.
+        """
         super().__init__(**kwargs)
         if not HAS_PYREADSTAT:
             raise ImportError(
@@ -71,7 +84,24 @@ class StatisticalFormatParser(BaseParser):
         )
 
     def _read_metadata_only(self, path: Path) -> Any:
-        """Read only metadata from statistical file."""
+        """Read only metadata from statistical file.
+
+        Args:
+            path: Path to the statistical data file.
+
+        Returns:
+            The pyreadstat metadata container for the file.
+
+        Raises:
+            ImportError: If pyreadstat is not installed.
+            ValueError: If the file suffix is not a supported format.
+        """
+        if pyreadstat is None:
+            raise ImportError(
+                "pyreadstat is required for statistical format parsing. "
+                "Install with: pip install statqa[statistical-formats]"
+            )
+
         suffix = path.suffix.lower()
 
         match suffix:
@@ -84,7 +114,7 @@ class StatisticalFormatParser(BaseParser):
             case ".sas7bdat":
                 _, metadata = pyreadstat.read_sas7bdat(str(path), metadataonly=True)
             case ".xpt":
-                _, metadata = pyreadstat.read_xpt(str(path), metadataonly=True)
+                _, metadata = pyreadstat.read_xport(str(path), metadataonly=True)
             case _:
                 raise ValueError(f"Unsupported file format: {suffix}")
 
@@ -139,7 +169,9 @@ class StatisticalFormatParser(BaseParser):
                 var_data["missing_values"] = missing_values
 
             # Infer data generating process based on file type
-            var_data["dgp"] = DataGeneratingProcess.SURVEY  # Most statistical files are surveys
+            var_data["dgp"] = (
+                DataGeneratingProcess.SURVEY
+            )  # Most statistical files are surveys
 
             variables.append(Variable(**var_data))
 
@@ -167,7 +199,9 @@ class StatisticalFormatParser(BaseParser):
                 return VariableType.DATETIME
             elif "int" in orig_type or "long" in orig_type:
                 return VariableType.NUMERIC_DISCRETE
-            elif "float" in orig_type or "double" in orig_type or "numeric" in orig_type:
+            elif (
+                "float" in orig_type or "double" in orig_type or "numeric" in orig_type
+            ):
                 return VariableType.NUMERIC_CONTINUOUS
 
         # Default to unknown - will be inferred during analysis

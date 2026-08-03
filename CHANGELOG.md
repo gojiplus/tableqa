@@ -5,6 +5,55 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.4.0] - 2026-08-03
+
+### Fixed
+- `statqa analyze data.csv codebook.json` crashed on the bundled example
+  codebooks. Those files are a bare `{variable_name: {...}}` map while the CLI
+  required the nested `{"name": ..., "variables": {...}}` shape that
+  `statqa parse-codebook` writes. `Codebook.from_dict` now accepts either.
+- `InsightFormatter.format_temporal` and `format_causal` raised
+  `UnboundLocalError`, and `format_univariate` raised `KeyError`, on any result
+  lacking an optional section. Analyzers return `{"error": ...}` on their
+  insufficient-data paths, so all three were reachable from ordinary data.
+- Reading a `.xpt` (SAS transport) file called `pyreadstat.read_xpt`, which does
+  not exist; the function is `read_xport`.
+- Cohen's d is undefined at a perfect correlation, where the conversion returned
+  `inf` and serialized as `Infinity` — not valid JSON. It is now omitted.
+- Reading `.value` from `Variable.var_type` and `Variable.dgp` raised
+  `AttributeError`: `use_enum_values` means those fields already hold the value.
+- The text parser split missing-value codes on commas only, so
+  `Missing: -1; 999` became the single code `-1; 999`. It now accepts `;` and
+  `|` as well, matching the CSV parser.
+- The bundled example scripts passed `type=` and `value_labels=` to `Variable`,
+  which are named `var_type` and `valid_values`; pydantic ignored both, so every
+  variable came out untyped and unlabelled. `PlotFactory(style="seaborn")` is
+  also not a valid style and raised.
+
+### Changed
+- **Breaking:** the `dev` and `docs` extras are gone. Development dependencies
+  moved to PEP 735 `[dependency-groups]`, so `pip install statqa[dev]` no longer
+  resolves; use `uv sync --all-groups`. The remaining feature extras (`llm`,
+  `pdf`, `statistical-formats`, `examples`, `all`) are unchanged.
+- The version is derived from the git tag (hatchling + uv-dynamic-versioning)
+  rather than being written in `pyproject.toml`.
+- `pytest` no longer collects coverage or writes reports unless asked; use
+  `pytest --cov`.
+- `pydoclint` is no longer a dev dependency. It requires `docstring-parser-fork`,
+  which collides with the `docstring-parser` that `anthropic` requires; run it
+  isolated with `uvx pydoclint statqa/`.
+- Type, DGP and missing-code parsing moved to `BaseParser`, and the five copies
+  of the missing-code replacement to `statqa.utils.cleaning`.
+- Documentation sources moved from `docs/source/` to `docs/`.
+
+### Added
+- `Codebook.from_dict`, accepting either codebook shape.
+- Adopted the py-canon fleet standard: shared CI, docs and release workflows,
+  `CITATION.cff`, dependabot and zizmor configuration.
+- Test coverage raised from 22% to 75%, with CI enforcing a 70% floor.
+
 ## [0.3.0] - 2025-12-14
 
 ### Added
@@ -99,7 +148,3 @@ This release focuses on **developer experience** and **code modernization** with
 - Q/A generation with provenance tracking
 - Multimodal visualization support
 - LLM-powered metadata enrichment
-
----
-
-**Full Changelog**: https://github.com/gojiplus/statqa/compare/v0.2.0...v0.3.0

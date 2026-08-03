@@ -1,5 +1,4 @@
-"""
-Natural language formatting for statistical insights.
+"""Natural language formatting for statistical insights.
 
 Converts numerical results into human-readable statements with appropriate
 statistical context and caveats.
@@ -11,25 +10,28 @@ import numpy as np
 
 
 class InsightFormatter:
-    """
-    Formats statistical results as natural language insights.
-
-    Args:
-        include_caveats: Whether to include statistical caveats/warnings
-        precision: Decimal precision for formatting numbers
-    """
+    """Formats statistical results as natural language insights."""
 
     def __init__(self, include_caveats: bool = True, precision: int = 2) -> None:
+        """Initialize the insight formatter.
+
+        Args:
+            include_caveats: Whether to include statistical caveats/warnings
+            precision: Decimal precision for formatting numbers
+        """
         self.include_caveats = include_caveats
         self.precision = precision
 
     def format_univariate(self, result: dict[str, Any]) -> str:
         """Format univariate analysis result."""
-        var_label = result.get("label", result["variable"])
+        if "error" in result:
+            return str(result["error"])
 
-        if result["type"] in ["numeric_continuous", "numeric_discrete"]:
+        var_label = result.get("label", result.get("variable", "Variable"))
+
+        if result.get("type") in ["numeric_continuous", "numeric_discrete"]:
             return self._format_numeric_univariate(result, var_label)
-        elif result["type"] in [
+        elif result.get("type") in [
             "categorical_nominal",
             "categorical_ordinal",
             "boolean",
@@ -55,9 +57,7 @@ class InsightFormatter:
 
         # Add range
         if "min" in result and "max" in result:
-            text += (
-                f", range=[{result['min']:.{self.precision}f}, {result['max']:.{self.precision}f}]"
-            )
+            text += f", range=[{result['min']:.{self.precision}f}, {result['max']:.{self.precision}f}]"
 
         # Sample size
         text += f". N={n:,}"
@@ -69,7 +69,9 @@ class InsightFormatter:
             caveats = []
 
             # Normality
-            if "normality_test" in result and not result["normality_test"].get("is_normal", True):
+            if "normality_test" in result and not result["normality_test"].get(
+                "is_normal", True
+            ):
                 caveats.append("non-normal distribution")
 
             # Outliers
@@ -127,6 +129,9 @@ class InsightFormatter:
 
     def format_bivariate(self, result: dict[str, Any]) -> str:
         """Format bivariate analysis result."""
+        if "error" in result:
+            return str(result["error"])
+
         analysis_type = result.get("analysis_type")
 
         if analysis_type == "numeric_numeric":
@@ -210,7 +215,10 @@ class InsightFormatter:
         # Show group means
         if group_means and len(group_means) <= 5:
             means_str = ", ".join(
-                [f"{k}: {v:.{self.precision}f}" for k, v in list(group_means.items())[:5]]
+                [
+                    f"{k}: {v:.{self.precision}f}"
+                    for k, v in list(group_means.items())[:5]
+                ]
             )
             text += f": {means_str}"
 
@@ -239,44 +247,60 @@ class InsightFormatter:
 
     def format_temporal(self, result: dict[str, Any]) -> str:
         """Format temporal analysis result."""
+        if "error" in result:
+            return str(result["error"])
+
         value_var = result.get("value_variable", "Variable")
-        result.get("time_variable", "time")
+
+        # Each section is optional, so build a list rather than appending to a
+        # string that only one branch initializes.
+        segments: list[str] = []
 
         if "mann_kendall" in result:
             mk = result["mann_kendall"]
             trend = mk["trend"]
 
-            text = f"**{value_var}** shows "
-
             if trend == "increasing":
-                text += "an increasing trend over time"
+                description = "an increasing trend over time"
             elif trend == "decreasing":
-                text += "a decreasing trend over time"
+                description = "a decreasing trend over time"
             else:
-                text += "no significant trend over time"
+                description = "no significant trend over time"
 
             tau = mk["tau"]
             p = mk["p_value"]
-            text += f" (Mann-Kendall: τ={tau:.{self.precision}f}, p={p:.3f})"
+            segments.append(
+                f"shows {description} "
+                f"(Mann-Kendall: τ={tau:.{self.precision}f}, p={p:.3f})"
+            )
 
-        # Change metrics
         if "change_metrics" in result:
             cm = result["change_metrics"]
             abs_change = cm.get("absolute_change", 0)
             pct_change = cm.get("percent_change")
 
-            text += f". Change: {abs_change:+.{self.precision}f}"
+            change = f"changed by {abs_change:+.{self.precision}f}"
             if pct_change is not None:
-                text += f" ({pct_change:+.1f}%)"
+                change += f" ({pct_change:+.1f}%)"
+            segments.append(change)
 
-        text += "."
-        return text
+        if not segments:
+            return f"No temporal results available for **{value_var}**."
+
+        return f"**{value_var}** " + ", and ".join(segments) + "."
 
     def format_causal(self, result: dict[str, Any]) -> str:
         """Format causal analysis result."""
+        if "error" in result:
+            return str(result["error"])
+
         treatment = result.get("treatment", "Treatment")
         outcome = result.get("outcome", "Outcome")
         controls = result.get("controls", [])
+
+        # Each section is optional, so build a list rather than appending to a
+        # string that only one branch initializes.
+        segments: list[str] = []
 
         if "treatment_effect" in result:
             te = result["treatment_effect"]
@@ -287,39 +311,43 @@ class InsightFormatter:
 
             # Careful language for causal claims
             if controls:
-                text = f"Controlling for {', '.join(controls)}, **{treatment}** is associated with "
+                effect = f"Controlling for {', '.join(controls)}, **{treatment}** is associated with "
             else:
-                text = f"**{treatment}** is associated with "
+                effect = f"**{treatment}** is associated with "
 
-            text += (
+            effect += (
                 f"a {abs(coef):.{self.precision}f}-unit {'increase' if coef > 0 else 'decrease'} "
                 f"in **{outcome}** "
             )
 
-            text += f"(β={coef:.{self.precision}f}, 95% CI=[{ci_lower:.{self.precision}f}, {ci_upper:.{self.precision}f}], p={p:.3f})"
+            effect += f"(β={coef:.{self.precision}f}, 95% CI=[{ci_lower:.{self.precision}f}, {ci_upper:.{self.precision}f}], p={p:.3f})"
 
             if te["significant"]:
-                text += " [statistically significant]"
+                effect += " [statistically significant]"
             else:
-                text += " [not statistically significant]"
+                effect += " [not statistically significant]"
 
-        # Model fit
+            segments.append(effect)
+
         if "model_fit" in result:
             r2 = result["model_fit"]["adj_r_squared"]
-            text += f". Model explains {r2 * 100:.1f}% of variance"
+            segments.append(f"Model explains {r2 * 100:.1f}% of variance")
 
-        # Sensitivity
         if "sensitivity" in result and result["sensitivity"].get("confounding", {}).get(
             "substantial"
         ):
-            text += ". [Note: Substantial confounding detected]"
+            segments.append("[Note: Substantial confounding detected]")
 
-        text += "."
-        return text
+        if not segments:
+            return (
+                f"No causal results available for the effect of "
+                f"**{treatment}** on **{outcome}**."
+            )
+
+        return ". ".join(segments) + "."
 
     def format_insight(self, result: dict[str, Any]) -> str:
-        """
-        Format any type of analysis result.
+        """Format any type of analysis result.
 
         Args:
             result: Analysis result dictionary

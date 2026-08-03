@@ -6,9 +6,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def setup_theme(style: Literal["publication", "presentation", "notebook"] = "publication") -> None:
-    """
-    Set up matplotlib/seaborn theme.
+def setup_theme(
+    style: Literal["publication", "presentation", "notebook"] = "publication",
+) -> None:
+    """Set up matplotlib/seaborn theme.
 
     Args:
         style: Theme style ('publication', 'presentation', 'notebook')

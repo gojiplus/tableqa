@@ -1,5 +1,4 @@
-"""
-Plotting utilities for statistical visualizations.
+"""Plotting utilities for statistical visualizations.
 
 Creates publication-quality plots for insights.
 """
@@ -7,28 +6,23 @@ Creates publication-quality plots for insights.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, cast, overload
 
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from statqa.metadata.schema import Variable
+from statqa.utils.cleaning import (
+    blank_missing_codes,
+    blank_missing_codes_frame,
+)
 
 
 class PlotFactory:
-    """
-    Factory for creating statistical visualizations.
-
-    Args:
-        style: Seaborn style ('whitegrid', 'darkgrid', 'white', 'dark', 'ticks')
-        context: Seaborn context ('paper', 'notebook', 'talk', 'poster')
-        figsize: Default figure size (width, height)
-        dpi: DPI for rasterized output
-    """
+    """Factory for creating statistical visualizations."""
 
     def __init__(
         self,
@@ -37,10 +31,38 @@ class PlotFactory:
         figsize: tuple[int, int] = (8, 6),
         dpi: int = 100,
     ) -> None:
+        """Initialize the plot factory and apply the seaborn theme.
+
+        Args:
+            style: Seaborn style ('whitegrid', 'darkgrid', 'white', 'dark', 'ticks')
+            context: Seaborn context ('paper', 'notebook', 'talk', 'poster')
+            figsize: Default figure size (width, height)
+            dpi: DPI for rasterized output
+        """
         self.figsize = figsize
         self.dpi = dpi
         sns.set_style(style)
         sns.set_context(context)
+
+    @overload
+    def plot_univariate(
+        self,
+        data: pd.Series,
+        variable: Variable,
+        output_path: str | Path | None = ...,
+        *,
+        return_metadata: Literal[False] = ...,
+    ) -> Figure: ...
+
+    @overload
+    def plot_univariate(
+        self,
+        data: pd.Series,
+        variable: Variable,
+        output_path: str | Path | None = ...,
+        *,
+        return_metadata: Literal[True],
+    ) -> tuple[Figure, dict[str, Any]]: ...
 
     def plot_univariate(
         self,
@@ -49,8 +71,7 @@ class PlotFactory:
         output_path: str | Path | None = None,
         return_metadata: bool = False,
     ) -> Figure | tuple[Figure, dict[str, Any]]:
-        """
-        Create univariate plot (histogram or bar chart).
+        """Create univariate plot (histogram or bar chart).
 
         Args:
             data: Data series
@@ -88,6 +109,28 @@ class PlotFactory:
 
         return fig
 
+    @overload
+    def plot_bivariate(
+        self,
+        data: pd.DataFrame,
+        var1: Variable,
+        var2: Variable,
+        output_path: str | Path | None = ...,
+        *,
+        return_metadata: Literal[False] = ...,
+    ) -> Figure: ...
+
+    @overload
+    def plot_bivariate(
+        self,
+        data: pd.DataFrame,
+        var1: Variable,
+        var2: Variable,
+        output_path: str | Path | None = ...,
+        *,
+        return_metadata: Literal[True],
+    ) -> tuple[Figure, dict[str, Any]]: ...
+
     def plot_bivariate(
         self,
         data: pd.DataFrame,
@@ -96,8 +139,7 @@ class PlotFactory:
         output_path: str | Path | None = None,
         return_metadata: bool = False,
     ) -> Figure | tuple[Figure, dict[str, Any]]:
-        """
-        Create bivariate plot (scatter, box, or heatmap).
+        """Create bivariate plot (scatter, box, or heatmap).
 
         Args:
             data: DataFrame with both variables
@@ -132,7 +174,9 @@ class PlotFactory:
             fig.savefig(output_path, bbox_inches="tight", dpi=self.dpi)
 
         if return_metadata:
-            metadata = self._generate_bivariate_metadata(subset, var1, var2, plot_type, output_path)
+            metadata = self._generate_bivariate_metadata(
+                subset, var1, var2, plot_type, output_path
+            )
             return fig, metadata
 
         return fig
@@ -145,8 +189,7 @@ class PlotFactory:
         group_var: Variable | None = None,
         output_path: str | Path | None = None,
     ) -> Figure:
-        """
-        Create temporal trend plot.
+        """Create temporal trend plot.
 
         Args:
             data: DataFrame with time and value
@@ -188,7 +231,9 @@ class PlotFactory:
             ax.legend()
         else:
             # Simple line plot
-            ax.plot(subset[time_var.name], subset[value_var.name], marker="o", linewidth=2)
+            ax.plot(
+                subset[time_var.name], subset[value_var.name], marker="o", linewidth=2
+            )
 
         ax.set_xlabel(time_var.label)
         ax.set_ylabel(value_var.label)
@@ -201,49 +246,61 @@ class PlotFactory:
         return fig
 
     def _clean_data(self, data: pd.Series, variable: Variable) -> pd.Series:
-        """Clean missing values from series."""
-        clean = data.copy()
-        if variable.missing_values:
-            clean = clean.replace(dict.fromkeys(variable.missing_values, np.nan))
-        return clean.dropna()
+        """Replace the variable's missing codes with NaN and drop them."""
+        return blank_missing_codes(data, variable).dropna()
 
-    def _clean_dataframe(self, data: pd.DataFrame, variables: list[Variable]) -> pd.DataFrame:
-        """Clean missing values from dataframe."""
-        clean = data.copy()
-        for var in variables:
-            if var.missing_values:
-                clean[var.name] = clean[var.name].replace(dict.fromkeys(var.missing_values, np.nan))
-        return clean
+    def _clean_dataframe(
+        self, data: pd.DataFrame, variables: list[Variable]
+    ) -> pd.DataFrame:
+        """Replace each variable's missing codes with NaN."""
+        return blank_missing_codes_frame(data, variables)
 
-    def _plot_numeric_distribution(self, data: pd.Series, variable: Variable, ax: Axes) -> None:
+    def _plot_numeric_distribution(
+        self, data: pd.Series, variable: Variable, ax: Axes
+    ) -> None:
         """Plot histogram/KDE for numeric variable."""
         n_unique = data.nunique()
 
         if n_unique > 50:
             # Use KDE for continuous data
-            sns.histplot(data, kde=True, ax=ax, stat="density")
+            sns.histplot(x=data, kde=True, ax=ax, stat="density")
             ax.set_ylabel("Density")
         else:
             # Use count histogram for discrete data
-            sns.histplot(data, kde=False, ax=ax, bins=min(n_unique, 30))
+            sns.histplot(x=data, kde=False, ax=ax, bins=min(n_unique, 30))
             ax.set_ylabel("Count")
 
         ax.set_xlabel(variable.label)
 
         # Add mean line
         mean = data.mean()
-        ax.axvline(mean, color="red", linestyle="--", label=f"Mean: {mean:.2f}", alpha=0.7)
+        ax.axvline(
+            mean, color="red", linestyle="--", label=f"Mean: {mean:.2f}", alpha=0.7
+        )
         ax.legend()
 
-    def _plot_categorical_distribution(self, data: pd.Series, variable: Variable, ax: Axes) -> None:
+    def _plot_categorical_distribution(
+        self, data: pd.Series, variable: Variable, ax: Axes
+    ) -> None:
         """Plot bar chart for categorical variable."""
         counts = data.value_counts()
 
         # Map to labels if available
         if variable.valid_values:
-            counts.index = counts.index.map(lambda x: variable.valid_values.get(x, str(x)))
+            counts.index = counts.index.map(
+                lambda x: variable.valid_values.get(x, str(x))
+            )
 
-        sns.barplot(x=counts.index, y=counts.values, ax=ax, palette="viridis")
+        # hue duplicates x with legend=False: seaborn removes bare `palette`
+        # in 0.14, and this is the replacement it documents.
+        sns.barplot(
+            x=counts.index,
+            y=counts.values,
+            hue=counts.index,
+            ax=ax,
+            palette="viridis",
+            legend=False,
+        )
         ax.set_xlabel(variable.label)
         ax.set_ylabel("Count")
 
@@ -251,7 +308,9 @@ class PlotFactory:
         if len(counts) > 5:
             ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
 
-    def _plot_scatter(self, data: pd.DataFrame, var1: Variable, var2: Variable, ax: Axes) -> None:
+    def _plot_scatter(
+        self, data: pd.DataFrame, var1: Variable, var2: Variable, ax: Axes
+    ) -> None:
         """Plot scatter plot with regression line."""
         sns.regplot(
             x=var1.name,
@@ -273,10 +332,18 @@ class PlotFactory:
         plot_data = data.copy()
         if var_cat.valid_values:
             plot_data[var_cat.name] = plot_data[var_cat.name].map(
-                lambda x: var_cat.valid_values.get(x, str(x))
+                lambda x: var_cat.valid_values.get(cast("int | str", x), str(x))
             )
 
-        sns.boxplot(x=var_cat.name, y=var_num.name, data=plot_data, ax=ax, palette="Set2")
+        sns.boxplot(
+            x=var_cat.name,
+            y=var_num.name,
+            hue=var_cat.name,
+            data=plot_data,
+            ax=ax,
+            palette="Set2",
+            legend=False,
+        )
         ax.set_xlabel(var_cat.label)
         ax.set_ylabel(var_num.label)
         ax.set_title(f"{var_num.label} by {var_cat.label}")
@@ -284,14 +351,18 @@ class PlotFactory:
         if len(plot_data[var_cat.name].unique()) > 5:
             ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
 
-    def _plot_heatmap(self, data: pd.DataFrame, var1: Variable, var2: Variable, ax: Axes) -> None:
+    def _plot_heatmap(
+        self, data: pd.DataFrame, var1: Variable, var2: Variable, ax: Axes
+    ) -> None:
         """Plot heatmap for categorical vs categorical."""
         # Create contingency table
         contingency = pd.crosstab(data[var1.name], data[var2.name])
 
         # Map to labels
         if var1.valid_values:
-            contingency.index = contingency.index.map(lambda x: var1.valid_values.get(x, str(x)))
+            contingency.index = contingency.index.map(
+                lambda x: var1.valid_values.get(x, str(x))
+            )
         if var2.valid_values:
             contingency.columns = contingency.columns.map(
                 lambda x: var2.valid_values.get(x, str(x))
@@ -314,7 +385,9 @@ class PlotFactory:
             "plot_type": plot_type,
             "caption": self._generate_univariate_caption(data, variable),
             "alt_text": self._generate_univariate_alt_text(data, variable, plot_type),
-            "visual_elements": self._extract_univariate_visual_elements(data, variable, plot_type),
+            "visual_elements": self._extract_univariate_visual_elements(
+                data, variable, plot_type
+            ),
         }
 
         if output_path:
@@ -339,7 +412,9 @@ class PlotFactory:
             "plot_type": plot_type,
             "caption": self._generate_bivariate_caption(data, var1, var2, plot_type),
             "alt_text": self._generate_bivariate_alt_text(data, var1, var2, plot_type),
-            "visual_elements": self._extract_bivariate_visual_elements(data, var1, var2, plot_type),
+            "visual_elements": self._extract_bivariate_visual_elements(
+                data, var1, var2, plot_type
+            ),
         }
 
         if output_path:
@@ -358,8 +433,9 @@ class PlotFactory:
             std_val = data.std()
             n_obs = len(data)
 
-            # Detect distribution shape
-            skewness = data.skew()
+            # Detect distribution shape. pandas types .skew() as Scalar, which
+            # includes Timedelta; this branch is guarded by is_numeric().
+            skewness = cast("float", data.skew())
             if abs(skewness) < 0.5:
                 shape = "approximately normal distribution"
             elif skewness > 0.5:
@@ -394,7 +470,7 @@ class PlotFactory:
     ) -> str:
         """Generate descriptive caption for bivariate plots."""
         if plot_type == "scatter":
-            correlation = data.corr().iloc[0, 1]
+            correlation = cast("float", data.corr().iloc[0, 1])
             if abs(correlation) < 0.3:
                 strength = "weak"
             elif abs(correlation) < 0.7:
@@ -489,7 +565,7 @@ class PlotFactory:
             elements["annotations"] = [f"Mean: {data.mean():.2f}"]
 
             # Add distribution characteristics
-            if abs(data.skew()) > 0.5:
+            if abs(cast("float", data.skew())) > 0.5:
                 elements["key_features"].append("skewed distribution")
 
         elif plot_type == "bar_chart":

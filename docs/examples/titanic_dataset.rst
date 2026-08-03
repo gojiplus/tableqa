@@ -1,5 +1,5 @@
-Titanic Dataset Analysis  
-=======================
+Titanic Dataset Analysis
+========================
 
 Survival analysis of Titanic passenger data with categorical and survival outcomes.
 

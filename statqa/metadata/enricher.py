@@ -1,5 +1,4 @@
-"""
-LLM-based metadata enrichment.
+"""LLM-based metadata enrichment.
 
 Uses language models to verify, infer, and enrich variable metadata including:
 - Type inference and validation
@@ -15,43 +14,35 @@ from typing import Any, Literal
 from statqa.exceptions import EnrichmentError, LLMConnectionError, LLMResponseError
 from statqa.utils.logging import get_logger
 
-
+# Bind the module to None rather than only tracking a boolean: narrowing on
+# `is None` is what lets a type checker see the import is bound at use sites.
 try:
     import openai
-
-    HAS_OPENAI = True
 except ImportError:
-    HAS_OPENAI = False
+    openai = None
 
 try:
     import anthropic
-
-    HAS_ANTHROPIC = True
 except ImportError:
-    HAS_ANTHROPIC = False
+    anthropic = None
 
 from statqa.metadata.schema import Codebook, Variable, VariableType
 
+HAS_OPENAI = openai is not None
+HAS_ANTHROPIC = anthropic is not None
 
 logger = get_logger(__name__)
 
 
 class MetadataEnricher:
-    """
-    Enrich metadata using LLM capabilities.
+    """Enrich metadata using LLM capabilities.
 
     Supports both OpenAI and Anthropic models.
-
-    Args:
-        provider: LLM provider ('openai' or 'anthropic')
-        model: Model name (defaults to gpt-4 or claude-3-sonnet)
-        api_key: API key (or use environment variable)
-        **kwargs: Additional provider-specific options
-
-    Raises:
-        ImportError: If required LLM package not installed
-        ValueError: If provider is not supported
     """
+
+    # Which client class this holds is decided by the provider argument at
+    # runtime, so it cannot be narrowed statically.
+    client: Any
 
     def __init__(
         self,
@@ -60,30 +51,49 @@ class MetadataEnricher:
         api_key: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the metadata enricher and its LLM client.
+
+        Args:
+            provider: LLM provider ('openai' or 'anthropic')
+            model: Model name (defaults to gpt-4 or claude-3-sonnet)
+            api_key: API key (or use environment variable)
+            **kwargs: Additional provider-specific options
+
+        Raises:
+            ImportError: If required LLM package not installed
+            ValueError: If provider is not supported
+        """
         self.provider = provider.lower()
         self.kwargs = kwargs
 
         match self.provider:
             case "openai":
-                if not HAS_OPENAI:
-                    raise ImportError("openai package required. Install with: pip install openai")
-                self.client = openai.OpenAI(api_key=api_key) if api_key else openai.OpenAI()
+                if openai is None:
+                    raise ImportError(
+                        "openai package required. Install with: pip install openai"
+                    )
+                self.client = (
+                    openai.OpenAI(api_key=api_key) if api_key else openai.OpenAI()
+                )
                 self.model = model or "gpt-4"
             case "anthropic":
-                if not HAS_ANTHROPIC:
+                if anthropic is None:
                     raise ImportError(
                         "anthropic package required. Install with: pip install anthropic"
                     )
                 self.client = (
-                    anthropic.Anthropic(api_key=api_key) if api_key else anthropic.Anthropic()
+                    anthropic.Anthropic(api_key=api_key)
+                    if api_key
+                    else anthropic.Anthropic()
                 )
                 self.model = model or "claude-3-sonnet-20240229"
             case _:
                 raise ValueError(f"Unknown provider: {provider}")
 
-    def enrich_variable(self, variable: Variable, dataset_context: str | None = None) -> Variable:
-        """
-        Enrich a single variable's metadata.
+    def enrich_variable(
+        self, variable: Variable, dataset_context: str | None = None
+    ) -> Variable:
+        """Enrich a single variable's metadata.
 
         Args:
             variable: Variable to enrich
@@ -108,7 +118,10 @@ class MetadataEnricher:
                 variable.enriched_metadata.update(enrichment)
 
                 # Apply high-confidence suggestions
-                if "suggested_type" in enrichment and enrichment.get("type_confidence", 0) > 0.8:
+                if (
+                    "suggested_type" in enrichment
+                    and enrichment.get("type_confidence", 0) > 0.8
+                ):
                     suggested_type = enrichment["suggested_type"]
                     if suggested_type in VariableType.__members__:
                         variable.var_type = VariableType[suggested_type]
@@ -124,7 +137,9 @@ class MetadataEnricher:
             logger.error(f"LLM connection failed for variable {variable.name}: {e}")
             raise LLMConnectionError(f"Failed to connect to LLM service: {e}") from e
         except (KeyError, json.JSONDecodeError, ValueError) as e:
-            logger.warning(f"Failed to parse LLM response for variable {variable.name}: {e}")
+            logger.warning(
+                f"Failed to parse LLM response for variable {variable.name}: {e}"
+            )
             raise LLMResponseError(f"Invalid LLM response format: {e}") from e
         except Exception as e:
             logger.warning(f"Unexpected error enriching variable {variable.name}: {e}")
@@ -133,8 +148,7 @@ class MetadataEnricher:
         return variable
 
     def enrich_codebook(self, codebook: Codebook) -> Codebook:
-        """
-        Enrich entire codebook metadata.
+        """Enrich entire codebook metadata.
 
         Args:
             codebook: Codebook to enrich
@@ -157,7 +171,9 @@ class MetadataEnricher:
 
         return codebook
 
-    def _build_variable_prompt(self, variable: Variable, dataset_context: str | None = None) -> str:
+    def _build_variable_prompt(
+        self, variable: Variable, dataset_context: str | None = None
+    ) -> str:
         """Build prompt for variable enrichment."""
         context = f"\nDataset context: {dataset_context}" if dataset_context else ""
 
@@ -166,7 +182,7 @@ class MetadataEnricher:
 Variable Information:
 - Name: {variable.name}
 - Label: {variable.label}
-- Current Type: {variable.var_type.value}
+- Current Type: {variable.var_type}
 - Description: {variable.description or "Not provided"}
 - Valid Values: {variable.valid_values or "Not provided"}
 - Missing Values: {variable.missing_values or "Not provided"}
@@ -212,8 +228,10 @@ Return ONLY a valid JSON object with these fields.
         """Infer relationships between variables."""
         # Build summary of all variables
         var_list = [
-            f"- {v.name}: {v.label} ({v.var_type.value})"
-            for v in list(codebook.variables.values())[:50]  # Limit to avoid token limits
+            f"- {v.name}: {v.label} ({v.var_type})"
+            for v in list(codebook.variables.values())[
+                :50
+            ]  # Limit to avoid token limits
         ]
 
         prompt = f"""Given these variables from a dataset, suggest likely relationships and causal structure.

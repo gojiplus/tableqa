@@ -25,7 +25,6 @@ import openai
 import pandas as pd
 from tqdm.auto import tqdm
 
-
 try:
     import pdfplumber
 except ImportError:
@@ -35,7 +34,6 @@ except ImportError:
 
 # Configure logging
 from statqa.utils.logging import setup_logging
-
 
 logger = setup_logging(__name__, level="INFO")
 
@@ -73,7 +71,9 @@ def parse_anes_codebook(pdf_path: str) -> pd.DataFrame:
             text = page.extract_text() or ""
             if "VARIABLE DESCRIPTION" in text:
                 start_idx = i + 1
-                logger.info(f"Found VARIABLE DESCRIPTION section on page {start_idx + 1}")
+                logger.info(
+                    f"Found VARIABLE DESCRIPTION section on page {start_idx + 1}"
+                )
                 break
 
         # Parse all pages starting from variable descriptions
@@ -189,15 +189,18 @@ def generate_research_questions(
         )
 
         logger.info(
-            f"Generating questions for chunk {chunk_idx+1}/{num_chunks} "
-            f"(variables {start}-{end-1})"
+            f"Generating questions for chunk {chunk_idx + 1}/{num_chunks} "
+            f"(variables {start}-{end - 1})"
         )
 
         try:
             resp = openai.chat.completions.create(
                 model="gpt-4",
                 messages=[
-                    {"role": "system", "content": "You help scientists write research questions."},
+                    {
+                        "role": "system",
+                        "content": "You help scientists write research questions.",
+                    },
                     {"role": "user", "content": prompt},
                 ],
                 max_tokens=600,
@@ -211,10 +214,12 @@ def generate_research_questions(
                 if m:
                     questions.append(m.group(1).strip())
 
-            logger.info(f"Chunk {chunk_idx+1}: Total questions collected: {len(questions)}")
+            logger.info(
+                f"Chunk {chunk_idx + 1}: Total questions collected: {len(questions)}"
+            )
 
         except Exception as e:
-            logger.error(f"LLM error in chunk {chunk_idx+1}: {e}")
+            logger.error(f"LLM error in chunk {chunk_idx + 1}: {e}")
 
     return questions
 
@@ -276,7 +281,9 @@ def main():
 
     metadata_df = parse_anes_codebook(args.codebook)
     metadata_df.to_csv(args.output_metadata, index=False)
-    logger.info(f"✓ Saved metadata for {len(metadata_df)} variables to {args.output_metadata}")
+    logger.info(
+        f"✓ Saved metadata for {len(metadata_df)} variables to {args.output_metadata}"
+    )
 
     # Step 2: Generate research questions (optional)
     if not args.skip_questions:
@@ -295,7 +302,9 @@ def main():
             for i, q in enumerate(questions, 1):
                 f.write(f"{i}. {q}\n")
 
-        logger.info(f"✓ Saved {len(questions)} research questions to {args.output_templates}")
+        logger.info(
+            f"✓ Saved {len(questions)} research questions to {args.output_templates}"
+        )
     else:
         logger.info("\n✓ Skipped question generation (--skip-questions flag used)")
 

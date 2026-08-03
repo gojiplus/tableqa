@@ -16,7 +16,6 @@ from statqa.interpretation.formatter import InsightFormatter
 from statqa.metadata.parsers.text import TextParser
 from statqa.qa.generator import QAGenerator
 
-
 # 1. Define codebook as text
 codebook_text = """
 # Codebook: Survey Data

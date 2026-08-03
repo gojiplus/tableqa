@@ -1,5 +1,4 @@
-"""
-Bivariate statistical analysis.
+"""Bivariate statistical analysis.
 
 Analyzes relationships between pairs of variables:
 - Numeric x Numeric: Pearson/Spearman correlation, regression
@@ -11,27 +10,19 @@ from __future__ import annotations
 
 from typing import Any
 
-import numpy as np
 import pandas as pd
 from scipy import stats
 
 from statqa.metadata.schema import Variable
+from statqa.utils.cleaning import blank_missing_codes_frame
 from statqa.utils.logging import get_logger
 from statqa.utils.stats import calculate_effect_size, cramers_v
-
 
 logger = get_logger(__name__)
 
 
 class BivariateAnalyzer:
-    """
-    Analyzer for two-variable relationships.
-
-    Args:
-        significance_level: Alpha level for statistical tests
-        min_sample_size: Minimum sample size for analysis
-        use_robust: Use robust methods (Spearman) when appropriate
-    """
+    """Analyzer for two-variable relationships."""
 
     def __init__(
         self,
@@ -39,6 +30,13 @@ class BivariateAnalyzer:
         min_sample_size: int = 10,
         use_robust: bool = True,
     ) -> None:
+        """Initialize the bivariate analyzer.
+
+        Args:
+            significance_level: Alpha level for statistical tests
+            min_sample_size: Minimum sample size for analysis
+            use_robust: Use robust methods (Spearman) when appropriate
+        """
         self.alpha = significance_level
         self.min_n = min_sample_size
         self.use_robust = use_robust
@@ -49,8 +47,7 @@ class BivariateAnalyzer:
         var1: Variable,
         var2: Variable,
     ) -> dict[str, Any] | None:
-        """
-        Analyze relationship between two variables.
+        """Analyze relationship between two variables.
 
         Args:
             data: DataFrame containing both variables
@@ -81,20 +78,17 @@ class BivariateAnalyzer:
             return self._analyze_categorical_numeric(subset, var1, var2)
         elif var1.is_numeric() and var2.is_categorical():
             # Swap order
-            return self._analyze_categorical_numeric(subset[[var2.name, var1.name]], var2, var1)
+            return self._analyze_categorical_numeric(
+                subset[[var2.name, var1.name]], var2, var1
+            )
 
         return None
 
-    def _clean_data(self, data: pd.DataFrame, var1: Variable, var2: Variable) -> pd.DataFrame:
-        """Clean missing values based on metadata."""
-        clean = data.copy()
-
-        # Replace missing codes with NaN
-        for var in [var1, var2]:
-            if var.missing_values:
-                clean[var.name] = clean[var.name].replace(dict.fromkeys(var.missing_values, np.nan))
-
-        return clean
+    def _clean_data(
+        self, data: pd.DataFrame, var1: Variable, var2: Variable
+    ) -> pd.DataFrame:
+        """Replace both variables' missing codes with NaN."""
+        return blank_missing_codes_frame(data, (var1, var2))
 
     def _analyze_numeric_numeric(
         self, data: pd.DataFrame, var1: Variable, var2: Variable
@@ -115,20 +109,26 @@ class BivariateAnalyzer:
             "n": len(clean_data),
         }
 
-        # Pearson correlation
-        r_pearson, p_pearson = stats.pearsonr(x, y)
+        # Pearson correlation. Read .statistic/.pvalue rather than unpacking:
+        # the tuple form is untyped, so every downstream float() reads as an
+        # error even though the values are floats.
+        pearson = stats.pearsonr(x, y)
+        r_pearson = float(pearson.statistic)
+        p_pearson = float(pearson.pvalue)
         result["pearson"] = {
-            "r": float(r_pearson),
-            "p_value": float(p_pearson),
+            "r": r_pearson,
+            "p_value": p_pearson,
             "significant": bool(p_pearson < self.alpha),
         }
 
         # Spearman correlation (robust to outliers and non-linearity)
         if self.use_robust:
-            r_spearman, p_spearman = stats.spearmanr(x, y)
+            spearman = stats.spearmanr(x, y)
+            r_spearman = float(spearman.statistic)
+            p_spearman = float(spearman.pvalue)
             result["spearman"] = {
-                "rho": float(r_spearman),
-                "p_value": float(p_spearman),
+                "rho": r_spearman,
+                "p_value": p_spearman,
                 "significant": bool(p_spearman < self.alpha),
             }
 
@@ -140,8 +140,8 @@ class BivariateAnalyzer:
                     "cohens_d": float(d),
                     "interpretation": self._interpret_cohens_d(d),
                 }
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Cohen's d conversion from Pearson r failed: %s", exc)
 
         # Strength interpretation
         result["strength"] = self._interpret_correlation(abs(r_pearson))
@@ -161,7 +161,11 @@ class BivariateAnalyzer:
         contingency = pd.crosstab(clean_data[var1.name], clean_data[var2.name])
 
         # Chi-square test
-        chi2, p_value, dof, expected = stats.chi2_contingency(contingency)
+        chi2_result = stats.chi2_contingency(contingency)
+        chi2 = float(chi2_result.statistic)
+        p_value = float(chi2_result.pvalue)
+        dof = int(chi2_result.dof)
+        expected = chi2_result.expected_freq
 
         result: dict[str, Any] = {
             "analysis_type": "categorical_categorical",
@@ -229,15 +233,19 @@ class BivariateAnalyzer:
 
         if len(group_data) == 2:
             # Two-sample t-test
-            t_stat, p_value = stats.ttest_ind(group_data[0], group_data[1])
+            ttest = stats.ttest_ind(group_data[0], group_data[1])
+            t_stat = float(ttest.statistic)
+            p_value = float(ttest.pvalue)
             result["t_test"] = {
-                "statistic": float(t_stat),
-                "p_value": float(p_value),
+                "statistic": t_stat,
+                "p_value": p_value,
                 "significant": bool(p_value < self.alpha),
             }
 
             # Effect size (Cohen's d)
-            d = calculate_effect_size(group_data[0], group_data[1], effect_type="cohen_d")
+            d = calculate_effect_size(
+                group_data[0], group_data[1], effect_type="cohen_d"
+            )
             result["effect_size"] = {
                 "cohens_d": float(d),
                 "interpretation": self._interpret_cohens_d(d),
@@ -245,10 +253,12 @@ class BivariateAnalyzer:
 
         elif len(group_data) > 2:
             # One-way ANOVA
-            f_stat, p_value = stats.f_oneway(*group_data)
+            anova = stats.f_oneway(*group_data)
+            f_stat = float(anova.statistic)
+            p_value = float(anova.pvalue)
             result["anova"] = {
-                "f_statistic": float(f_stat),
-                "p_value": float(p_value),
+                "f_statistic": f_stat,
+                "p_value": p_value,
                 "significant": bool(p_value < self.alpha),
             }
 
@@ -320,8 +330,7 @@ class BivariateAnalyzer:
         variables: dict[str, Variable],
         max_pairs: int | None = None,
     ) -> list[dict[str, Any]]:
-        """
-        Analyze multiple variable pairs.
+        """Analyze multiple variable pairs.
 
         Args:
             df: DataFrame with data

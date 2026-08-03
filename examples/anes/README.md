@@ -196,8 +196,8 @@ effects = causal_analyzer.analyze(data, treatment, outcome, confounders)
 ```python
 from statqa.visualization.plots import PlotFactory
 
-plotter = PlotFactory(style='publication', figsize=(10, 6))
-plotter.plot_temporal(data, time_var, target_var, output_path='trend.png')
+plotter = PlotFactory(style="publication", figsize=(10, 6))
+plotter.plot_temporal(data, time_var, target_var, output_path="trend.png")
 ```
 
 ## Tips and Best Practices

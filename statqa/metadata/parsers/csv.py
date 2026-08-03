@@ -1,5 +1,4 @@
-"""
-CSV-based codebook parser.
+"""CSV-based codebook parser.
 
 Parses codebooks stored in CSV format with columns like:
 - variable_name
@@ -19,7 +18,10 @@ from typing import Any
 import pandas as pd
 
 from statqa.metadata.parsers.base import BaseParser
-from statqa.metadata.schema import Codebook, DataGeneratingProcess, Variable, VariableType
+from statqa.metadata.schema import (
+    Codebook,
+    Variable,
+)
 
 
 class CSVParser(BaseParser):
@@ -47,10 +49,14 @@ class CSVParser(BaseParser):
         # Determine name column
         name_col = self._get_name_column(df)
         if not name_col:
-            raise ValueError("CSV must have 'variable_name', 'varname', or 'name' column")
+            raise ValueError(
+                "CSV must have 'variable_name', 'varname', or 'name' column"
+            )
 
         # Extract codebook metadata
-        codebook_name = Path(source).stem if isinstance(source, str | Path) else "codebook"
+        codebook_name = (
+            Path(source).stem if isinstance(source, str | Path) else "codebook"
+        )
 
         # Parse variables
         variables = []
@@ -95,11 +101,15 @@ class CSVParser(BaseParser):
             data["description"] = desc
 
         # Valid values
-        if valid_str := self._get_value(row, ["valid_values", "values", "value_labels"]):
+        if valid_str := self._get_value(
+            row, ["valid_values", "values", "value_labels"]
+        ):
             data["valid_values"] = self._parse_values(valid_str)
 
         # Missing values
-        if missing_str := self._get_value(row, ["missing_values", "missing", "missing_codes"]):
+        if missing_str := self._get_value(
+            row, ["missing_values", "missing", "missing_codes"]
+        ):
             data["missing_values"] = self._parse_missing(missing_str)
 
         # Units
@@ -135,7 +145,9 @@ class CSVParser(BaseParser):
 
         return Variable(**data)
 
-    def _get_value(self, row: pd.Series, columns: list[str], default: Any = None) -> str | None:
+    def _get_value(
+        self, row: pd.Series, columns: list[str], default: Any = None
+    ) -> str | None:
         """Get value from first available column."""
         for col in columns:
             if col in row.index and not pd.isna(row[col]):
@@ -149,29 +161,6 @@ class CSVParser(BaseParser):
             return False
         val_lower = val.lower()
         return val_lower in {"true", "1", "yes", "y", "t"}
-
-    def _parse_type(self, type_str: str) -> VariableType:
-        """Parse variable type."""
-        type_str = type_str.lower().strip()
-        type_map = {
-            "numeric_continuous": VariableType.NUMERIC_CONTINUOUS,
-            "numeric_discrete": VariableType.NUMERIC_DISCRETE,
-            "numeric": VariableType.NUMERIC_CONTINUOUS,
-            "continuous": VariableType.NUMERIC_CONTINUOUS,
-            "discrete": VariableType.NUMERIC_DISCRETE,
-            "categorical_nominal": VariableType.CATEGORICAL_NOMINAL,
-            "categorical_ordinal": VariableType.CATEGORICAL_ORDINAL,
-            "categorical": VariableType.CATEGORICAL_NOMINAL,
-            "nominal": VariableType.CATEGORICAL_NOMINAL,
-            "ordinal": VariableType.CATEGORICAL_ORDINAL,
-            "boolean": VariableType.BOOLEAN,
-            "bool": VariableType.BOOLEAN,
-            "datetime": VariableType.DATETIME,
-            "date": VariableType.DATETIME,
-            "text": VariableType.TEXT,
-            "string": VariableType.TEXT,
-        }
-        return type_map.get(type_str, VariableType.UNKNOWN)
 
     def _parse_values(self, values_str: str) -> dict[int | str, str]:
         """Parse value mappings from string like '1: Male; 2: Female' or '1=Male, 2=Female'."""
@@ -204,41 +193,3 @@ class CSVParser(BaseParser):
                 values[code] = label
 
         return values
-
-    def _parse_missing(self, missing_str: str) -> set[int | str]:
-        """Parse missing values from string like '-1, 999, NA'."""
-        missing = set()
-        separators = [";", ",", "|"]
-
-        # Find the separator
-        sep = ","
-        for s in separators:
-            if s in missing_str:
-                sep = s
-                break
-
-        for item in missing_str.split(sep):
-            item = item.strip()
-            if not item:
-                continue
-
-            try:
-                missing.add(int(item))
-            except ValueError:
-                missing.add(item)
-
-        return missing
-
-    def _parse_dgp(self, dgp_str: str) -> DataGeneratingProcess:
-        """Parse data generating process."""
-        dgp_str = dgp_str.lower().strip()
-        dgp_map = {
-            "observational": DataGeneratingProcess.OBSERVATIONAL,
-            "experimental": DataGeneratingProcess.EXPERIMENTAL,
-            "quasi_experimental": DataGeneratingProcess.QUASI_EXPERIMENTAL,
-            "quasi-experimental": DataGeneratingProcess.QUASI_EXPERIMENTAL,
-            "survey": DataGeneratingProcess.SURVEY,
-            "administrative": DataGeneratingProcess.ADMINISTRATIVE,
-            "simulation": DataGeneratingProcess.SIMULATION,
-        }
-        return dgp_map.get(dgp_str, DataGeneratingProcess.UNKNOWN)

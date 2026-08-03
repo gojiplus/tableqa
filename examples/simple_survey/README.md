@@ -67,10 +67,10 @@ Edit `quick_start.py` to customize:
 n = 5000  # instead of 1000
 
 # Add new variables
-data['new_variable'] = np.random.choice(['A', 'B', 'C'], n)
+data["new_variable"] = np.random.choice(["A", "B", "C"], n)
 
 # Modify distributions
-data['age'] = np.random.normal(45, 15, n).clip(18, 80)  # normal instead of uniform
+data["age"] = np.random.normal(45, 15, n).clip(18, 80)  # normal instead of uniform
 ```
 
 ### Run Custom Analyses
@@ -81,15 +81,12 @@ from statqa.analysis.causal import CausalAnalyzer
 
 # Analyze trends over time
 temporal = TemporalAnalyzer()
-trends = temporal.analyze(data, time_var='year', target_var='satisfaction')
+trends = temporal.analyze(data, time_var="year", target_var="satisfaction")
 
 # Estimate treatment effects
 causal = CausalAnalyzer()
 effect = causal.analyze(
-    data,
-    treatment='education',
-    outcome='income',
-    confounders=['age', 'region']
+    data, treatment="education", outcome="income", confounders=["age", "region"]
 )
 ```
 
@@ -102,13 +99,13 @@ import pandas as pd
 from statqa.utils.io import load_data
 
 # Load your data
-data = load_data('my_survey.csv')
+data = load_data("my_survey.csv")
 
 # Create codebook manually or from CSV
 from statqa.metadata.parsers import CSVParser
 
 parser = CSVParser()
-codebook = parser.parse('my_codebook.csv')
+codebook = parser.parse("my_codebook.csv")
 ```
 
 ## File Structure

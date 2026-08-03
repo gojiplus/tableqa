@@ -52,9 +52,16 @@ def generate_synthetic_survey(n: int = 1000, seed: int = 42) -> pd.DataFrame:
 
     # Add some correlations for interesting insights
     # Education → Income correlation
-    edu_income_map = {"High School": 50000, "Bachelor": 70000, "Master": 95000, "PhD": 140000}
+    edu_income_map = {
+        "High School": 50000,
+        "Bachelor": 70000,
+        "Master": 95000,
+        "PhD": 140000,
+    }
     base_income = data["education"].map(edu_income_map)
-    data["income"] = (base_income + np.random.normal(0, 20000, n)).clip(20000, 200000).astype(int)
+    data["income"] = (
+        (base_income + np.random.normal(0, 20000, n)).clip(20000, 200000).astype(int)
+    )
 
     # Income → Satisfaction correlation
     income_effect = (data["income"] - data["income"].mean()) / data["income"].std()
@@ -80,23 +87,22 @@ def create_codebook() -> Codebook:
         "age": Variable(
             name="age",
             label="Respondent Age",
-            type=VariableType.NUMERIC_CONTINUOUS,
+            var_type=VariableType.NUMERIC_CONTINUOUS,
             description="Age of respondent in years",
-            value_labels=None,
         ),
         "gender": Variable(
             name="gender",
             label="Gender",
-            type=VariableType.CATEGORICAL_NOMINAL,
+            var_type=VariableType.CATEGORICAL_NOMINAL,
             description="Self-reported gender",
-            value_labels={"Male": "Male", "Female": "Female"},
+            valid_values={"Male": "Male", "Female": "Female"},
         ),
         "education": Variable(
             name="education",
             label="Education Level",
-            type=VariableType.CATEGORICAL_ORDINAL,
+            var_type=VariableType.CATEGORICAL_ORDINAL,
             description="Highest level of education completed",
-            value_labels={
+            valid_values={
                 "High School": "High school diploma or equivalent",
                 "Bachelor": "Bachelor's degree",
                 "Master": "Master's degree",
@@ -106,16 +112,15 @@ def create_codebook() -> Codebook:
         "income": Variable(
             name="income",
             label="Annual Income",
-            type=VariableType.NUMERIC_CONTINUOUS,
+            var_type=VariableType.NUMERIC_CONTINUOUS,
             description="Total annual household income in USD",
-            value_labels=None,
         ),
         "satisfaction": Variable(
             name="satisfaction",
             label="Job Satisfaction",
-            type=VariableType.CATEGORICAL_ORDINAL,
+            var_type=VariableType.CATEGORICAL_ORDINAL,
             description="Overall job satisfaction rating",
-            value_labels={
+            valid_values={
                 "1": "Very Dissatisfied",
                 "2": "Dissatisfied",
                 "3": "Neutral",
@@ -126,9 +131,9 @@ def create_codebook() -> Codebook:
         "political_interest": Variable(
             name="political_interest",
             label="Political Interest",
-            type=VariableType.CATEGORICAL_ORDINAL,
+            var_type=VariableType.CATEGORICAL_ORDINAL,
             description="Level of interest in politics and current events",
-            value_labels={
+            valid_values={
                 "1": "Not at all interested",
                 "2": "Slightly interested",
                 "3": "Moderately interested",
@@ -139,9 +144,9 @@ def create_codebook() -> Codebook:
         "region": Variable(
             name="region",
             label="Geographic Region",
-            type=VariableType.CATEGORICAL_NOMINAL,
+            var_type=VariableType.CATEGORICAL_NOMINAL,
             description="Region of residence",
-            value_labels={
+            valid_values={
                 "North": "Northern region",
                 "South": "Southern region",
                 "East": "Eastern region",
@@ -151,9 +156,8 @@ def create_codebook() -> Codebook:
         "year": Variable(
             name="year",
             label="Survey Year",
-            type=VariableType.NUMERIC_DISCRETE,
+            var_type=VariableType.NUMERIC_DISCRETE,
             description="Year the survey was conducted",
-            value_labels=None,
         ),
     }
 
@@ -193,7 +197,10 @@ def main():
     codebook_path = output_dir / "codebook.json"
     with open(codebook_path, "w") as f:
         json.dump(
-            {var.name: var.model_dump(mode="json") for var in codebook.variables.values()},
+            {
+                var.name: var.model_dump(mode="json")
+                for var in codebook.variables.values()
+            },
             f,
             indent=2,
         )
@@ -269,9 +276,8 @@ def main():
 
                 bivariate_count += 1
 
-            except Exception:
-                # Skip pairs that can't be analyzed
-                pass
+            except Exception as exc:
+                print(f"  skipped {var1_name} x {var2_name}: {exc}")
 
     print(f"✓ Completed {bivariate_count} bivariate analyses")
 

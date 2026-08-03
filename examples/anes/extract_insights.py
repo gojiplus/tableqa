@@ -38,7 +38,6 @@ from statqa.metadata.schema import Variable, VariableType
 from statqa.utils.logging import setup_logging
 from statqa.visualization.plots import PlotFactory
 
-
 logger = setup_logging(__name__, level="INFO")
 
 
@@ -52,6 +51,9 @@ def load_data_from_zip(zip_path: str, pattern: str = r"(?i)\.csv$") -> pd.DataFr
 
     Returns:
         DataFrame with loaded data
+
+    Raises:
+        FileNotFoundError: If no file in the archive matches `pattern`.
     """
     logger.info(f"Loading data from ZIP: {zip_path}")
     dfs = []
@@ -103,7 +105,8 @@ def load_anes_metadata(meta_path: str) -> tuple[dict, dict, dict]:
 
         # Parse value coding
         codes = {
-            int(m.group(1)): m.group(2).strip() for m in re.finditer(r"(\d+)\.\s*([^\n;]+)", valid)
+            int(m.group(1)): m.group(2).strip()
+            for m in re.finditer(r"(\d+)\.\s*([^\n;]+)", valid)
         }
         valid_map[var] = codes
 
@@ -183,8 +186,7 @@ def infer_variable_types(profile_df: pd.DataFrame) -> tuple[dict, set]:
             types[var] = "categorical"
 
     logger.info(
-        f"Inferred types for {len(types)} variables; "
-        f"skipping {len(skip)} single-level variables"
+        f"Inferred types for {len(types)} variables; skipping {len(skip)} single-level variables"
     )
     return types, skip
 
@@ -231,20 +233,24 @@ def run_univariate_analysis(
 
         # Use tableqa's UnivariateAnalyzer
         analyzer = UnivariateAnalyzer()
-        var_meta = Variable(name=var, label=pretty_name, type=VariableType.NUMERIC_CONTINUOUS)
+        var_meta = Variable(
+            name=var, label=pretty_name, var_type=VariableType.NUMERIC_CONTINUOUS
+        )
 
         try:
             result = analyzer.analyze(data, var_meta)
 
             # Generate visualization
-            plotter = PlotFactory(style="seaborn", figsize=(6, 4))
+            plotter = PlotFactory(style="whitegrid", figsize=(6, 4))
             fig_path = Path(output_dir) / f"univariate_{var}.png"
             plotter.plot_univariate(data, var_meta, output_path=str(fig_path))
 
             # Format insight
             formatter = InsightFormatter()
             insight_text = formatter.format_univariate(result)
-            insight_text += f" (N={len(data)}, dropped {miss_count} missing. No weights applied.)"
+            insight_text += (
+                f" (N={len(data)}, dropped {miss_count} missing. No weights applied.)"
+            )
 
         except Exception as e:
             logger.warning(f"Error analyzing {var}: {e}")
@@ -261,7 +267,7 @@ def run_univariate_analysis(
         pct = (counts / total * 100).round(1)
 
         # Create visualization
-        plotter = PlotFactory(style="seaborn", figsize=(6, 4))
+        plotter = PlotFactory(style="whitegrid", figsize=(6, 4))
         fig_path = Path(output_dir) / f"univariate_{var}.png"
 
         # Simple bar plot for categorical
@@ -290,7 +296,11 @@ def run_univariate_analysis(
             f"N={total}, dropped {miss_count} missing. (No weights applied.)"
         )
 
-    return {"vars": [var], "insight": insight_text, "figure": str(fig_path) if fig_path else None}
+    return {
+        "vars": [var],
+        "insight": insight_text,
+        "figure": str(fig_path) if fig_path else None,
+    }
 
 
 def run_bivariate_analysis(
@@ -373,10 +383,7 @@ def run_bivariate_analysis(
 
         # Format insight
         mapping = {str(k): round(v, 2) for k, v in grp.items()}
-        insight_text = (
-            f"Mean **{label_y}** by **{label_x}**: {mapping}. "
-            f"Dropped missing; no weights applied."
-        )
+        insight_text = f"Mean **{label_y}** by **{label_x}**: {mapping}. Dropped missing; no weights applied."
 
         return {"vars": [x, y], "insight": insight_text, "figure": str(fig_path)}
 
@@ -391,7 +398,9 @@ def main():
     parser.add_argument("--data-zip", required=True, help="Path to ANES data ZIP file")
     parser.add_argument("--metadata", required=True, help="Path to ANES metadata CSV")
     parser.add_argument(
-        "--output-dir", required=True, help="Output directory for insights and visualizations"
+        "--output-dir",
+        required=True,
+        help="Output directory for insights and visualizations",
     )
     parser.add_argument(
         "--max-vars",

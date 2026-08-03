@@ -1,5 +1,4 @@
-"""
-Temporal analysis for time series data.
+"""Temporal analysis for time series data.
 
 Analyzes trends and patterns over time:
 - Trend detection (Mann-Kendall, linear regression)
@@ -17,23 +16,24 @@ import pandas as pd
 from scipy import stats
 
 from statqa.metadata.schema import Variable
+from statqa.utils.cleaning import blank_missing_codes_frame
 from statqa.utils.stats import mann_kendall_trend
 
 
 class TemporalAnalyzer:
-    """
-    Analyzer for temporal patterns and trends.
-
-    Args:
-        significance_level: Alpha level for statistical tests
-        min_periods: Minimum number of time periods required
-    """
+    """Analyzer for temporal patterns and trends."""
 
     def __init__(
         self,
         significance_level: float = 0.05,
         min_periods: int = 3,
     ) -> None:
+        """Initialize the temporal analyzer.
+
+        Args:
+            significance_level: Alpha level for statistical tests
+            min_periods: Minimum number of time periods required
+        """
         self.alpha = significance_level
         self.min_periods = min_periods
 
@@ -43,8 +43,7 @@ class TemporalAnalyzer:
         time_var: Variable,
         value_var: Variable,
     ) -> dict[str, Any]:
-        """
-        Analyze trend in a variable over time.
+        """Analyze trend in a variable over time.
 
         Args:
             data: DataFrame with time and value columns
@@ -89,13 +88,17 @@ class TemporalAnalyzer:
         first_value = subset[value_var.name].iloc[0]
         last_value = subset[value_var.name].iloc[-1]
         absolute_change = last_value - first_value
-        percent_change = (absolute_change / first_value * 100) if first_value != 0 else np.nan
+        percent_change = (
+            (absolute_change / first_value * 100) if first_value != 0 else np.nan
+        )
 
         result["change_metrics"] = {
             "first_value": float(first_value),
             "last_value": float(last_value),
             "absolute_change": float(absolute_change),
-            "percent_change": float(percent_change) if not np.isnan(percent_change) else None,
+            "percent_change": float(percent_change)
+            if not np.isnan(percent_change)
+            else None,
             "mean": float(subset[value_var.name].mean()),
             "std": float(subset[value_var.name].std()),
         }
@@ -117,8 +120,7 @@ class TemporalAnalyzer:
         value_var: Variable,
         group_var: Variable,
     ) -> dict[str, Any]:
-        """
-        Analyze trends separately for different groups.
+        """Analyze trends separately for different groups.
 
         Args:
             data: DataFrame with time, value, and group columns
@@ -167,8 +169,7 @@ class TemporalAnalyzer:
         time_var: Variable,
         value_var: Variable,
     ) -> dict[str, Any]:
-        """
-        Detect significant change points in time series.
+        """Detect significant change points in time series.
 
         Uses simple segmentation approach comparing before/after means.
 
@@ -200,7 +201,7 @@ class TemporalAnalyzer:
             after = subset[value_var.name].iloc[i:]
 
             # T-test for difference in means
-            _t_stat, p_value = stats.ttest_ind(before, after)
+            p_value = float(stats.ttest_ind(before, after).pvalue)
 
             if p_value < best_p:
                 best_p = p_value
@@ -229,28 +230,29 @@ class TemporalAnalyzer:
         return result
 
     def _clean_data(self, data: pd.DataFrame, *variables: Variable) -> pd.DataFrame:
-        """Clean missing values based on metadata."""
-        clean = data.copy()
-        for var in variables:
-            if var.missing_values:
-                clean[var.name] = clean[var.name].replace(dict.fromkeys(var.missing_values, np.nan))
-        return clean
+        """Replace each variable's missing codes with NaN."""
+        return blank_missing_codes_frame(data, variables)
 
-    def _linear_trend(self, data: pd.DataFrame, time_col: str, value_col: str) -> dict[str, Any]:
+    def _linear_trend(
+        self, data: pd.DataFrame, time_col: str, value_col: str
+    ) -> dict[str, Any]:
         """Fit linear trend and return statistics."""
         # Create numeric time index
         time_numeric = np.arange(len(data))
-        values = data[value_col].values
+        values = data[value_col].to_numpy(dtype=float)
 
         # Linear regression
-        slope, intercept, r_value, p_value, std_err = stats.linregress(time_numeric, values)
+        fit = stats.linregress(time_numeric, values)
+        slope = float(fit.slope)
+        r_value = float(fit.rvalue)
+        p_value = float(fit.pvalue)
 
         return {
-            "slope": float(slope),
-            "intercept": float(intercept),
-            "r_squared": float(r_value**2),
-            "p_value": float(p_value),
-            "std_error": float(std_err),
+            "slope": slope,
+            "intercept": float(fit.intercept),
+            "r_squared": r_value**2,
+            "p_value": p_value,
+            "std_error": float(fit.stderr),
             "significant": bool(p_value < self.alpha),
             "direction": "increasing" if slope > 0 else "decreasing",
         }
@@ -261,8 +263,7 @@ class TemporalAnalyzer:
         year_var: Variable,
         value_var: Variable,
     ) -> dict[str, Any]:
-        """
-        Calculate year-over-year changes.
+        """Calculate year-over-year changes.
 
         Args:
             data: DataFrame with year and value columns
@@ -281,9 +282,21 @@ class TemporalAnalyzer:
         if len(yearly) < 2:
             return {"error": "Insufficient years"}
 
-        # Calculate YoY changes
+        # Calculate YoY changes. Materialise them as plain dicts keyed by year:
+        # the first year has no predecessor, so both series carry a NaN that has
+        # to read as null rather than as a value.
         yoy_absolute = yearly.diff()
         yoy_percent = yearly.pct_change() * 100
+        yoy_absolute_by_year = {
+            year: float(change)
+            for year, change in yoy_absolute.items()
+            if not pd.isna(change)
+        }
+        yoy_percent_by_year = {
+            year: float(change)
+            for year, change in yoy_percent.items()
+            if not pd.isna(change)
+        }
 
         result: dict[str, Any] = {
             "analysis_type": "year_over_year",
@@ -293,16 +306,8 @@ class TemporalAnalyzer:
             "years": {
                 str(year): {
                     "value": float(value),
-                    "yoy_absolute": (
-                        float(yoy_absolute.loc[year])
-                        if year in yoy_absolute.index and not np.isnan(yoy_absolute.loc[year])
-                        else None
-                    ),
-                    "yoy_percent": (
-                        float(yoy_percent.loc[year])
-                        if year in yoy_percent.index and not np.isnan(yoy_percent.loc[year])
-                        else None
-                    ),
+                    "yoy_absolute": yoy_absolute_by_year.get(year),
+                    "yoy_percent": yoy_percent_by_year.get(year),
                 }
                 for year, value in yearly.items()
             },

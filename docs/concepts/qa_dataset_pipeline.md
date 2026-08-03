@@ -63,7 +63,7 @@ Output: Multimodal Q/A Dataset for Advanced AI Training
 from statqa.metadata.parsers import CSVParser
 
 parser = CSVParser()
-codebook = parser.parse('codebook.csv')
+codebook = parser.parse("codebook.csv")
 ```
 
 ### 2. Statistical Analyses
@@ -96,7 +96,7 @@ from statqa.analysis import UnivariateAnalyzer, BivariateAnalyzer
 
 # Univariate
 analyzer = UnivariateAnalyzer()
-result = analyzer.analyze(data['age'], codebook.variables['age'])
+result = analyzer.analyze(data["age"], codebook.variables["age"])
 
 # Bivariate
 biv_analyzer = BivariateAnalyzer()
@@ -161,12 +161,10 @@ qa_gen = QAGenerator()
 plot_data = {
     "data": data,
     "variables": codebook.variables,
-    "output_path": "plots/univariate_age.png"
+    "output_path": "plots/univariate_age.png",
 }
 visual_metadata = qa_gen.generate_visual_metadata(
-    result,
-    variables=["age"],
-    plot_data=plot_data
+    result, variables=["age"], plot_data=plot_data
 )
 
 # Example output
@@ -180,10 +178,10 @@ visual_metadata = qa_gen.generate_visual_metadata(
         "y_axis": "Density",
         "colors": ["blue bars", "red mean line"],
         "key_features": ["distribution shape", "mean line"],
-        "annotations": ["Mean: 42.5"]
+        "annotations": ["Mean: 42.5"],
     },
     "primary_plot": "plots/univariate_age.png",
-    "generation_code": "plot_factory.plot_univariate(data['age'], age_var, 'plots/univariate_age.png')"
+    "generation_code": "plot_factory.plot_univariate(data['age'], age_var, 'plots/univariate_age.png')",
 }
 ```
 
@@ -226,7 +224,7 @@ qa_gen = QAGenerator(use_llm=False)
 plot_data = {
     "data": data,
     "variables": codebook.variables,
-    "output_path": "plots/univariate_age.png"
+    "output_path": "plots/univariate_age.png",
 }
 
 # Generate visual metadata
@@ -236,17 +234,13 @@ visual_metadata = qa_gen.generate_visual_metadata(
 
 # Generate Q/A pairs with visual data
 qa_pairs = qa_gen.generate_qa_pairs(
-    result, formatted_answer,
-    variables=["age"],
-    visual_data=visual_metadata
+    result, formatted_answer, variables=["age"], visual_data=visual_metadata
 )
 
 # With LLM paraphrasing (visual metadata preserved)
 qa_gen = QAGenerator(use_llm=True, api_key="your-key")
 qa_pairs = qa_gen.generate_qa_pairs(
-    result, formatted_answer,
-    variables=["age"],
-    visual_data=visual_metadata
+    result, formatted_answer, variables=["age"], visual_data=visual_metadata
 )
 ```
 
@@ -320,7 +314,7 @@ qa_pairs = qa_gen.generate_qa_pairs(
 ### 6. Export Formats
 
 **JSONL (Enhanced Multimodal)**:
-```json
+```text
 {"question": "...", "answer": "...", "type": "...", "provenance": {...}, "visual": {...}, "vars": [...]}
 ```
 
@@ -511,11 +505,12 @@ from statqa.qa import QAGenerator
 
 # 1. Parse codebook
 parser = CSVParser()
-codebook = parser.parse('codebook.csv')
+codebook = parser.parse("codebook.csv")
 
 # 2. Load data
 import pandas as pd
-data = pd.read_csv('data.csv')
+
+data = pd.read_csv("data.csv")
 
 # 3. Setup for multimodal generation
 analyzer = UnivariateAnalyzer()
@@ -539,20 +534,24 @@ for var_name, variable in codebook.variables.items():
     plot_data = {
         "data": data,
         "variables": codebook.variables,
-        "output_path": plots_dir / f"univariate_{var_name}.png"
+        "output_path": plots_dir / f"univariate_{var_name}.png",
     }
-    visual_metadata = qa_gen.generate_visual_metadata(result, variables=[var_name], plot_data=plot_data)
+    visual_metadata = qa_gen.generate_visual_metadata(
+        result, variables=[var_name], plot_data=plot_data
+    )
 
     # Generate multimodal Q/A pairs
-    qa_pairs = qa_gen.generate_qa_pairs(result, insight, variables=[var_name], visual_data=visual_metadata)
+    qa_pairs = qa_gen.generate_qa_pairs(
+        result, insight, variables=[var_name], visual_data=visual_metadata
+    )
     for qa in qa_pairs:
         qa["vars"] = [var_name]
     all_qa_pairs.extend(qa_pairs)
 
 # 4. Export multimodal dataset
-with open('multimodal_qa_dataset.jsonl', 'w') as f:
+with open("multimodal_qa_dataset.jsonl", "w") as f:
     for qa in all_qa_pairs:
-        f.write(json.dumps(qa) + '\n')
+        f.write(json.dumps(qa) + "\n")
 
 print(f"Generated {len(all_qa_pairs)} multimodal Q/A pairs with visualizations")
 ```

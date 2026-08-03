@@ -9,7 +9,6 @@ import pandas as pd
 from scipy import stats
 from statsmodels.stats import multitest
 
-
 # Type aliases for better readability
 FloatArray = np.ndarray[Any, np.dtype[np.floating[Any]]]
 IntArray = np.ndarray[Any, np.dtype[np.integer[Any]]]
@@ -20,8 +19,7 @@ def calculate_effect_size(
     data2: pd.Series | FloatArray | None = None,
     effect_type: Literal["cohen_d", "r_to_d", "cramers_v", "eta_squared"] = "cohen_d",
 ) -> float:
-    """
-    Calculate effect size for statistical tests.
+    """Calculate effect size for statistical tests.
 
     Args:
         data1: First sample or correlation coefficient
@@ -38,7 +36,7 @@ def calculate_effect_size(
     if effect_type == "cohen_d":
         if data2 is None:
             raise ValueError("cohen_d requires two samples")
-        if isinstance(data1, float):
+        if isinstance(data1, int | float):
             raise ValueError("cohen_d requires array-like data, not scalar")
         return cohens_d(data1, data2)
 
@@ -47,6 +45,13 @@ def calculate_effect_size(
         if not isinstance(data1, int | float):
             raise ValueError("r_to_d expects a correlation coefficient (float)")
         r = float(data1)
+        # d = 2r/sqrt(1-r^2) diverges at |r| = 1, which a derived or
+        # unit-converted column produces exactly. Returning inf would serialize
+        # as `Infinity`, which is not valid JSON for anything downstream.
+        if abs(r) >= 1.0:
+            raise ValueError(
+                "Cohen's d is undefined for a perfect correlation (|r| = 1)"
+            )
         return float(2 * r / np.sqrt(1 - r**2))
 
     elif effect_type == "eta_squared":
@@ -58,8 +63,7 @@ def calculate_effect_size(
 
 
 def cohens_d(group1: pd.Series | FloatArray, group2: pd.Series | FloatArray) -> float:
-    """
-    Calculate Cohen's d effect size for two groups.
+    """Calculate Cohen's d effect size for two groups.
 
     Args:
         group1: First group
@@ -86,8 +90,7 @@ def cohens_d(group1: pd.Series | FloatArray, group2: pd.Series | FloatArray) -> 
 
 
 def cramers_v(contingency_table: pd.DataFrame | IntArray) -> float:
-    """
-    Calculate Cramér's V effect size for categorical associations.
+    """Calculate Cramér's V effect size for categorical associations.
 
     Args:
         contingency_table: Contingency table (crosstab)
@@ -95,7 +98,7 @@ def cramers_v(contingency_table: pd.DataFrame | IntArray) -> float:
     Returns:
         Cramér's V (0 to 1)
     """
-    chi2, _, _, _ = stats.chi2_contingency(contingency_table)
+    chi2 = float(stats.chi2_contingency(contingency_table).statistic)
     n = (
         contingency_table.sum().sum()
         if isinstance(contingency_table, pd.DataFrame)
@@ -110,8 +113,7 @@ def correct_multiple_testing(
     method: Literal["bonferroni", "fdr_bh", "fdr_by"] = "fdr_bh",
     alpha: float = 0.05,
 ) -> tuple[np.ndarray[Any, np.dtype[np.bool_]], FloatArray]:
-    """
-    Apply multiple testing correction to p-values.
+    """Apply multiple testing correction to p-values.
 
     Args:
         p_values: List or array of p-values
@@ -136,9 +138,13 @@ def correct_multiple_testing(
             p_values, alpha=alpha, method="bonferroni"
         )
     elif method == "fdr_bh":
-        reject, corrected, _, _ = multitest.multipletests(p_values, alpha=alpha, method="fdr_bh")
+        reject, corrected, _, _ = multitest.multipletests(
+            p_values, alpha=alpha, method="fdr_bh"
+        )
     elif method == "fdr_by":
-        reject, corrected, _, _ = multitest.multipletests(p_values, alpha=alpha, method="fdr_by")
+        reject, corrected, _, _ = multitest.multipletests(
+            p_values, alpha=alpha, method="fdr_by"
+        )
     else:
         raise ValueError(f"Unknown correction method: {method}")
 
@@ -146,8 +152,7 @@ def correct_multiple_testing(
 
 
 def robust_stats(data: pd.Series | FloatArray) -> dict[str, float]:
-    """
-    Calculate robust statistics for potentially outlier-heavy data.
+    """Calculate robust statistics for potentially outlier-heavy data.
 
     Args:
         data: Input data
@@ -190,8 +195,7 @@ def detect_outliers(
     method: Literal["iqr", "mad", "zscore"] = "iqr",
     threshold: float = 1.5,
 ) -> FloatArray:
-    """
-    Detect outliers in data.
+    """Detect outliers in data.
 
     Args:
         data: Input data
@@ -236,8 +240,7 @@ def detect_outliers(
 
 
 def mann_kendall_trend(series: pd.Series | FloatArray) -> dict[str, float | str]:
-    """
-    Perform Mann-Kendall trend test for temporal data.
+    """Perform Mann-Kendall trend test for temporal data.
 
     Args:
         series: Time series data
@@ -261,6 +264,8 @@ def mann_kendall_trend(series: pd.Series | FloatArray) -> dict[str, float | str]
 
     tau, p_value = kendalltau(time, series)
 
-    trend = ("increasing" if tau > 0 else "decreasing") if p_value < 0.05 else "no_trend"
+    trend = (
+        ("increasing" if tau > 0 else "decreasing") if p_value < 0.05 else "no_trend"
+    )
 
     return {"tau": float(tau), "p_value": float(p_value), "trend": trend}

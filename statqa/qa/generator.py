@@ -1,5 +1,4 @@
-"""
-Q/A pair generation from statistical insights.
+"""Q/A pair generation from statistical insights.
 
 Converts facts into multiple question/answer pairs using:
 1. Template-based generation
@@ -13,17 +12,17 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
 
-
+# Bind the module to None rather than only tracking a boolean: narrowing on
+# `is None` is what lets a type checker see the import is bound at use sites.
 try:
     import openai
-
-    HAS_OPENAI = True
 except ImportError:
-    HAS_OPENAI = False
+    openai = None
 
 from statqa.qa.templates import QuestionTemplate, infer_question_type
 from statqa.utils.logging import get_logger
 
+HAS_OPENAI = openai is not None
 
 logger = get_logger(__name__)
 
@@ -39,20 +38,11 @@ def _get_statqa_version() -> str:
 
 
 class QAGenerator:
-    """
-    Generates Q/A pairs from statistical insights.
+    """Generates Q/A pairs from statistical insights."""
 
-    Args:
-        use_llm: Whether to use LLM for paraphrasing
-        llm_provider: LLM provider ('openai' or 'anthropic')
-        llm_model: Model name
-        api_key: API key for LLM
-        paraphrase_count: Number of paraphrased versions per question
-
-    Raises:
-        ImportError: If required LLM package not installed
-        ValueError: If LLM provider configuration is invalid
-    """
+    # Only set when use_llm is True, and the concrete client class depends on
+    # the provider chosen at runtime.
+    client: Any
 
     def __init__(
         self,
@@ -62,14 +52,29 @@ class QAGenerator:
         api_key: str | None = None,
         paraphrase_count: int = 2,
     ) -> None:
+        """Initialize the Q/A generator and any configured LLM client.
+
+        Args:
+            use_llm: Whether to use LLM for paraphrasing
+            llm_provider: LLM provider ('openai' or 'anthropic')
+            llm_model: Model name
+            api_key: API key for LLM
+            paraphrase_count: Number of paraphrased versions per question
+
+        Raises:
+            ImportError: If required LLM package not installed
+            ValueError: If LLM provider configuration is invalid
+        """
         self.use_llm = use_llm
         self.paraphrase_count = paraphrase_count
 
         if use_llm:
             if llm_provider == "openai":
-                if not HAS_OPENAI:
+                if openai is None:
                     raise ImportError("openai required for LLM features")
-                self.client = openai.OpenAI(api_key=api_key) if api_key else openai.OpenAI()
+                self.client = (
+                    openai.OpenAI(api_key=api_key) if api_key else openai.OpenAI()
+                )
                 self.model = llm_model or "gpt-4"
             else:
                 raise ValueError(
@@ -82,8 +87,7 @@ class QAGenerator:
         method: str = "template",
         variables: list[str] | None = None,
     ) -> dict[str, Any]:
-        """
-        Create provenance metadata for a Q/A pair.
+        """Create provenance metadata for a Q/A pair.
 
         Args:
             insight: Statistical analysis result
@@ -93,7 +97,7 @@ class QAGenerator:
         Returns:
             Dictionary with provenance information
         """
-        provenance = {
+        provenance: dict[str, Any] = {
             "generated_at": datetime.now(UTC).isoformat(),
             "tool": "statqa",
             "tool_version": _get_statqa_version(),
@@ -125,8 +129,7 @@ class QAGenerator:
         variables: list[str] | None = None,
         visual_data: dict[str, Any] | None = None,
     ) -> list[dict[str, str]]:
-        """
-        Generate Q/A pairs from a statistical insight.
+        """Generate Q/A pairs from a statistical insight.
 
         Args:
             insight: Statistical analysis result
@@ -162,7 +165,9 @@ class QAGenerator:
         # LLM paraphrasing
         if self.use_llm and qa_pairs:
             try:
-                paraphrased = self._paraphrase_questions(qa_pairs, insight, variables, visual_data)
+                paraphrased = self._paraphrase_questions(
+                    qa_pairs, insight, variables, visual_data
+                )
                 qa_pairs.extend(paraphrased)
             except Exception as e:
                 logger.warning(f"LLM paraphrasing failed: {e}")
@@ -172,8 +177,7 @@ class QAGenerator:
     def generate_batch(
         self, insights: list[dict[str, Any]], formatted_answers: list[str]
     ) -> list[dict[str, Any]]:
-        """
-        Generate Q/A pairs for multiple insights.
+        """Generate Q/A pairs for multiple insights.
 
         Args:
             insights: List of statistical insights
@@ -201,8 +205,7 @@ class QAGenerator:
         variables: list[str] | None = None,
         visual_data: dict[str, Any] | None = None,
     ) -> list[dict[str, str]]:
-        """
-        Use LLM to generate paraphrased questions.
+        """Use LLM to generate paraphrased questions.
 
         Args:
             qa_pairs: Original Q/A pairs
@@ -297,8 +300,7 @@ Return as JSON array with format:
     def generate_exploratory_questions(
         self, insight: dict[str, Any], context: str | None = None
     ) -> list[str]:
-        """
-        Generate exploratory follow-up questions using LLM.
+        """Generate exploratory follow-up questions using LLM.
 
         Args:
             insight: Statistical insight
@@ -362,8 +364,7 @@ Return as a JSON array of strings: ["question 1", "question 2", ...]
         variables: list[str] | None = None,
         plot_data: dict[str, Any] | None = None,
     ) -> dict[str, Any] | None:
-        """
-        Generate visual metadata for a statistical insight.
+        """Generate visual metadata for a statistical insight.
 
         Args:
             insight: Statistical analysis result
@@ -392,7 +393,9 @@ Return as a JSON array of strings: ["question 1", "question 2", ...]
                 data_series = plot_data["data"][var_name]
                 variable_obj = plot_data["variables"][var_name]
 
-                output_path = plot_data.get("output_path", f"plots/univariate_{var_name}.png")
+                output_path = plot_data.get(
+                    "output_path", f"plots/univariate_{var_name}.png"
+                )
 
                 fig, metadata = plot_factory.plot_univariate(
                     data_series, variable_obj, output_path, return_metadata=True
@@ -437,8 +440,7 @@ Return as a JSON array of strings: ["question 1", "question 2", ...]
     def _rationalize_visual_metadata(
         self, metadata: dict[str, Any], output_path: str | Path
     ) -> dict[str, Any]:
-        """
-        Rationalize visual metadata to a simpler, flatter structure.
+        """Rationalize visual metadata to a simpler, flatter structure.
 
         Args:
             metadata: Original metadata from PlotFactory
@@ -480,8 +482,7 @@ Return as a JSON array of strings: ["question 1", "question 2", ...]
     def export_qa_dataset(
         self, qa_results: list[dict[str, Any]], output_format: str = "jsonl"
     ) -> list[str]:
-        """
-        Export Q/A pairs in format suitable for LLM fine-tuning.
+        """Export Q/A pairs in format suitable for LLM fine-tuning.
 
         Args:
             qa_results: Results from generate_batch

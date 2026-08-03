@@ -11,7 +11,6 @@ from statqa.interpretation.formatter import InsightFormatter
 from statqa.metadata.schema import Codebook, Variable
 from statqa.qa.generator import QAGenerator
 
-
 # Get script directory
 script_dir = Path(__file__).parent
 plots_dir = script_dir / "plots"
@@ -52,7 +51,9 @@ for var_name, variable in codebook.variables.items():
     result = univ_analyzer.analyze(data[var_name], variable)
     if result:
         insight_text = formatter.format_univariate(result)
-        insights.append({"vars": [var_name], "insight": insight_text, "type": "univariate"})
+        insights.append(
+            {"vars": [var_name], "insight": insight_text, "type": "univariate"}
+        )
 
         # Generate visual metadata
         plot_data = {
@@ -100,7 +101,10 @@ for i, var1 in enumerate(var_list):
 
             # Generate QA pairs with visual data
             qa_pairs = qa_gen.generate_qa_pairs(
-                result, insight_text, variables=[var1.name, var2.name], visual_data=visual_metadata
+                result,
+                insight_text,
+                variables=[var1.name, var2.name],
+                visual_data=visual_metadata,
             )
             all_qa_pairs.extend(qa_pairs)
 
