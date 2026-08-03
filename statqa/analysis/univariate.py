@@ -150,7 +150,9 @@ class UnivariateAnalyzer:
         # Normality test (Shapiro-Wilk for n < 5000, else Anderson-Darling)
         if len(valid_data) < 5000:
             try:
-                stat, p_value = stats.shapiro(valid_data)
+                shapiro = stats.shapiro(valid_data)
+                stat = float(shapiro.statistic)
+                p_value = float(shapiro.pvalue)
                 computation_log.append(
                     f"scipy.stats.shapiro(valid_data)  # stat={stat:.4f}, p={p_value:.4f}"
                 )

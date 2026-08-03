@@ -118,20 +118,26 @@ class BivariateAnalyzer:
             "n": len(clean_data),
         }
 
-        # Pearson correlation
-        r_pearson, p_pearson = stats.pearsonr(x, y)
+        # Pearson correlation. Read .statistic/.pvalue rather than unpacking:
+        # the tuple form is untyped, so every downstream float() reads as an
+        # error even though the values are floats.
+        pearson = stats.pearsonr(x, y)
+        r_pearson = float(pearson.statistic)
+        p_pearson = float(pearson.pvalue)
         result["pearson"] = {
-            "r": float(r_pearson),
-            "p_value": float(p_pearson),
+            "r": r_pearson,
+            "p_value": p_pearson,
             "significant": bool(p_pearson < self.alpha),
         }
 
         # Spearman correlation (robust to outliers and non-linearity)
         if self.use_robust:
-            r_spearman, p_spearman = stats.spearmanr(x, y)
+            spearman = stats.spearmanr(x, y)
+            r_spearman = float(spearman.statistic)
+            p_spearman = float(spearman.pvalue)
             result["spearman"] = {
-                "rho": float(r_spearman),
-                "p_value": float(p_spearman),
+                "rho": r_spearman,
+                "p_value": p_spearman,
                 "significant": bool(p_spearman < self.alpha),
             }
 
@@ -164,7 +170,11 @@ class BivariateAnalyzer:
         contingency = pd.crosstab(clean_data[var1.name], clean_data[var2.name])
 
         # Chi-square test
-        chi2, p_value, dof, expected = stats.chi2_contingency(contingency)
+        chi2_result = stats.chi2_contingency(contingency)
+        chi2 = float(chi2_result.statistic)
+        p_value = float(chi2_result.pvalue)
+        dof = int(chi2_result.dof)
+        expected = chi2_result.expected_freq
 
         result: dict[str, Any] = {
             "analysis_type": "categorical_categorical",
@@ -232,10 +242,12 @@ class BivariateAnalyzer:
 
         if len(group_data) == 2:
             # Two-sample t-test
-            t_stat, p_value = stats.ttest_ind(group_data[0], group_data[1])
+            ttest = stats.ttest_ind(group_data[0], group_data[1])
+            t_stat = float(ttest.statistic)
+            p_value = float(ttest.pvalue)
             result["t_test"] = {
-                "statistic": float(t_stat),
-                "p_value": float(p_value),
+                "statistic": t_stat,
+                "p_value": p_value,
                 "significant": bool(p_value < self.alpha),
             }
 
@@ -250,10 +262,12 @@ class BivariateAnalyzer:
 
         elif len(group_data) > 2:
             # One-way ANOVA
-            f_stat, p_value = stats.f_oneway(*group_data)
+            anova = stats.f_oneway(*group_data)
+            f_stat = float(anova.statistic)
+            p_value = float(anova.pvalue)
             result["anova"] = {
-                "f_statistic": float(f_stat),
-                "p_value": float(p_value),
+                "f_statistic": f_stat,
+                "p_value": p_value,
                 "significant": bool(p_value < self.alpha),
             }
 

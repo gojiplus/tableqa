@@ -40,6 +40,10 @@ def _get_statqa_version() -> str:
 class QAGenerator:
     """Generates Q/A pairs from statistical insights."""
 
+    # Only set when use_llm is True, and the concrete client class depends on
+    # the provider chosen at runtime.
+    client: Any
+
     def __init__(
         self,
         use_llm: bool = False,
@@ -93,7 +97,7 @@ class QAGenerator:
         Returns:
             Dictionary with provenance information
         """
-        provenance = {
+        provenance: dict[str, Any] = {
             "generated_at": datetime.now(UTC).isoformat(),
             "tool": "statqa",
             "tool_version": _get_statqa_version(),

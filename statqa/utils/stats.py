@@ -91,7 +91,7 @@ def cramers_v(contingency_table: pd.DataFrame | IntArray) -> float:
     Returns:
         Cramér's V (0 to 1)
     """
-    chi2, _, _, _ = stats.chi2_contingency(contingency_table)
+    chi2 = float(stats.chi2_contingency(contingency_table).statistic)
     n = (
         contingency_table.sum().sum()
         if isinstance(contingency_table, pd.DataFrame)

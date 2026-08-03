@@ -178,4 +178,6 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "ipython>=8.12.0",
     "ipdb>=0.13.0",
+    "pandas-stubs>=3.0.5.260730",
+    "scipy-stubs>=1.18.0.1",
 ]

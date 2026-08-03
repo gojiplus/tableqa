@@ -40,6 +40,10 @@ class MetadataEnricher:
     Supports both OpenAI and Anthropic models.
     """
 
+    # Which client class this holds is decided by the provider argument at
+    # runtime, so it cannot be narrowed statically.
+    client: Any
+
     def __init__(
         self,
         provider: Literal["openai", "anthropic"] = "openai",

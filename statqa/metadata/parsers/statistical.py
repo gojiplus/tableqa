@@ -114,7 +114,7 @@ class StatisticalFormatParser(BaseParser):
             case ".sas7bdat":
                 _, metadata = pyreadstat.read_sas7bdat(str(path), metadataonly=True)
             case ".xpt":
-                _, metadata = pyreadstat.read_xpt(str(path), metadataonly=True)
+                _, metadata = pyreadstat.read_xport(str(path), metadataonly=True)
             case _:
                 raise ValueError(f"Unsupported file format: {suffix}")
 

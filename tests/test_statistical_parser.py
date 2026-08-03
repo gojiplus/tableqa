@@ -217,16 +217,35 @@ class TestStatisticalFormatParser:
             StatisticalFormatParser()
 
     @pytest.mark.parametrize(
-        "extension", [".sav", ".zsav", ".por", ".dta", ".sas7bdat", ".xpt"]
+        ("extension", "reader"),
+        [
+            (".sav", "read_sav"),
+            (".zsav", "read_sav"),
+            (".por", "read_por"),
+            (".dta", "read_dta"),
+            (".sas7bdat", "read_sas7bdat"),
+            (".xpt", "read_xport"),
+        ],
     )
-    def test_supported_extensions(self, extension):
-        """Test all supported file extensions are recognized."""
-        # Just check that the extension is in supported list
-        assert extension.lower() in {
-            ".sav",
-            ".zsav",
-            ".por",
-            ".dta",
-            ".sas7bdat",
-            ".xpt",
-        }
+    def test_extension_dispatches_to_a_real_reader(
+        self, extension, reader, monkeypatch, tmp_path
+    ):
+        """Every advertised extension must reach a pyreadstat function that exists.
+
+        monkeypatch.setattr fails if `reader` is not a real pyreadstat
+        attribute, and the call assertion fails if the dispatch reaches a
+        different name -- which is how `read_xpt` (there is no such function;
+        it is `read_xport`) went unnoticed while `validate` still accepted
+        `.xpt` files.
+        """
+        called = []
+        monkeypatch.setattr(
+            pyreadstat,
+            reader,
+            lambda path, **kwargs: called.append(reader) or (None, {}),
+        )
+
+        parser = StatisticalFormatParser()
+        parser._read_metadata_only(tmp_path / f"sample{extension}")
+
+        assert called == [reader]

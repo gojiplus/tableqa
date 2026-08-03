@@ -200,7 +200,7 @@ class TemporalAnalyzer:
             after = subset[value_var.name].iloc[i:]
 
             # T-test for difference in means
-            _t_stat, p_value = stats.ttest_ind(before, after)
+            p_value = float(stats.ttest_ind(before, after).pvalue)
 
             if p_value < best_p:
                 best_p = p_value
@@ -247,16 +247,17 @@ class TemporalAnalyzer:
         values = data[value_col].values
 
         # Linear regression
-        slope, intercept, r_value, p_value, std_err = stats.linregress(
-            time_numeric, values
-        )
+        fit = stats.linregress(time_numeric, values)
+        slope = float(fit.slope)
+        r_value = float(fit.rvalue)
+        p_value = float(fit.pvalue)
 
         return {
-            "slope": float(slope),
-            "intercept": float(intercept),
-            "r_squared": float(r_value**2),
-            "p_value": float(p_value),
-            "std_error": float(std_err),
+            "slope": slope,
+            "intercept": float(fit.intercept),
+            "r_squared": r_value**2,
+            "p_value": p_value,
+            "std_error": float(fit.stderr),
             "significant": bool(p_value < self.alpha),
             "direction": "increasing" if slope > 0 else "decreasing",
         }
