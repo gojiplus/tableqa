@@ -19,4 +19,6 @@ jobs:
     uses: gojiplus/py-canon/.github/workflows/reusable-ci.yml@v1
     with:
       wheel-import: statqa
-      coverage-floor: 0
+      # Set a few points below the current 74% so ordinary churn does not fail
+      # CI, but a real regression does. Raise it as coverage climbs.
+      coverage-floor: 70
