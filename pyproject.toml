@@ -191,13 +191,17 @@ docs = ["sphinx>=8", "furo", "myst-parser", "sphinx-copybutton", "py-canon @ git
 dev = [
     "ruff>=0.14",
     "pyright>=1.1.390",
-    "pytest>=8",
-    "pytest-cov>=4.1.0",
-    "pytest-mock>=3.12.0",
-    "pytest-asyncio>=0.21.0",
+    { include-group = "test" },
     "ipython>=8.12.0",
     "ipdb>=0.13.0",
     "pandas-stubs>=3.0.5.260730",
     "scipy-stubs>=1.18.0.1",
+]
+test = [
+    "pytest>=8",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "pytest-asyncio>=0.21.0",
+    "pyreadstat>=1.3.0",
     "pyyaml>=6.0.3",
 ]

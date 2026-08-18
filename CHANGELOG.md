@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Split test dependencies into the canonical `test` group so shared CI can
+  validate the built wheel without reinstalling the source checkout.
+
 ## [0.4.0] - 2026-08-03
 
 ### Fixed
