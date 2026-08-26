@@ -215,6 +215,13 @@ class TestGenerateQa:
 
 
 class TestPipeline:
+    """`pipeline` used to be a stub that printed step headers and exited 0.
+
+    The test that covered it asserted `exit_code == 0` and `out.exists()` —
+    both of which the stub satisfied, since it never failed and `mkdir` was its
+    one real statement. These assert the artifacts instead.
+    """
+
     def test_runs_end_to_end(self, dataset, codebook_csv, tmp_path):
         out = tmp_path / "pipeline_out"
 
@@ -226,11 +233,209 @@ class TestPipeline:
                 str(codebook_csv),
                 "--output-dir",
                 str(out),
+                "--no-plots",
             ],
         )
 
         assert result.exit_code == 0, result.stdout
-        assert out.exists()
+
+        codebook = json.loads((out / "codebook.json").read_text())
+        insights = json.loads((out / "all_insights.json").read_text())
+        qa_lines = (out / "qa_pairs.jsonl").read_text().splitlines()
+
+        assert codebook["variables"], "the parsed codebook has no variables"
+        assert insights, "the pipeline produced no insights"
+        assert qa_lines, "the pipeline produced no Q/A pairs"
+        for line in qa_lines:
+            pair = json.loads(line)
+            assert pair["question"]
+            assert pair["answer"]
+
+    def test_a_missing_data_file_fails(self, codebook_csv, tmp_path):
+        """The stub reported success against files that did not exist."""
+        result = runner.invoke(
+            app,
+            [
+                "pipeline",
+                str(tmp_path / "nope.csv"),
+                str(codebook_csv),
+                "--output-dir",
+                str(tmp_path / "o"),
+            ],
+        )
+
+        assert result.exit_code != 0
+
+    def test_an_unreadable_codebook_fails(self, dataset, tmp_path):
+        result = runner.invoke(
+            app,
+            [
+                "pipeline",
+                str(dataset),
+                str(tmp_path / "nope.csv"),
+                "--output-dir",
+                str(tmp_path / "o"),
+            ],
+        )
+
+        assert result.exit_code != 0
+
+    def test_no_qa_skips_the_third_step(self, dataset, codebook_csv, tmp_path):
+        out = tmp_path / "pipeline_out"
+
+        result = runner.invoke(
+            app,
+            [
+                "pipeline",
+                str(dataset),
+                str(codebook_csv),
+                "--output-dir",
+                str(out),
+                "--no-qa",
+                "--no-plots",
+            ],
+        )
+
+        assert result.exit_code == 0, result.stdout
+        assert (out / "all_insights.json").exists()
+        assert not (out / "qa_pairs.jsonl").exists()
+
+    def test_plots_are_written_when_asked(self, dataset, codebook_csv, tmp_path):
+        out = tmp_path / "pipeline_out"
+
+        runner.invoke(
+            app,
+            [
+                "pipeline",
+                str(dataset),
+                str(codebook_csv),
+                "--output-dir",
+                str(out),
+                "--no-qa",
+            ],
+        )
+
+        assert list((out / "plots").glob("*.png"))
+
+
+class TestAnalysisSelection:
+    """`--analyses` accepted names it then ignored.
+
+    `all` expanded to include temporal and causal, neither of which had a
+    branch, so asking for them printed nothing and exited 0 — indistinguishable
+    from an analysis that found nothing to say.
+    """
+
+    def test_causal_is_rejected_with_a_reason(self, dataset, codebook_json, tmp_path):
+        result = runner.invoke(
+            app,
+            [
+                "analyze",
+                str(dataset),
+                str(codebook_json),
+                "--output-dir",
+                str(tmp_path / "o"),
+                "--analyses",
+                "causal",
+            ],
+        )
+
+        assert result.exit_code != 0
+        assert "treatment" in result.stdout
+
+    def test_an_unknown_analysis_is_rejected(self, dataset, codebook_json, tmp_path):
+        result = runner.invoke(
+            app,
+            [
+                "analyze",
+                str(dataset),
+                str(codebook_json),
+                "--output-dir",
+                str(tmp_path / "o"),
+                "--analyses",
+                "univarite",
+            ],
+        )
+
+        assert result.exit_code != 0
+
+    def test_temporal_trends_a_datetime_variable(self, tmp_path):
+        """Wired, not merely accepted: the fit must recover a planted slope."""
+        rng = np.random.default_rng(3)
+        n = 120
+        frame = pd.DataFrame(
+            {
+                "visit_date": pd.date_range("2020-01-01", periods=n, freq="7D"),
+                "score": 50 + np.arange(n) * 0.4 + rng.normal(0, 3, n),
+            }
+        )
+        data = tmp_path / "data.csv"
+        frame.to_csv(data, index=False)
+        codebook = tmp_path / "codebook.json"
+        codebook.write_text(
+            json.dumps(
+                {
+                    "name": "trend",
+                    "variables": {
+                        "visit_date": {
+                            "name": "visit_date",
+                            "label": "Visit date",
+                            "var_type": "datetime",
+                        },
+                        "score": {
+                            "name": "score",
+                            "label": "Score",
+                            "var_type": "numeric_continuous",
+                        },
+                    },
+                }
+            )
+        )
+        out = tmp_path / "results"
+
+        result = runner.invoke(
+            app,
+            [
+                "analyze",
+                str(data),
+                str(codebook),
+                "--output-dir",
+                str(out),
+                "--analyses",
+                "temporal",
+                "--no-plots",
+            ],
+        )
+
+        assert result.exit_code == 0, result.stdout
+        temporal = json.loads((out / "temporal.json").read_text())
+
+        assert len(temporal) == 1
+        trend = temporal[0]
+        assert trend["mann_kendall"]["trend"] == "increasing"
+        assert trend["linear_trend"]["slope"] == pytest.approx(0.4, abs=0.05)
+
+    def test_a_dataset_with_no_time_variable_says_so(
+        self, dataset, codebook_json, tmp_path
+    ):
+        out = tmp_path / "results"
+
+        result = runner.invoke(
+            app,
+            [
+                "analyze",
+                str(dataset),
+                str(codebook_json),
+                "--output-dir",
+                str(out),
+                "--analyses",
+                "temporal",
+                "--no-plots",
+            ],
+        )
+
+        assert result.exit_code == 0, result.stdout
+        assert json.loads((out / "temporal.json").read_text()) == []
 
 
 class TestWithoutPyreadstat:

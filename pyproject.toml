@@ -154,13 +154,11 @@ convention = "google"
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101", "D", "ARG", "SLF"]
 "docs/**" = ["D"]
-# `pipeline` is a stub whose four unused arguments are the evidence: it
-# prints three step headers, does nothing, and exits 0. Silenced here so
-# the rest of the standard can be enforced, and called out in the PR that
-# added this line -- the fix is to implement the command or remove it.
 # `format` shadows a builtin because Typer derives the CLI flag from the
-# parameter name, so renaming it would rename `--format`.
-"statqa/cli/main.py" = ["ARG001", "A002"]
+# parameter name, so renaming it would rename `--format`. ARG001 used to be
+# here too, for `pipeline`'s four unused arguments -- it is a stub no longer,
+# so the rule is back on and would catch the next one.
+"statqa/cli/main.py" = ["A002"]
 # Demonstration scripts, read top-to-bottom rather than imported. Lazy
 # logging formatting and pathlib idioms are noise in a script whose point
 # is to be legible; ARG covers callback signatures the examples must match.
