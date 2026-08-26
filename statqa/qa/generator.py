@@ -409,7 +409,7 @@ Return as a JSON array of strings: ["question 1", "question 2", ...]
                 # Rationalize the visual metadata structure
                 return self._rationalize_visual_metadata(metadata, output_path)
 
-            elif len(variables) == 2:
+            if len(variables) == 2:
                 # Bivariate analysis
                 var1_name, var2_name = variables[:2]
                 dataframe = plot_data["data"]
@@ -469,15 +469,13 @@ Return as a JSON array of strings: ["question 1", "question 2", ...]
             features = [feature.replace(" ", "_") for feature in features]
 
         # Create simplified structure
-        rationalized = {
+        return {
             "type": metadata.get("plot_type", "unknown"),
             "file": file_path,
             "caption": metadata.get("caption", ""),
             "alt_text": metadata.get("alt_text", ""),
             "features": features,
         }
-
-        return rationalized
 
     def export_qa_dataset(
         self, qa_results: list[dict[str, Any]], output_format: str = "jsonl"

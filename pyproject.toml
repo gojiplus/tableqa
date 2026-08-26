@@ -1,6 +1,6 @@
 [build-system]
-requires = ["hatchling", "uv-dynamic-versioning"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.12.5,<0.13"]
+build-backend = "uv_build"
 
 [project]
 name = "statqa"
@@ -48,7 +48,7 @@ dependencies = [
     "rich>=13.0.0",
     "linkify-it-py>=2.0.3",
 ]
-dynamic = ["version"]
+version = "0.3.0"
 
 [project.optional-dependencies]
 llm = [
@@ -126,25 +126,45 @@ exclude_lines = [
 [tool.ruff]
 line-length = 88
 target-version = "py312"
-# htmlcov is generated coverage output; data/ holds datasets and survey text,
-# not source. preen's checks read this list too, so naming the directories here
-# keeps the spell checker out of them as well.
 extend-exclude = ["htmlcov", "data"]
 
 [tool.ruff.lint]
 external = ["DOC"]
-select = ["E", "W", "F", "I", "B", "C4", "UP", "N", "D", "S", "SIM", "T20", "PT", "RUF"]
-ignore = ["D203", "D213", "B008", "B905", "E501"]
+select = [
+    "E", "W", "F", "I", "B", "C4", "UP", "N", "D", "S", "SIM", "T20", "PT", "RUF",
+    "PTH", "RET", "PIE", "FURB", "PERF", "DTZ", "LOG", "G", "TC", "FLY",
+    "RSE", "SLOT", "FA", "A", "EXE", "ICN", "PGH", "PLE", "ARG", "SLF",
+]
+# D203/D213: the google convention the fleet standard picks. W191/D206/D300:
+# ruff's own docs list these as always incompatible with `ruff format`, which
+# the standard also runs.
+# The four after the fleet defaults are deferred, not accepted: adopting
+# py-canon widened `select` and these are what it turned up in statqa/ --
+# 37 G004 logging f-strings, 16 PTH123 open() calls, and a handful of
+# TC/ICN import placements. Each is a real change to make; none of them is
+# a reason to leave CI red while they are made. Drop them one at a time.
+ignore = [
+    "D203", "D213", "W191", "D206", "D300", "B008", "B905", "E501",
+    "G", "PTH", "TC", "ICN",
+]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S101", "D"]
+"tests/**" = ["S101", "D", "ARG", "SLF"]
 "docs/**" = ["D"]
-# Demonstration scripts: printing to stdout is their output, and they are read
-# top-to-bottom rather than imported, so module/function docstrings add noise.
-"examples/**" = ["T201", "D"]
+# `pipeline` is a stub whose four unused arguments are the evidence: it
+# prints three step headers, does nothing, and exits 0. Silenced here so
+# the rest of the standard can be enforced, and called out in the PR that
+# added this line -- the fix is to implement the command or remove it.
+# `format` shadows a builtin because Typer derives the CLI flag from the
+# parameter name, so renaming it would rename `--format`.
+"statqa/cli/main.py" = ["ARG001", "A002"]
+# Demonstration scripts, read top-to-bottom rather than imported. Lazy
+# logging formatting and pathlib idioms are noise in a script whose point
+# is to be legible; ARG covers callback signatures the examples must match.
+"examples/**" = ["T201", "D", "G", "PTH", "ARG", "RET", "ICN", "TC"]
 
 [tool.codespell]
 # Domain vocabulary rather than typos: .sav/.por are SPSS extensions, and
@@ -164,6 +184,7 @@ ignore = ["DEP004"]  # Allow optional dependencies
 style = "google"
 arg-type-hints-in-docstring = false
 check-return-types = false
+check-yield-types = false
 check-class-attributes = false
 allow-init-docstring = true
 exclude = '\.venv|tests|docs'
@@ -172,16 +193,9 @@ exclude = '\.venv|tests|docs'
 include = ["statqa"]
 typeCheckingMode = "standard"
 
-[tool.hatch.version]
-source = "uv-dynamic-versioning"
-
-[tool.hatch.build.targets.wheel]
-packages = ["statqa"]
-
-[tool.uv-dynamic-versioning]
-vcs = "git"
-style = "pep440"
-
+[tool.uv.build-backend]
+module-name = "statqa"
+module-root = ""
 [dependency-groups]
 docs = ["sphinx>=8", "furo", "myst-parser", "sphinx-copybutton", "py-canon @ git+https://github.com/gojiplus/py-canon@v1"]
 # pydoclint is deliberately absent: it requires docstring-parser-fork, which
@@ -196,6 +210,7 @@ dev = [
     "ipdb>=0.13.0",
     "pandas-stubs>=3.0.5.260730",
     "scipy-stubs>=1.18.0.1",
+    "pre-commit>=4",
 ]
 test = [
     "pytest>=8",

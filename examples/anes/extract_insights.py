@@ -361,7 +361,7 @@ def run_bivariate_analysis(
         )
         return {"vars": [x, y], "insight": insight_text, "figure": None}
 
-    elif types.get(x) == "categorical" and types.get(y) == "numeric":
+    if types.get(x) == "categorical" and types.get(y) == "numeric":
         # Categorical x Numeric: Group means
         data = sub.dropna()
         grp = data.groupby(x)[y].mean().dropna()

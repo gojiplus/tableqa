@@ -44,15 +44,15 @@ class QuestionTemplate:
         """
         if self.question_type == QuestionType.DESCRIPTIVE:
             return self._generate_descriptive(insight, answer)
-        elif self.question_type == QuestionType.COMPARATIVE:
+        if self.question_type == QuestionType.COMPARATIVE:
             return self._generate_comparative(insight, answer)
-        elif self.question_type == QuestionType.TEMPORAL:
+        if self.question_type == QuestionType.TEMPORAL:
             return self._generate_temporal(insight, answer)
-        elif self.question_type == QuestionType.CAUSAL:
+        if self.question_type == QuestionType.CAUSAL:
             return self._generate_causal(insight, answer)
-        elif self.question_type == QuestionType.CORRELATIONAL:
+        if self.question_type == QuestionType.CORRELATIONAL:
             return self._generate_correlational(insight, answer)
-        elif self.question_type == QuestionType.DISTRIBUTIONAL:
+        if self.question_type == QuestionType.DISTRIBUTIONAL:
             return self._generate_distributional(insight, answer)
 
         # This should never be reached due to enum constraint

@@ -234,7 +234,7 @@ class TemporalAnalyzer:
         return blank_missing_codes_frame(data, variables)
 
     def _linear_trend(
-        self, data: pd.DataFrame, time_col: str, value_col: str
+        self, data: pd.DataFrame, _time_col: str, value_col: str
     ) -> dict[str, Any]:
         """Fit linear trend and return statistics."""
         # Create numeric time index

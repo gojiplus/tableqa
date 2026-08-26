@@ -195,13 +195,11 @@ class StatisticalFormatParser(BaseParser):
             # Map common type names
             if "string" in orig_type or "char" in orig_type or "str" in orig_type:
                 return VariableType.TEXT
-            elif "date" in orig_type or "time" in orig_type:
+            if "date" in orig_type or "time" in orig_type:
                 return VariableType.DATETIME
-            elif "int" in orig_type or "long" in orig_type:
+            if "int" in orig_type or "long" in orig_type:
                 return VariableType.NUMERIC_DISCRETE
-            elif (
-                "float" in orig_type or "double" in orig_type or "numeric" in orig_type
-            ):
+            if "float" in orig_type or "double" in orig_type or "numeric" in orig_type:
                 return VariableType.NUMERIC_CONTINUOUS
 
         # Default to unknown - will be inferred during analysis

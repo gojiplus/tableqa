@@ -72,11 +72,11 @@ class BivariateAnalyzer:
         # Route to appropriate analysis based on variable types
         if var1.is_numeric() and var2.is_numeric():
             return self._analyze_numeric_numeric(subset, var1, var2)
-        elif var1.is_categorical() and var2.is_categorical():
+        if var1.is_categorical() and var2.is_categorical():
             return self._analyze_categorical_categorical(subset, var1, var2)
-        elif var1.is_categorical() and var2.is_numeric():
+        if var1.is_categorical() and var2.is_numeric():
             return self._analyze_categorical_numeric(subset, var1, var2)
-        elif var1.is_numeric() and var2.is_categorical():
+        if var1.is_numeric() and var2.is_categorical():
             # Swap order
             return self._analyze_categorical_numeric(
                 subset[[var2.name, var1.name]], var2, var1
@@ -281,48 +281,44 @@ class BivariateAnalyzer:
         r = abs(r)
         if r < 0.1:
             return "negligible"
-        elif r < 0.3:
+        if r < 0.3:
             return "weak"
-        elif r < 0.5:
+        if r < 0.5:
             return "moderate"
-        elif r < 0.7:
+        if r < 0.7:
             return "strong"
-        else:
-            return "very strong"
+        return "very strong"
 
     def _interpret_cohens_d(self, d: float) -> str:
         """Interpret Cohen's d effect size."""
         d = abs(d)
         if d < 0.2:
             return "negligible"
-        elif d < 0.5:
+        if d < 0.5:
             return "small"
-        elif d < 0.8:
+        if d < 0.8:
             return "medium"
-        else:
-            return "large"
+        return "large"
 
     def _interpret_cramers_v(self, v: float) -> str:
         """Interpret Cramér's V effect size."""
         if v < 0.1:
             return "negligible"
-        elif v < 0.3:
+        if v < 0.3:
             return "weak"
-        elif v < 0.5:
+        if v < 0.5:
             return "moderate"
-        else:
-            return "strong"
+        return "strong"
 
     def _interpret_eta_squared(self, eta2: float) -> str:
         """Interpret eta-squared effect size."""
         if eta2 < 0.01:
             return "negligible"
-        elif eta2 < 0.06:
+        if eta2 < 0.06:
             return "small"
-        elif eta2 < 0.14:
+        if eta2 < 0.14:
             return "medium"
-        else:
-            return "large"
+        return "large"
 
     def batch_analyze(
         self,

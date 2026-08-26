@@ -31,14 +31,13 @@ class InsightFormatter:
 
         if result.get("type") in ["numeric_continuous", "numeric_discrete"]:
             return self._format_numeric_univariate(result, var_label)
-        elif result.get("type") in [
+        if result.get("type") in [
             "categorical_nominal",
             "categorical_ordinal",
             "boolean",
         ]:
             return self._format_categorical_univariate(result, var_label)
-        else:
-            return f"{var_label}: Analysis not available for this variable type."
+        return f"{var_label}: Analysis not available for this variable type."
 
     def _format_numeric_univariate(self, result: dict[str, Any], label: str) -> str:
         """Format numeric variable description."""
@@ -136,12 +135,11 @@ class InsightFormatter:
 
         if analysis_type == "numeric_numeric":
             return self._format_correlation(result)
-        elif analysis_type == "categorical_categorical":
+        if analysis_type == "categorical_categorical":
             return self._format_categorical_association(result)
-        elif analysis_type == "categorical_numeric":
+        if analysis_type == "categorical_numeric":
             return self._format_group_comparison(result)
-        else:
-            return "Bivariate analysis result formatting not available."
+        return "Bivariate analysis result formatting not available."
 
     def _format_correlation(self, result: dict[str, Any]) -> str:
         """Format correlation result."""
@@ -361,24 +359,22 @@ class InsightFormatter:
             # Try to infer from result structure
             if "mean" in result and "std" in result:
                 return self.format_univariate(result)
-            elif "pearson" in result or "spearman" in result:
+            if "pearson" in result or "spearman" in result:
                 return self.format_bivariate(result)
-            elif "mann_kendall" in result:
+            if "mann_kendall" in result:
                 return self.format_temporal(result)
-            elif "treatment_effect" in result:
+            if "treatment_effect" in result:
                 return self.format_causal(result)
-            else:
-                return "Unable to format this analysis result."
+            return "Unable to format this analysis result."
 
         if analysis_type == "temporal_trend":
             return self.format_temporal(result)
-        elif analysis_type == "treatment_effect":
+        if analysis_type == "treatment_effect":
             return self.format_causal(result)
-        elif analysis_type in [
+        if analysis_type in [
             "numeric_numeric",
             "categorical_categorical",
             "categorical_numeric",
         ]:
             return self.format_bivariate(result)
-        else:
-            return self.format_univariate(result)
+        return self.format_univariate(result)

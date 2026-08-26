@@ -125,8 +125,7 @@ print(f"✓ Saved {len(all_qa_pairs)} QA pairs to {qa_path}")
 # Also save as JSONL
 qa_jsonl_path = script_dir / "qa_pairs.jsonl"
 with open(qa_jsonl_path, "w") as f:
-    for qa in all_qa_pairs:
-        f.write(json.dumps(qa) + "\n")
+    f.writelines(json.dumps(qa) + "\n" for qa in all_qa_pairs)
 print(f"✓ Saved {len(all_qa_pairs)} QA pairs to {qa_jsonl_path}")
 
 print("\n" + "=" * 60)

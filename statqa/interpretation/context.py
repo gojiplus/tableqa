@@ -229,12 +229,11 @@ class ContextBuilder:
         """
         if task == "interpret":
             return self._build_interpretation_prompt(analysis_result, variables)
-        elif task == "enhance":
+        if task == "enhance":
             return self._build_enhancement_prompt(analysis_result, variables)
-        elif task == "question":
+        if task == "question":
             return self._build_question_prompt(analysis_result, variables)
-        else:
-            raise ValueError(f"Unknown task: {task}")
+        raise ValueError(f"Unknown task: {task}")
 
     def _build_interpretation_prompt(
         self, result: dict[str, Any], variables: list[Variable]
@@ -242,7 +241,7 @@ class ContextBuilder:
         """Build prompt for result interpretation."""
         var_context = ", ".join([v.label for v in variables])
 
-        prompt = f"""Interpret this statistical analysis result in plain language.
+        return f"""Interpret this statistical analysis result in plain language.
 
 Variables: {var_context}
 
@@ -257,7 +256,6 @@ Include:
 
 Keep the interpretation concise (2-3 sentences).
 """
-        return prompt
 
     def _build_enhancement_prompt(
         self, result: dict[str, Any], variables: list[Variable]
@@ -267,7 +265,7 @@ Keep the interpretation concise (2-3 sentences).
             [f"- {v.label}: {v.description or 'No description'}" for v in variables]
         )
 
-        prompt = f"""Enhance this statistical finding with domain knowledge and context.
+        return f"""Enhance this statistical finding with domain knowledge and context.
 
 Variables:
 {var_context}
@@ -282,7 +280,6 @@ Provide:
 
 Format as a brief expert commentary (3-4 sentences).
 """
-        return prompt
 
     def _build_question_prompt(
         self, result: dict[str, Any], variables: list[Variable]
@@ -290,7 +287,7 @@ Format as a brief expert commentary (3-4 sentences).
         """Build prompt for generating questions from results."""
         var_context = ", ".join([v.label for v in variables])
 
-        prompt = f"""Based on this statistical finding, generate insightful follow-up questions.
+        return f"""Based on this statistical finding, generate insightful follow-up questions.
 
 Variables: {var_context}
 
@@ -305,7 +302,6 @@ Generate 3-5 research questions that:
 
 Format as a numbered list.
 """
-        return prompt
 
     def _format_result_for_prompt(self, result: dict[str, Any]) -> str:
         """Format analysis result for LLM prompt."""

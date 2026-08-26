@@ -448,22 +448,21 @@ class PlotFactory:
                 f"with mean={mean_val:.2f} and std={std_val:.2f} "
                 f"(N={n_obs}). The data shows a {shape}."
             )
+        counts = data.value_counts()
+        mode = counts.idxmax()
+        mode_pct = (counts.max() / len(data)) * 100
+        n_categories = len(counts)
+
+        if variable.valid_values and mode in variable.valid_values:
+            mode_label = variable.valid_values[mode]
         else:
-            counts = data.value_counts()
-            mode = counts.idxmax()
-            mode_pct = (counts.max() / len(data)) * 100
-            n_categories = len(counts)
+            mode_label = str(mode)
 
-            if variable.valid_values and mode in variable.valid_values:
-                mode_label = variable.valid_values[mode]
-            else:
-                mode_label = str(mode)
-
-            return (
-                f"Bar chart showing {variable.label.lower()} frequencies "
-                f"across {n_categories} categories (N={len(data)}). "
-                f"Most common category is '{mode_label}' ({mode_pct:.1f}%)."
-            )
+        return (
+            f"Bar chart showing {variable.label.lower()} frequencies "
+            f"across {n_categories} categories (N={len(data)}). "
+            f"Most common category is '{mode_label}' ({mode_pct:.1f}%)."
+        )
 
     def _generate_bivariate_caption(
         self, data: pd.DataFrame, var1: Variable, var2: Variable, plot_type: str
@@ -486,7 +485,7 @@ class PlotFactory:
                 f"correlation (r={correlation:.2f}) with regression line."
             )
 
-        elif plot_type == "boxplot":
+        if plot_type == "boxplot":
             n_groups = data[var1.name].nunique()
             return (
                 f"Box plots comparing {var2.label} across {n_groups} "
@@ -494,7 +493,7 @@ class PlotFactory:
                 f"distribution differences and potential outliers."
             )
 
-        elif plot_type == "heatmap":
+        if plot_type == "heatmap":
             n_var1 = data[var1.name].nunique()
             n_var2 = data[var2.name].nunique()
             return (
@@ -515,7 +514,7 @@ class PlotFactory:
                 f"and frequency density on y-axis, showing distribution shape "
                 f"with {len(data)} observations."
             )
-        elif plot_type == "bar_chart":
+        if plot_type == "bar_chart":
             n_categories = data.nunique()
             return (
                 f"Bar chart with {n_categories} categories of {variable.label.lower()} "
@@ -532,13 +531,13 @@ class PlotFactory:
                 f"Scatter plot with {var1.label} on x-axis and {var2.label} "
                 f"on y-axis, showing {len(data)} data points with regression line."
             )
-        elif plot_type == "boxplot":
+        if plot_type == "boxplot":
             n_groups = data[var1.name].nunique()
             return (
                 f"Box plot chart with {n_groups} {var1.label.lower()} categories "
                 f"on x-axis and {var2.label} values on y-axis."
             )
-        elif plot_type == "heatmap":
+        if plot_type == "heatmap":
             return (
                 f"Heatmap with {var1.label} categories on y-axis and "
                 f"{var2.label} categories on x-axis, using color intensity "
@@ -576,7 +575,7 @@ class PlotFactory:
         return elements
 
     def _extract_bivariate_visual_elements(
-        self, data: pd.DataFrame, var1: Variable, var2: Variable, plot_type: str
+        self, _data: pd.DataFrame, var1: Variable, var2: Variable, plot_type: str
     ) -> dict:
         """Extract visual elements description for bivariate plots."""
         elements = {
