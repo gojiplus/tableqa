@@ -360,14 +360,14 @@ StatQA provides a powerful CLI for common workflows:
 # Parse a codebook
 statqa parse-codebook codebook.csv --output codebook.json --enrich
 
-# Run full analysis pipeline with plots and visual metadata
-statqa analyze data.csv codebook.json --output-dir results/ --plots --multimodal
+# Run analyses, writing plots alongside the insights
+statqa analyze data.csv codebook.json --output-dir results/ --plots
 
-# Generate multimodal Q/A pairs
-statqa generate-qa results/all_insights.json --output qa_pairs.jsonl --llm --visual-metadata
+# Generate Q/A pairs
+statqa generate-qa results/all_insights.json --output qa_pairs.jsonl --llm
 
-# Complete multimodal pipeline
-statqa pipeline data.csv codebook.csv --output-dir output/ --enrich --qa --plots --multimodal
+# All three in one pass, from a raw codebook or codebook JSON
+statqa pipeline data.csv codebook.csv --output-dir output/ --enrich --qa --plots
 ```
 
 ## 📊 Supported Analyses

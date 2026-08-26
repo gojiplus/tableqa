@@ -1,9 +1,9 @@
 # Managed by copier — records template version for `copier update`. Do not edit.
-_commit: v1
+_commit: v1.2.0
 _src_path: gh:gojiplus/py-canon
 author_email: gsood07@gmail.com
 author_name: Gaurav Sood
-coverage_floor: 0
+coverage_floor: 70
 default_branch: main
 description: Automatically extract structured facts, insights, and Q/A pairs from
     tabular datasets

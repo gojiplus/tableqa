@@ -177,7 +177,7 @@ class MetadataEnricher:
         """Build prompt for variable enrichment."""
         context = f"\nDataset context: {dataset_context}" if dataset_context else ""
 
-        prompt = f"""Analyze this survey/dataset variable and provide enriched metadata.
+        return f"""Analyze this survey/dataset variable and provide enriched metadata.
 
 Variable Information:
 - Name: {variable.name}
@@ -211,7 +211,6 @@ Please provide a JSON response with the following enrichments:
 
 Return ONLY a valid JSON object with these fields.
 """
-        return prompt
 
     def _get_dataset_context(self, codebook: Codebook) -> str:
         """Extract high-level dataset context."""

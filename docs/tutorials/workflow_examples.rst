@@ -11,18 +11,20 @@ Survey Data Analysis
 
 .. code-block:: python
 
-   from statqa.cli.main import main
-   import sys
+   from statqa.cli.main import app
 
-   # Complete pipeline via CLI
-   sys.argv = [
-       'statqa', 'pipeline',
-       'survey_data.csv',
-       'survey_codebook.csv',
-       '--output-dir', 'results/',
-       '--enrich', '--qa'
-   ]
-   main()
+   # Complete pipeline via CLI. `app` is the Typer application the `statqa`
+   # entry point exposes; there is no `main()`.
+   app(
+       [
+           'pipeline',
+           'survey_data.csv',
+           'survey_codebook.csv',
+           '--output-dir', 'results/',
+           '--enrich', '--qa',
+       ],
+       standalone_mode=False,
+   )
 
 Custom Analysis Workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -40,7 +40,7 @@ def calculate_effect_size(
             raise ValueError("cohen_d requires array-like data, not scalar")
         return cohens_d(data1, data2)
 
-    elif effect_type == "r_to_d":
+    if effect_type == "r_to_d":
         # Convert correlation to Cohen's d
         if not isinstance(data1, int | float):
             raise ValueError("r_to_d expects a correlation coefficient (float)")
@@ -54,12 +54,11 @@ def calculate_effect_size(
             )
         return float(2 * r / np.sqrt(1 - r**2))
 
-    elif effect_type == "eta_squared":
+    if effect_type == "eta_squared":
         # For ANOVA - expects F-statistic and degrees of freedom
         raise NotImplementedError("eta_squared not yet implemented")
 
-    else:
-        raise ValueError(f"Unknown effect_type: {effect_type}")
+    raise ValueError(f"Unknown effect_type: {effect_type}")
 
 
 def cohens_d(group1: pd.Series | FloatArray, group2: pd.Series | FloatArray) -> float:

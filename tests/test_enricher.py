@@ -55,7 +55,7 @@ class TestResponseParsing:
 
         assert enricher._parse_enrichment_response(text) == {"a": 1}
 
-    def test_unparseable_response_yields_empty_dict(self, enricher):
+    def test_unparsable_response_yields_empty_dict(self, enricher):
         assert enricher._parse_enrichment_response("not json at all") == {}
 
 

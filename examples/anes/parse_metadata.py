@@ -299,8 +299,7 @@ def main():
         )
 
         with open(args.output_templates, "w") as f:
-            for i, q in enumerate(questions, 1):
-                f.write(f"{i}. {q}\n")
+            f.writelines(f"{i}. {q}\n" for i, q in enumerate(questions, 1))
 
         logger.info(
             f"✓ Saved {len(questions)} research questions to {args.output_templates}"

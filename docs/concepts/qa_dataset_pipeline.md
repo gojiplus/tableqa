@@ -559,19 +559,17 @@ print(f"Generated {len(all_qa_pairs)} multimodal Q/A pairs with visualizations")
 ### Using the CLI
 
 ```bash
-# Complete multimodal pipeline
+# Parse, analyse and generate Q/A in one pass
 statqa pipeline data.csv codebook.csv \
     --output-dir output/ \
     --qa \
     --plots \
-    --multimodal \
     --enrich
 
-# Generate multimodal Q/A pairs from existing insights
+# Generate Q/A pairs from existing insights
 statqa generate-qa insights.json \
     --output qa_pairs.jsonl \
     --format openai \
-    --visual-metadata \
     --llm
 ```
 
