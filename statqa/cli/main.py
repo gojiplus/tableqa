@@ -325,7 +325,7 @@ def _run_temporal(
                 df, codebook.variables[time_name], codebook.variables[value_name]
             )
         except (ValueError, KeyError, TypeError) as exc:
-            # One unusable pair -- an unparseable date column, too few points --
+            # One unusable pair -- an unparsable date column, too few points --
             # is not a reason to abandon the rest.
             console.print(
                 f"[yellow]Skipped {value_name} over {time_name}:[/yellow] {exc}"
